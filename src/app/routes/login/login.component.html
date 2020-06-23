@@ -1,0 +1,57 @@
+<div class="mdp-login">
+  <div class="container h-100">
+    <div class="row h-100">
+      <div class="col-lg-12 text-center mt-4">
+        <h1 class="text-white"><img class="mr-4" style="width: 50px;" src="assets/icons/logo.svg" alt="#">musicee</h1>
+      </div>
+      <div class="col-lg-12 my-auto text-center">
+        <div class="login-form">
+          <div class="container h-100">
+            <div class="row h-100 padding-login">
+              <div [ngClass]="loginBehavior" class="col-lg-6 h-100 login-section-origin bg-gradient">
+                <div class="h-100" style="padding-top: 30%;">
+                  <i style="font-size: 50px;" class="fas fa-sign-in-alt my-4"></i>
+                  <h4 class="font-weight-bold">Already has an account?</h4>
+                  <p>Login now to sync your favorite playlist</p>
+                  <button (click)="stretchRight()" class="btn btn-black rounded-24 w-150-px">Sign-in now</button>
+                </div>
+              </div>
+              <div [ngClass]="formLoginBehavior" class="col-lg-6 h-100 form-section-origin">
+                <div class="h-100" style="padding-top: 30%;">
+                  <i style="font-size: 50px;" class="fas fa-music my-4 text-white"></i>
+                  <h4 class="font-weight-bold text-white">Wanna join now!</h4>
+                  <h5 class="text-white">Listen to music now without login</h5>
+                  <p>
+                    <input style="position: relative; top: 1px;" type="checkbox" aria-label="Checkbox for following text input">
+                    <label class="ml-2 text-white" for="checkbox">I agree with terms & condition of Musicee</label>
+                  </p>
+                  <button [routerLink]="['/']" routerLinkActive="router-link-active"  class="btn btn-mp3 font-weight-bold w-150-px rounded-24">Join</button>
+                  <p class="mt-4 text-white">Design by GoCodee Ltd, Co © 2020 </p>
+                </div>
+              </div>
+              <div [ngClass]="tryAccessBehavior" class="col-lg-6 h-100 positive-top access-section-origin bg-gradient">
+                <div class="h-100" style="padding-top: 30%;">
+                  <i style="font-size: 50px;" class="fas fa-undo-alt my-4"></i>
+                  <h4 class="font-weight-bold">Musicee</h4>
+                  <p>Platform allow you tracking your MP3 from favorite youtube video.</p>
+                  <button (click)="returnOrigin()" class="btn btn-black rounded-24 w-150-px">Read more</button>
+                </div>
+              </div>
+              <div [ngClass]="tryBehavior" class="col-lg-6 h-100 positive-top try-section-origin">
+                <div class="h-100">
+                  <div class="h-100" style="padding-top: 30%;">
+                    <i style="font-size: 50px;" class="fab fa-youtube my-4 text-white"></i>
+                    <h4 class="font-weight-bold text-white">Register</h4>
+                    <p class="text-white">Synchronized your playlist with Youtube account!</p>
+                    <button class="btn btn-mp3 font-weight-bold rounded-24">Login with Youtube</button>
+                    <p class="mt-4 text-white">Design by GoCodee Ltd, Co © 2020 </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,196 @@
+<!-- <div class="ltk-navbar d-none d-sm-block">
+  <nav class="navbar navbar-expand-lg navbar-dark py-0" id="ltk-nav" [class.scrolled]="scrolled" [class.awake]="awake">
+    <a class="navbar-brand ml-3" [routerLink]="['/']">
+      <h1 class="text-blue font-weight-bold">
+        <img class="fuels-logo" [src]="fuelsLogo" alt="logo">
+      </h1>
+    </a>
+    <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
+      aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation"></button>
+    <div class="collapse navbar-collapse" id="collapsibleNavId">
+      <ul [class.navdisplay]="display" class="navbar-nav ml-auto mt-2 mt-lg-0 mr-4" id="hiddenNav">
+        <li class="nav-item ltk-nav-link">
+          <a class="nav-link p-0" [routerLink]="['/']">
+            Trang chủ
+          </a>
+        </li>
+        <li class="nav-item ltk-nav-link">
+          <a class="nav-link p-0" [routerLink]="['/porfolio']">
+            Dịch vụ
+          </a>
+        </li>
+        <li class="nav-item ltk-nav-link">
+          <a class="nav-link p-0" [routerLink]="['/about-me']">
+            Hình ảnh
+          </a>
+        </li>
+        <li class="nav-item ltk-nav-link">
+          <a class="nav-link p-0" [routerLink]="['/about-me']">
+            Tin tức
+          </a>
+        </li>
+        <li class="nav-item ltk-nav-link">
+          <a class="nav-link p-0" [routerLink]="['/about-me']">
+            Chúng tôi
+          </a>
+        </li>
+        <li class="nav-item ltk-nav-link">
+          <a class="nav-link p-0" [routerLink]="['/about-me']">
+            Liên lạc
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<div class="ltk-navbar-mobile d-block d-sm-none">
+  <div class="navbar navbar-mb py-0 w-100 position-fixed" [class.scrolled]="scrolled" [class.awake]="awake">
+    <div class="row w-100">
+      <div [class.icon-flow]="stretching" class="col-10 p-0 non-flow">
+        <a class="navbar-brand ml-3" [routerLink]="['/']">
+           <img class="fuels-logo" [src]="fuelsLogoW" alt="logo">
+        </a>
+      </div>
+      <div (click)="showMobileNav()" [class.icon-flow]="stretching" class="col-2 p-0 non-flow text-right">
+        <i [class.iconHidden]="stretching" style="font-size: 30px;" class="fas fa-bars pt-3"></i>
+        <i [class.iconHidden]="!stretching" style="font-size: 30px;" class="fas fa-times pt-3"></i>
+      </div>
+      <div [class.on-stretch]="stretching" class="col-12 position-fixed non-stretch">
+        <ul class="navbar-list-mb list-group ml-auto mt-2 mt-lg-0 mr-4 pr-4 text-right text-uppercase">
+          <li class="nav-item">
+            <a (click)="hiddenMobileNav()" class="nav-link" [routerLink]="['/']">
+              Trang chủ
+            </a>
+          </li>
+          <li class="nav-item">
+            <a (click)="hiddenMobileNav()" class="nav-link" [routerLink]="['/porfolio']">
+              Dịch vụ
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a (click)="hiddenMobileNav()" class="nav-link" [routerLink]="['/about-me']">
+              Hình ảnh
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a (click)="hiddenMobileNav()" class="nav-link" [routerLink]="['/about-me']">
+              Tin tức
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a (click)="hiddenMobileNav()" class="nav-link" [routerLink]="['/about-me']">
+              Chúng tôi
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a (click)="hiddenMobileNav()" class="nav-link" [routerLink]="['/about-me']">
+              Liên lạc
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="ltk-navbar d-none d-sm-block">
+  <nav class="navbar navbar-expand-lg navbar-dark py-0" id="ltk-nav" [class.scrolled]="scrolled" [class.awake]="awake">
+    <a class="navbar-brand ml-3" [routerLink]="['/']">
+      <h1 class="text-blue font-weight-bold">
+        <img class="fuels-logo" [src]="fuelsLogo" alt="logo">
+      </h1>
+    </a>
+    <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
+      aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation"></button>
+    <div class="collapse navbar-collapse" id="collapsibleNavId">
+      <ul [class.navdisplay]="display" class="navbar-nav ml-auto mt-2 mt-lg-0 mr-4" id="hiddenNav">
+        <li class="nav-item ltk-nav-link">
+          <a class="nav-link p-0" [routerLink]="['/']">
+            Home
+          </a>
+        </li>
+        <li class="nav-item ltk-nav-link">
+          <a class="nav-link p-0" [routerLink]="['/porfolio']">
+            Services
+          </a>
+        </li>
+        <li class="nav-item ltk-nav-link">
+          <a class="nav-link p-0" [routerLink]="['/about-me']">
+            Gallery
+          </a>
+        </li>
+        <li class="nav-item ltk-nav-link">
+          <a class="nav-link p-0" [routerLink]="['/about-me']">
+            News
+          </a>
+        </li>
+        <li class="nav-item ltk-nav-link">
+          <a class="nav-link p-0" [routerLink]="['/about-me']">
+            About
+          </a>
+        </li>
+        <li class="nav-item ltk-nav-link">
+          <a class="nav-link p-0" [routerLink]="['/about-me']">
+            Contact
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<div class="ltk-navbar-mobile d-block d-sm-none">
+  <div class="navbar navbar-mb pt-2 w-100 position-fixed" [class.scrolled]="scrolled" [class.awake]="awake">
+    <div class="row w-100">
+      <div [class.icon-flow]="stretching" class="col-10 p-0 non-flow">
+        <a class="navbar-brand ml-3" [routerLink]="['/']">
+          <img class="fuels-logo" [src]="fuelsLogoW" alt="logo">
+        </a>
+      </div>
+      <div (click)="showMobileNav()" [class.icon-flow]="stretching" class="col-2 p-0 non-flow text-right">
+        <i [class.iconHidden]="stretching" style="font-size: 30px;" class="fas fa-bars pt-3"></i>
+        <i [class.iconHidden]="!stretching" style="font-size: 30px;" class="fas fa-times pt-3"></i>
+      </div>
+      <div [class.on-stretch]="stretching" class="col-12 position-fixed non-stretch">
+        <ul class="navbar-list-mb list-group ml-auto mt-2 mt-lg-0 mr-4 pr-4 text-right text-uppercase">
+          <li class="nav-item">
+            <a (click)="hiddenMobileNav()" class="nav-link" [routerLink]="['/']">
+              Home
+            </a>
+          </li>
+          <li class="nav-item">
+            <a (click)="hiddenMobileNav()" class="nav-link" [routerLink]="['/porfolio']">
+              Services
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a (click)="hiddenMobileNav()" class="nav-link" [routerLink]="['/about-me']">
+              Gallery
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a (click)="hiddenMobileNav()" class="nav-link" [routerLink]="['/about-me']">
+              News
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a (click)="hiddenMobileNav()" class="nav-link" [routerLink]="['/about-me']">
+              About
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a (click)="hiddenMobileNav()" class="nav-link" [routerLink]="['/about-me']">
+              Contact
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div [class.display]="display" (click)="scrollTop()" id="backToTopBtn" title="Go to top">
+  <span>
+    <i class="far fa-arrow-up"></i></span>
+</div>
