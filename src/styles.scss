@@ -1,33 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-/* You can add global styles to this file, and also import other style files */
-@import "src/assets/scss/app-variables";
-@import "src/assets/scss/breakpoints";
-@import "src/assets/scss/mp3dee-main.scss";
-@import "~bootstrap/scss/bootstrap.scss";
-@import "assets/fontawesome/css/all.css";
-@import url("https://fonts.googleapis.com/css?family=Nunito&display=swap");
 
-body {
-  font-family: "Nunito", sans-serif;
-  background-color: #0080ea;
-}
+@import './assets/css/bootstrap.min.css';
+@import './assets/css/style.scss';
+@import './assets/css/bootstrap-select.min.css';
+@import './assets/css/bootstrap-reboot.min.css';
+@import './assets/css/bootstrap-grid.css';
 
-button {
-  &:focus,
-  &:active {
-    outline: none !important;
-    box-shadow: none !important;
-  }
-}
-
-.bg-gradient {
-  background-image: linear-gradient(to bottom right, #00ffed, #0080ea);
-}
-
-.fuels-line {
-  border-bottom: 1px solid #353535;
-}
-
-.cursor-pointer {
-  cursor: pointer;
-}

@@ -1,0 +1,35 @@
+<div id="sidebar-wrapper">
+  <a href="#" class="sidebar-heading">
+    <img src="assets/images/logo.png" alt="logo">
+  </a>
+  <div class="list-group">
+    <a [routerLink]="['/admin/home']" routerLinkActive="active" >
+      <i data-feather="home"></i> Home
+
+    </a>
+    <a [routerLink]="['/admin/dashboard']" routerLinkActive="active" >
+      <i data-feather="pie-chart"></i> Dashboard
+    </a>
+
+    <a [routerLink]="['/admin/report']" routerLinkActive="active" >
+      <i data-feather="file"></i>Reports
+    </a>
+
+    <a >
+      <i data-feather="info"></i>About
+    </a>
+
+    <a [routerLink]="['/admin/chat']" routerLinkActive="active" >
+      <i data-feather="message-square"></i>
+      Chat
+    </a>
+
+    <a href="#">
+      <i data-feather="hexagon"></i>
+      App
+    </a>
+
+    <a href="#"><i data-feather="log-out"></i> Log Out
+    </a>
+  </div>
+</div>

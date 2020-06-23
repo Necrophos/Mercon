@@ -1,0 +1,9 @@
+.a-link {
+    &:active {
+        background: dodgerblue;
+    }
+}
+
+.is-active {
+    background: dodgerblue;
+}

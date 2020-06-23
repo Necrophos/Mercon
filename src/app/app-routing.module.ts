@@ -1,4 +1,5 @@
-import { NgModule } from '@angular/core';
+import { LoginComponent } from './routes/login/login.component';
+import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ClientComponent } from './layouts/client/client.component';
 import { AdminComponent } from '@layouts/admin/admin.component';
@@ -7,7 +8,12 @@ import { AdminComponent } from '@layouts/admin/admin.component';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('@layouts/client/client.module').then(mod => mod.ClientModule)
+    loadChildren: () => import('@routes/login/login.module').then(mod => mod.LoginModule)
+  },
+
+  {
+    path: 'reset-password',
+    loadChildren: () => import('@routes/reset-password/reset-password.module').then(mod => mod.ResetPasswordModule)
   },
 
   {

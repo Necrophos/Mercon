@@ -1,12 +1,156 @@
-<div class="fuels-banner position-relative">
+<div class="d-flex" id="wrapper">
+
+  <div id="page-content-wrapper">
+
+    <!-- bar mobile -->
+
+    <nav class="navbar navbar-expand-lg barmobile">
+
+      <button id="menu-toggle"><i data-feather="menu"></i></button>
+    </nav>
+    <!-- / bar mobile -->
+
     <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <h1 class="font-weight-bold text-uppercase">
-                    we're glad you use our services
-                    welcome to Fuels Stations
-                </h1>
-            </div>
+      <div class="title">
+        <h3>Home</h3>
+        <div class="user">
+          <h3>Starbuck Coffee Trading Sarl
+            <span>John Mayers</span></h3>
+          <div class="avatar">
+            <img src="assets/images/profile.png" alt="profile">
+          </div>
         </div>
+      </div>
+      <div class="box">
+        <form class="row mb-2 search-form">
+          <div class="form-group col-lg-3 col-md-6 col-sm-12">
+            <label>Mercon's Trade Number</label>
+            <input type="email" class="form-control" placeholder="115622">
+          </div>
+          <div class="form-group col-lg-3 col-md-6 col-sm-12">
+            <label>Origin</label>
+            <div class="selectCustom">
+              <select data-live-search="true">
+                <option data-tokens="ketchup mustard">Vietnam</option>
+                <option data-tokens="mustard">USA</option>
+                <option data-tokens="frosting">Korea</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group col-lg-3 col-md-6 col-sm-12">
+            <label>Cilent's Ref</label>
+            <input type="email" class="form-control" placeholder="115622">
+          </div>
+          <div class="form-group col-lg-3 col-md-6 col-sm-12 justify-content-end">
+            <label style="opacity: 0; margin-bottom: 11px;" class="d-none d-md-block">button</label>
+            <div class="row justify-content-end">
+              <div class="col-lg-6 col-md-6 col-6">
+                <button type="submit" class="btn btnPrimary">Search</button>
+              </div>
+              <div class="col-lg-6 col-md-6 col-6">
+                <button type="submit" class="btn btnOutline">Clear</button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="table-responsive">
+          <table id="example" class="table table-custom mb-0">
+            <thead>
+              <tr>
+                <th style="width: 20%;">Mercon's Trade Number</th>
+                <th>Cilent's Ref</th>
+                <th>Quality</th>
+                <th>Delivery Period</th>
+                <th>Bags</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr onclick="location.href='dashboad.html'">
+                <td class="color1">1175472</td>
+                <td class="color2">1175472</td>
+                <td>VIE-EPW 15/16 CP</td>
+                <td>Apr 2020</td>
+                <td>7360</td>
+                <td>
+                  <div class="status status-apr">Approved</div>
+                </td>
+              </tr>
+              <tr>
+                <td class="color1">1175472</td>
+                <td class="color2">1175472</td>
+                <td>VIE-EPW 15/16 CP</td>
+                <td>Apr 2020</td>
+                <td>7360</td>
+                <td>
+                  <div class="status status-pending">Pending</div>
+                </td>
+              </tr>
+              <tr>
+                <td class="color1">1175472</td>
+                <td class="color2">1175472</td>
+                <td>VIE-EPW 15/16 CP</td>
+                <td>Apr 2020</td>
+                <td>7360</td>
+                <td>
+                  <div class="status status-going">Going<span class="note">3</span></div>
+                </td>
+              </tr>
+              <tr>
+                <td class="color1">1175472</td>
+                <td class="color2">1175472</td>
+                <td>VIE-EPW 15/16 CP</td>
+                <td>Apr 2020</td>
+                <td>7360</td>
+                <td>
+                  <div class="status status-apr">Approved</div>
+                </td>
+              </tr>
+              <tr>
+                <td class="color1">1175472</td>
+                <td class="color2">1175472</td>
+                <td>VIE-EPW 15/16 CP</td>
+                <td>Apr 2020</td>
+                <td>7360</td>
+                <td>
+                  <div class="status status-pending">Pending</div>
+                </td>
+              </tr>
+              <tr>
+                <td class="color1">1175472</td>
+                <td class="color2">1175472</td>
+                <td>VIE-EPW 15/16 CP</td>
+                <td>Apr 2020</td>
+                <td>7360</td>
+                <td>
+                  <div class="status status-going">Going<span class="note">3</span></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="paginationCustom mt-4">
+          <span>Showing 1 to 25 of 57 entries</span>
+          <ul class="pagination">
+            <li class="page-item disabled">
+              <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><i data-feather="chevron-left"></i></a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item active" aria-current="page">
+              <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#"><i data-feather="chevron-right"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
     </div>
+  </div>
+  <!-- /#page-content-wrapper -->
+
 </div>
+
+  <script src="assets/js/bootstrap-select.js"></script>
