@@ -1,0 +1,28 @@
+.tabset {
+    .nav-pills {
+        li {
+            width: 33.333%;
+            border-radius: 0;
+            padding: 5px 1rem;
+            text-align: center;
+            cursor: pointer;
+
+            &:hover {
+                color: #A3CF60;
+            }
+
+            a {
+                width: 100%;
+            }
+        }
+
+        .active {
+            background-color: #A3CF60;
+            color: white;
+
+            &:hover {
+                color: white;
+            }
+        }
+    }
+}

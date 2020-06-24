@@ -25,6 +25,7 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
     "ngx-pagination": "^5.0.0",
+    "ngx-tabs": "0.0.13",
     "rxjs": "~6.4.0",
     "script-loader": "^0.7.2",
     "tslib": "^1.9.0",

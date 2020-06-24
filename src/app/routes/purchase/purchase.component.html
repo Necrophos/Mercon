@@ -8,7 +8,7 @@
       <div class="title">
         <div class="links">
           <h3><a href="#"><i data-feather="chevron-left"></i></a> Purchase <span class="colorPrimary">12346</span> </h3>
-          <a [routerLink]="['/admin/purchase/information']" routerLinkActive="router-link-active" >PSS Infomation</a>
+          <a [routerLink]="['/admin/purchase/information']" routerLinkActive="router-link-active">PSS Infomation</a>
         </div>
         <div class="user">
           <h3>Starbuck Coffee Trading Sarl
@@ -31,44 +31,21 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1175472</td>
-                <td>25697113</td>
-                <td>25697113</td>
-                <td>
-                  <div class="status status-going">Going</div>
+              <tr *ngFor="let trade of listTrades | paginate: { itemsPerPage: 6, currentPage: page}">
+                <td class="color1">
+                  {{trade?.number}}
                 </td>
-              </tr>
-              <tr>
-                <td>1175472</td>
-                <td>Sealand Philadenphia</td>
-                <td>25697113</td>
                 <td>
-                  <div class="status status-going">Going</div>
+                  {{trade?.vessel}}
                 </td>
-              </tr>
-              <tr>
-                <td>1175472</td>
-                <td>25697113</td>
-                <td>25697113</td>
                 <td>
-                  <div class="status status-going">Going</div>
+                  {{trade?.bags}}
                 </td>
-              </tr>
-              <tr>
-                <td>1175472</td>
-                <td>25697113</td>
-                <td>25697113</td>
                 <td>
-                  <div class="status status-going">Going</div>
-                </td>
-              </tr>
-              <tr>
-                <td>1175472</td>
-                <td>25697113</td>
-                <td>25697113</td>
-                <td>
-                  <div class="status status-going">Going</div>
+                  <div class="status " [class.status-apr]="trade?.status == 'Approved'"
+                    [class.status-pending]="trade?.status == 'Pending'" [class.status-going]="trade?.status == 'Going'">
+                    {{trade?.status}} <span *ngIf="trade?.status == 'Going'" class="note">{{trade?.note}}</span>
+                  </div>
                 </td>
               </tr>
               <tr class="last">
@@ -80,9 +57,13 @@
             </tbody>
           </table>
         </div>
+        <div class="paginationCustom mt-4">
+          <span>Showing 1 to 25 of 57 entries</span>
+          <pagination-controls class="marcon-pagination" nextLabel="" previousLabel="" autoHide="true" maxSize="3"
+            responsive="true" (pageChange)="page = $event"></pagination-controls>
+        </div>
 
       </div>
-
     </div>
   </div>
   <!-- /#page-content-wrapper -->

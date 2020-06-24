@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './dashboard.component';
 import { Routes, RouterModule } from '@angular/router';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {
@@ -15,6 +17,8 @@ const routes: Routes = [
   declarations: [DashboardComponent],
   imports: [
     CommonModule,
+    NgSelectModule,
+    FormsModule,
     RouterModule.forChild(routes)
   ]
 })
