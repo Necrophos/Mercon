@@ -27,16 +27,19 @@
             <label>Mercon's Trade Number</label>
             <input type="email" class="form-control" placeholder="115622">
           </div>
+
+
+
           <div class="form-group col-lg-3 col-md-6 col-sm-12">
             <label>Origin</label>
-            <div class="selectCustom">
-              <select data-live-search="true">
-                <option data-tokens="ketchup mustard">Vietnam</option>
-                <option data-tokens="mustard">USA</option>
-                <option data-tokens="frosting">Korea</option>
-              </select>
-            </div>
+            <ng-select [items]="cities" bindLabel="name" bindValue="id" [(ngModel)]="selectedCityId" name="select">
+            </ng-select>
           </div>
+
+
+
+
+
           <div class="form-group col-lg-3 col-md-6 col-sm-12">
             <label>Cilent's Ref</label>
             <input type="email" class="form-control" placeholder="115622">
@@ -53,6 +56,13 @@
             </div>
           </div>
         </form>
+
+
+
+
+
+
+
         <div class="table-responsive">
           <table id="example" class="table table-custom mb-0">
             <thead>
@@ -66,64 +76,28 @@
               </tr>
             </thead>
             <tbody>
-              <tr onclick="location.href='dashboad.html'">
-                <td class="color1">1175472</td>
-                <td class="color2">1175472</td>
-                <td>VIE-EPW 15/16 CP</td>
-                <td>Apr 2020</td>
-                <td>7360</td>
-                <td>
-                  <div class="status status-apr">Approved</div>
+
+              <tr *ngFor="let trade of listTrades | paginate: { itemsPerPage: 6, currentPage: page}">
+                <td class="color1">
+                  {{trade?.number}}
                 </td>
-              </tr>
-              <tr>
-                <td class="color1">1175472</td>
-                <td class="color2">1175472</td>
-                <td>VIE-EPW 15/16 CP</td>
-                <td>Apr 2020</td>
-                <td>7360</td>
-                <td>
-                  <div class="status status-pending">Pending</div>
+                <td class="color2">
+                  {{trade?.ref}}
                 </td>
-              </tr>
-              <tr>
-                <td class="color1">1175472</td>
-                <td class="color2">1175472</td>
-                <td>VIE-EPW 15/16 CP</td>
-                <td>Apr 2020</td>
-                <td>7360</td>
                 <td>
-                  <div class="status status-going">Going<span class="note">3</span></div>
+                  {{trade?.quality}}
                 </td>
-              </tr>
-              <tr>
-                <td class="color1">1175472</td>
-                <td class="color2">1175472</td>
-                <td>VIE-EPW 15/16 CP</td>
-                <td>Apr 2020</td>
-                <td>7360</td>
                 <td>
-                  <div class="status status-apr">Approved</div>
+                  {{trade?.period}}
                 </td>
-              </tr>
-              <tr>
-                <td class="color1">1175472</td>
-                <td class="color2">1175472</td>
-                <td>VIE-EPW 15/16 CP</td>
-                <td>Apr 2020</td>
-                <td>7360</td>
                 <td>
-                  <div class="status status-pending">Pending</div>
+                  {{trade?.bags}}
                 </td>
-              </tr>
-              <tr>
-                <td class="color1">1175472</td>
-                <td class="color2">1175472</td>
-                <td>VIE-EPW 15/16 CP</td>
-                <td>Apr 2020</td>
-                <td>7360</td>
                 <td>
-                  <div class="status status-going">Going<span class="note">3</span></div>
+                  <div class="status " [class.status-apr]="trade?.status == 'Approved'"
+                    [class.status-pending]="trade?.status == 'Pending'" [class.status-going]="trade?.status == 'Going'">
+                    {{trade?.status}} <span *ngIf="trade?.status == 'Going'" class="note">{{trade?.note}}</span>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -131,19 +105,7 @@
         </div>
         <div class="paginationCustom mt-4">
           <span>Showing 1 to 25 of 57 entries</span>
-          <ul class="pagination">
-            <li class="page-item disabled">
-              <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><i data-feather="chevron-left"></i></a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item active" aria-current="page">
-              <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-              <a class="page-link" href="#"><i data-feather="chevron-right"></i></a>
-            </li>
-          </ul>
+          <pagination-controls class="marcon-pagination" nextLabel="" previousLabel="" autoHide="true" maxSize="3" responsive="true" (pageChange)="page = $event"></pagination-controls>
         </div>
       </div>
 
@@ -152,5 +114,3 @@
   <!-- /#page-content-wrapper -->
 
 </div>
-
-  <script src="assets/js/bootstrap-select.js"></script>

@@ -1,19 +1,26 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HomeComponent } from './home.component';
-import { Routes, RouterModule } from '@angular/router';
+import { NgSelectModule } from "@ng-select/ng-select";
+
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { HomeComponent } from "./home.component";
+import { Routes, RouterModule } from "@angular/router";
+import { FormsModule } from "@angular/forms";
+import { NgxPaginationModule } from "ngx-pagination";
 const routes: Routes = [
   {
-    path: '',
-    component: HomeComponent
-  }
+    path: "",
+    component: HomeComponent,
+  },
 ];
 
 @NgModule({
   declarations: [HomeComponent],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
-  ]
+    NgSelectModule,
+    NgxPaginationModule,
+    FormsModule,
+    RouterModule.forChild(routes),
+  ],
 })
-export class HomeModule { }
+export class HomeModule {}
