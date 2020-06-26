@@ -1,120 +1,15 @@
 @import "src/assets/scss/app-variables";
 
-.ltk-navbar {
-  nav {
-    background: white;
-    z-index: 1001;
-    top: 10px;
-  }
-
-  h1 {
-    color: white;
-  }
-
-  .ltk-nav-link {
-    font-size: 1.2rem;
-    .nav-link {
-      color: black !important;
-    }
-
-    &:focus,
-    &:active,
-    &:hover {
-      color: $blue;
-      transition-duration: 0.3s;
-    }
-  }
-}
-
-.scrolled {
-  position: fixed;
-  background: rgba(32, 32, 32, 0.6) !important;
-  width: 100%;
-  top: 0 !important;
-  transition-duration: 0.3s;
-  box-shadow: 13px 13px 50px -24px $blue;
-
-  h1 {
-    color: white !important;
-  }
-
-  .ltk-nav-link {
-    font-size: 1.2rem;
-    .nav-link {
-      color: white !important;
-    }
-    a {
-      &:focus,
-      &:active,
-      &:hover {
-        transition-duration: 0.3s;
-      }
-    }
-  }
-  .non-flow {
-    i {
-      color: white !important;
-    }
-  }
-}
-
-#hiddenNav {
-  z-index: 3000;
-
-  .nav-link {
-    padding: 25px !important;
-
-    &:hover {
-      color: $primary !important;
-      background-color: transparent;
-      transition-duration: 0.2s;
-    }
-  }
-}
-
 .iconHidden {
   display: none;
-  transition-duration: .4s;
-}
-
-#displayNav {
-  z-index: 5;
-  transform: translateX(450px);
-}
-
-#backToTopBtn {
-  cursor: pointer;
-  display: block;
-  position: fixed;
-  opacity: 0;
-  max-height: 40px;
-  bottom: 25px;
-  right: 10px;
-  z-index: 6000;
-  outline: none;
-  background: rgba(32, 32, 32, 0.6) !important;
-  color: white;
-  padding: 10px 15px;
-}
-
-.display {
-  opacity: 1 !important;
-  transition-duration: 1s;
-}
-
-.navdisplay {
-  opacity: 1 !important;
-  z-index: 5 !important;
-}
-
-.navhidden {
-  opacity: 0;
-  z-index: 3;
   transition-duration: 0.4s;
-  transform: translateY(-50px);
 }
 
-.ltk-navbar-mobile {
+.marcon-navbar-mobile {
+  .mobile-logo {
+    width: 65%;
+  }
+
   h1 {
     color: white;
   }
@@ -124,28 +19,32 @@
   }
 
   .non-stretch {
-    background-color: $blue;
+    background-color: white;
     height: 100vh;
     top: 0;
     width: 100%;
     z-index: 3000;
-    transform: translateX(100%);
+    transform: translateX(-101%);
     transition-duration: 0.4s;
   }
 
   .on-stretch {
-    transform: translateX(15%);
+    transform: translateX(-15%);
     transition-duration: 0.4s;
   }
 
   .icon-flow {
-    transform: translateX(-525%);
+    transform: translateX(525%);
     transition-duration: 0.4s;
   }
 
   .non-flow {
     i {
-      color: white;
+      color: #6d6e70;
+    }
+
+    #x-icon {
+      color: white !important;
     }
     transition-duration: 0.4s;
   }
@@ -155,22 +54,42 @@
   }
 
   .navbar-list-mb {
-    font-size: 1.2rem;
+    font-size: 18px;
+    padding-left: 50px;
 
     .nav-link {
-      padding: 20px;
-      color: white !important;
+      padding: 15px;
+
+      color: #6d6e70 ;
     }
     a {
       &:focus,
       &:active,
       &:hover {
+        background: #a3cf60;
+        color: #fff !important;
+        border-radius: 40px 0 0 40px;
         transition-duration: 0.3s;
       }
     }
   }
 }
 
-.fuels-logo {
-  width: 180px;
+.shadow {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  display: none;
+  z-index: 900;
+  background: rgba(32, 32, 32, 0.6);
+}
+
+.display {
+  display: block;
+}
+
+.active {
+  background: #a3cf60;
+  color: #fff !important;
+  border-radius: 40px 0 0 40px;
 }

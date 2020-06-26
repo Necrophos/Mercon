@@ -1,3 +1,4 @@
+import { NavbarModule } from './../../components/navbar/navbar.module';
 import { SidebarModule } from './../../components/sidebar/sidebar.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -11,6 +12,7 @@ import { AdminRoutingComponent } from './admin.routing';
     CommonModule,
     RouterModule,
     SidebarModule,
+    NavbarModule,
     AdminRoutingComponent
   ]
 })
