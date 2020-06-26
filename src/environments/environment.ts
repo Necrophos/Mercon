@@ -1,9 +1,15 @@
+import { PLATFORM_ID } from '@angular/core';
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  api: 'https://variousmerconcoffee.com:8443/MerconConnectRWS/rest/MerconConnect',
+  loginEndpoint: 'https://variousmerconcoffee.com:8443/MCGENSRWS/Usuario/getMobileUser',
+  dropdownEndpoint: 'https://variousmerconcoffee.com:8443/CXLRWS/Location/getCountriesByCounterpart',
+  APP_ID: 38,
+  PLATFORM_ID: 'Web'
 };
 
 /*

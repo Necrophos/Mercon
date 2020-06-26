@@ -1,7 +1,5 @@
-import { LoginComponent } from './routes/login/login.component';
-import { NgModule, Component } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ClientComponent } from './layouts/client/client.component';
 import { AdminComponent } from '@layouts/admin/admin.component';
 
 

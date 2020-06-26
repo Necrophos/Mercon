@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/auth.service';
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 
 @Component({
@@ -5,9 +6,16 @@ import { Component, OnInit, ViewEncapsulation } from "@angular/core";
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.scss"],
   encapsulation: ViewEncapsulation.None,
-  providers: [],
+  providers: [AuthService],
 })
 export class HomeComponent implements OnInit {
+
+  constructor(private authService: AuthService) {
+
+  }
+  username ='asdfasfd';
+  pass = '125412'
+
   cities = [
     { id: 1, name: "Vilnius" },
     { id: 2, name: "Kaunas" },
@@ -78,5 +86,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.selectedCityId = this.cities[0].id;
+    this.authService.login(this.username, this.pass);
   }
 }
