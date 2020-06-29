@@ -16,7 +16,7 @@ export class AuthService {
       platform: environment.PLATFORM_ID,
       app_id: environment.APP_ID,
     };
-    routes = this.createParams(routes, params);
+    routes = this.apiService.createParams(routes, params);
     return this.apiService.callApi(routes);
   }
 
@@ -24,19 +24,12 @@ export class AuthService {
     let routes = `${environment.api}/resetPasswordRequest?`;
     const params = {
       email: email,
-      username: username,
+      user_name: username,
       platform: environment.PLATFORM_ID,
     };
-    routes = this.createParams(routes, params);
+    routes = this.apiService.createParams(routes, params);
     return this.apiService.callApi(routes)
   }
 
-  createParams(routes, params) {
-    Object.keys(params).map((key) => {
-      if (params[key]) {
-        routes += `${key}=${params[key]}&`;
-      }
-    });
-    return (routes = routes.substring(0, routes.length - 1));
-  }
+  
 }

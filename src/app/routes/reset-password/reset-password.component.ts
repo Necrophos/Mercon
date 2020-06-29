@@ -26,17 +26,17 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   resetPassword() {
-    // if (this.resetPasswordForm.valid) {
-    //   this.authService
-    //     .resetPassword(this.email, this.username)
-    //     .subscribe((res) => {
-    //       if (res.status) {
-    //         this.router.navigate(["/"]);
-    //       }
-    //     });
-    // } else {
-    //   console.log("false");
-    // }
+    if (this.resetPasswordForm.valid) {
+      this.authService
+        .resetPassword(this.email, this.username)
+        .subscribe((res) => {
+          if (res.status) {
+            this.router.navigate(["/"]);
+          }
+        });
+    } else {
+      console.log("false");
+    }
 
     this.router.navigate(["/"]);
   }

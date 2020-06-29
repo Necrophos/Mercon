@@ -4,7 +4,7 @@ import { throwError } from "rxjs";
 import { map, catchError } from "rxjs/operators";
 
 export interface CustomResponse {
-  rc: number;
+  status: boolean;
   message: string;
   [key: string]: any;
 }
@@ -29,5 +29,14 @@ export class BaseService {
   protected handleError(error: any) {
     console.log(error);
     return throwError(error);
+  }
+
+  createParams(routes, params) {
+    Object.keys(params).map((key) => {
+      if (params[key]) {
+        routes += `${key}=${params[key]}&`;
+      }
+    });
+    return (routes = routes.substring(0, routes.length - 1));
   }
 }

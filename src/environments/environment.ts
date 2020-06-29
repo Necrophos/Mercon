@@ -9,7 +9,8 @@ export const environment = {
   loginEndpoint: 'https://variousmerconcoffee.com:8443/MCGENSRWS/Usuario/getMobileUser',
   dropdownEndpoint: 'https://variousmerconcoffee.com:8443/CXLRWS/Location/getCountriesByCounterpart',
   APP_ID: 38,
-  PLATFORM_ID: 'Web'
+  PLATFORM_ID: 'Web',
+  USER_ID: ''
 };
 
 /*

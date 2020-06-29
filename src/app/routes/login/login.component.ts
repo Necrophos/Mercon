@@ -2,6 +2,7 @@ import { AuthService } from "./../../services/auth.service";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { environment } from '@env/environment';
 
 @Component({
   selector: "app-login",
@@ -34,6 +35,7 @@ export class LoginComponent implements OnInit {
       this.authService.login(this.username, this.password).subscribe((res) => {
         if (res.status) {
           this.router.navigate(["/admin/home"]);
+          localStorage.setItem(environment.USER_ID, res.user.userId);
         }
       });
     } else {
