@@ -7,7 +7,7 @@ import { PurchaseComponent } from "./purchase.component";
 import { NgxPaginationModule } from "ngx-pagination";
 const routes: Routes = [
   {
-    path: "",
+    path: ":trade_num",
     component: PurchaseComponent,
   },
   {

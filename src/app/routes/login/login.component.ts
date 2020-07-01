@@ -36,6 +36,8 @@ export class LoginComponent implements OnInit {
         if (res.status) {
           this.router.navigate(["/admin/home"]);
           localStorage.setItem(environment.USER_ID, res.user.userId);
+          localStorage.setItem(environment.COMPANY_NUM, res.user.internalCompanies[0].companyNum);
+          localStorage.setItem(environment.USER,  JSON.stringify(res.user))
         }
       });
     } else {

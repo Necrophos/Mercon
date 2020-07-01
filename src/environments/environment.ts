@@ -10,7 +10,9 @@ export const environment = {
   dropdownEndpoint: 'https://variousmerconcoffee.com:8443/CXLRWS/Location/getCountriesByCounterpart',
   APP_ID: 38,
   PLATFORM_ID: 'Web',
-  USER_ID: ''
+  USER_ID: '',
+  COMPANY_NUM: '',
+  USER: ''
 };
 
 /*

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-tab-general',
@@ -6,10 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tab-general.component.scss']
 })
 export class TabGeneralComponent implements OnInit {
-
+  @Input() general: any;
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit() {   
   }
 
 }

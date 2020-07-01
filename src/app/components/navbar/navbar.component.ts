@@ -1,22 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { HostListener, PLATFORM_ID, Inject } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Router,Event, NavigationStart, NavigationEnd } from "@angular/router";
+import { Component, OnInit, Input } from "@angular/core";
+import { HostListener, PLATFORM_ID, Inject } from "@angular/core";
+import { isPlatformBrowser } from "@angular/common";
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  selector: "app-navbar",
+  templateUrl: "./navbar.component.html",
+  styleUrls: ["./navbar.component.scss"],
 })
 export class NavbarComponent implements OnInit {
+  @Input() title: any;
 
-  constructor(@Inject(PLATFORM_ID) public platformId: string) { }
+  constructor(
+    @Inject(PLATFORM_ID) public platformId: string
+  ) {
+  }
 
   public scrolled: boolean = false;
   public awake: boolean = false;
   public display: boolean = false;
   public stretching: boolean = false;
-  public fuelsLogo = 'assets/icons/fuels-logo.png';
-  public fuelsLogoW = 'assets/icons/fuels-logo-white.png';
+  public fuelsLogo = "assets/icons/fuels-logo.png";
+  public fuelsLogoW = "assets/icons/fuels-logo-white.png";
 
   @HostListener("window:scroll", [])
   onWindowScroll() {
@@ -25,9 +30,9 @@ export class NavbarComponent implements OnInit {
       this.awake = window.scrollY > 100;
       if (window.scrollY > 30) {
         this.display = true;
-        this.fuelsLogo = '/assets/icons/fuels-logo-white.png';
+        this.fuelsLogo = "/assets/icons/fuels-logo-white.png";
       } else {
-        this.fuelsLogo = '/assets/icons/fuels-logo.png';
+        this.fuelsLogo = "/assets/icons/fuels-logo.png";
         this.display = false;
       }
     }
@@ -37,7 +42,7 @@ export class NavbarComponent implements OnInit {
     window.scroll({
       top: 0,
       left: 0,
-      behavior: 'smooth'
+      behavior: "smooth",
     });
   }
 
@@ -49,10 +54,5 @@ export class NavbarComponent implements OnInit {
     this.stretching = !this.stretching;
   }
 
-  ngOnInit() {
-  }
-
-
-
-
+  ngOnInit() {}
 }

@@ -8,7 +8,7 @@
           <li class="row">
             <label class="col-5">Trade Number</label>
             <div class="col-7">
-              5967692
+              {{general?.purchaseNumber}}
             </div>
           </li>
           <li class="row">
@@ -20,25 +20,28 @@
           <li class="row">
             <label class="col-5">Crop</label>
             <div class="col-7">
-              Crop
+              {{general?.crop}}
             </div>
           </li>
           <li class="row">
             <label class="col-5">Price</label>
             <div class="col-7">
-              1.49 USD/Lb
+              {{general?.price}}
+              <span>
+                {{general?.unit}}
+              </span>
             </div>
           </li>
           <li class="row">
             <label class="col-5">Total Bags</label>
             <div class="col-7">
-              5967692
+              {{general?.totalBags}}
             </div>
           </li>
           <li class="row">
             <label class="col-5">Destination</label>
             <div class="col-7">
-              Open
+              {{general?.destination}}
             </div>
           </li>
         </ul>
@@ -48,12 +51,7 @@
       <div class="box">
         <div class="font-weight-semibold">Coffee Quaity</div>
         <hr>
-        Et et consectetur ipsum labore excepteur est proident excepteur ad velit occaecat qui minim
-        occaecat
-        veniam. Fugiat veniam incididunt anim aliqua enim pariatur veniam sunt est aute sit dolor anim.
-        Velit
-        non irure adipisicing aliqua ullamco irure incididunt irure non esse consectetur nostrud minim
-        non
+       {{general?.coffeeQuality}}
 
       </div>
     </div>

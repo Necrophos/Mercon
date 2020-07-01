@@ -1,48 +1,18 @@
-<div class="d-flex" id="wrapper">
-
-  <div id="page-content-wrapper">
-
-    <!-- bar mobile -->
-
-    <nav class="navbar navbar-expand-lg barmobile">
-
-      <button id="menu-toggle"><i data-feather="menu"></i></button>
-    </nav>
-    <!-- / bar mobile -->
-
-    <div class="container">
-      <div class="title">
-        <div class="links">
-          <h3><a href="#"><i data-feather="chevron-left"></i></a> Purchase <span class="colorPrimary">12346</span>
-          </h3>
-          <a href="">PSS Infomation</a>
-        </div>
-        <div class="user">
-          <h3>Starbuck Coffee Trading Sarl
-            <span>John Mayers</span></h3>
-          <div class="avatar">
-            <img src="images/profile.png" alt="profile">
-          </div>
-        </div>
-      </div>
-      <div class="tabs">
-        <div class="tab-content mt-4" id="nav-tabContent">
-          <tabset [pills]="true">
-            <tab title="General">
-              <!-- <span *tabHeading>
+<div class="tabs">
+  <div class="tab-content mt-4" id="nav-tabContent">
+    <tabset [pills]="true">
+      <tab title="General">
+        <!-- <span *tabHeading>
                 <b style="color: deepskyblue">About</b> <i style="color: deeppink">me</i>
               </span> -->
-              <app-tab-general></app-tab-general>
-            </tab>
-            <tab title="Shipment">
-              <app-tab-shipment></app-tab-shipment>
-            </tab>
-            <tab title="Container">
-              <app-tab-container></app-tab-container>
-            </tab>
-          </tabset>
-        </div>
-      </div>
-    </div>
+        <app-tab-general *ngIf="generalData" [general]="generalData"></app-tab-general>
+      </tab>
+      <tab title="Shipment">
+        <app-tab-shipment *ngIf="shipmentData" [shipment]="shipmentData"></app-tab-shipment>
+      </tab>
+      <tab title="Container">
+        <app-tab-container></app-tab-container>
+      </tab>
+    </tabset>
   </div>
 </div>

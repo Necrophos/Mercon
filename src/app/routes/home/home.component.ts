@@ -1,7 +1,9 @@
+import { PurchaseService } from "./../../services/purchase.service";
 import { SearchService } from "./../../services/search.service";
 import { AuthService } from "./../../services/auth.service";
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { environment } from "@env/environment";
 
 @Component({
   selector: "app-home",
@@ -11,7 +13,10 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
   providers: [AuthService],
 })
 export class HomeComponent implements OnInit {
-  constructor(private searchService: SearchService) {}
+  constructor(
+    private searchService: SearchService,
+    private purchaseService: PurchaseService
+  ) {}
 
   searchForm = new FormGroup({
     trade_num: new FormControl("", [Validators.required]),
@@ -22,6 +27,11 @@ export class HomeComponent implements OnInit {
   });
 
   result: any;
+  listPurchaseItems: any;
+  user = localStorage.getItem(environment.USER);
+  objUser = JSON.parse(this.user);
+  companyNum = this.objUser.internalCompanies[0].companyNum;
+
 
   cities = [
     { id: 1, name: "Vilnius" },
@@ -31,65 +41,6 @@ export class HomeComponent implements OnInit {
   selectedCityId: number = null;
 
   page: number = 1;
-  listTrades = [
-    {
-      number: 1175472,
-      ref: 1175472,
-      quality: "VIE-EPW 15/16 CP",
-      period: "Apr 2020",
-      bags: "7360",
-      status: "Approved",
-    },
-    {
-      number: 1175472,
-      ref: 1175472,
-      quality: "VIE-EPW 15/16 CP",
-      period: "Apr 2020",
-      bags: "7360",
-      status: "Pending",
-    },
-    {
-      number: 1175472,
-      ref: 1175472,
-      quality: "VIE-EPW 15/16 CP",
-      period: "Apr 2020",
-      bags: "7360",
-      status: "Pending",
-    },
-    {
-      number: 1175472,
-      ref: 1175472,
-      quality: "VIE-EPW 15/16 CP",
-      period: "Apr 2020",
-      bags: "7360",
-      status: "Pending",
-    },
-    {
-      number: 1175472,
-      ref: 1175472,
-      quality: "VIE-EPW 15/16 CP",
-      period: "Apr 2020",
-      bags: "7360",
-      status: "Pending",
-    },
-    {
-      number: 1175472,
-      ref: 1175472,
-      quality: "VIE-EPW 15/16 CP",
-      period: "Apr 2020",
-      bags: "7360",
-      status: "Pending",
-    },
-    {
-      number: 1175472,
-      ref: 1175472,
-      quality: "VIE-EPW 15/16 CP",
-      period: "Apr 2020",
-      bags: "7360",
-      status: "Going",
-      note: 3,
-    },
-  ];
 
   get trade_num() {
     return this.searchForm.value.trade_num;
@@ -122,5 +73,13 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  getAllPurchase() {
+    this.purchaseService.getAllPurchase(this.companyNum).subscribe((res) => {
+      this.listPurchaseItems = res;
+    });
+  }
+
+  ngOnInit() {
+    this.getAllPurchase();  
+  }
 }

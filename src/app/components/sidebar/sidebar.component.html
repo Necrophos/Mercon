@@ -3,15 +3,15 @@
     <img src="assets/images/logo.png" alt="logo">
   </a>
   <div class="list-group">
-    <a [routerLink]="['/admin/home']" routerLinkActive="active" >
+    <a [routerLink]="['/admin/home']" routerLinkActive="active">
       <i class="fal fa-home-lg-alt mr-2"></i>
       Home
     </a>
-    <a [routerLink]="['/admin/dashboard']" routerLinkActive="active" >
+    <a [routerLink]="['/admin/dashboard']" routerLinkActive="active">
       <i class="fal fa-chart-pie-alt mr-2"></i>Dashboard
     </a>
 
-    <a [routerLink]="['/admin/report']" routerLinkActive="active" >
+    <a [routerLink]="['/admin/report']" routerLinkActive="active">
       <i class="fal fa-file mr-2"></i>Reports
     </a>
 
@@ -19,14 +19,24 @@
       <i class="fal fa-info-circle mr-2"></i>About
     </a>
 
-    <a [routerLink]="['/admin/chat']" routerLinkActive="active" >
+    <a [routerLink]="['/admin/chat']" routerLinkActive="active">
       <i class="fal fa-comment-alt mr-2"></i>
       Chat
     </a>
 
     <a>
-      <i class="fal fa-hexagon mr-2"></i>
-      Client
+      <div ngbDropdown placement="right" display="dynamic" class="d-inline-block dropdown-option w-100">
+        <button class="btn p-0 w-100 text-left" id="dropdownBasic1" ngbDropdownToggle>
+          <i class="fal fa-hexagon mr-2"></i>
+          Client
+          <i style="padding: 5px;" class="far fa-angle-right float-right"></i>
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button *ngFor="let client of listClientCompanies" class="btn" ngbDropdownItem>
+            {{client?.companyCd}}
+          </button>
+        </div>
+      </div>
     </a>
 
     <a><i class="fal fa-sign-out mr-2"></i> Log Out

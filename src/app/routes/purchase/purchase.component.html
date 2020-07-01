@@ -1,7 +1,6 @@
-<div class="d-flex" id="wrapper">
+<!-- <div class="d-flex" id="wrapper">
   <div id="page-content-wrapper">
     <nav class="navbar navbar-expand-lg barmobile">
-
       <button id="menu-toggle"><i data-feather="menu"></i></button>
     </nav>
     <div class="container">
@@ -66,12 +65,31 @@
       </div>
     </div>
   </div>
-  <!-- /#page-content-wrapper -->
+</div> -->
+<div class="d-flex" id="wrapper">
+  <div id="page-content-wrapper">
+    <nav class="navbar navbar-expand-lg barmobile">
+      <button id="menu-toggle"><i data-feather="menu"></i></button>
+    </nav>
+    <div class="container">
+      <div class="title">
+        <div class="links">
+          <h3><a href="#"><i data-feather="chevron-left"></i></a> Purchase <span class="colorPrimary">
+              {{tradeNumber}}
+            </span>
+          </h3>
+          <a href="">PSS Infomation</a>
+        </div>
+        <div class="user">
+          <h3>Starbuck Coffee Trading Sarl
+            <span>John Mayers</span></h3>
+          <div class="avatar">
+            <img src="images/profile.png" alt="profile">
+          </div>
+        </div>
+      </div>
+      <app-general *ngIf="purchaseDetail" [data]="purchaseDetail"></app-general>
 
-</div>
-<div class="general">
-  <app-general></app-general>
-</div>
-<div class="doc">
-  <app-document></app-document>
+    </div>
+  </div>
 </div>

@@ -1,9 +1,30 @@
-.a-link {
-    &:active {
-        background: dodgerblue;
-    }
+#sidebar-wrapper {
+    top: 0;
 }
 
-.is-active {
-    background: dodgerblue;
+.dropdown-option {
+    .dropdown-toggle::after {
+        display: none !important;
+    }
+
+    .btn {
+        color: #6d6e70;
+        font-size: 15px;
+        font-weight: 400;
+
+        &:hover {
+            color: #a3cf60;
+        }
+    }
+    .dropdown-item.active,
+    .dropdown-item:active,
+    .dropdown-item:hover {
+        background: transparent;
+        color: #a3cf60;
+    }
+
+    .dropdown-menu.show {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        border: none;
+    }
 }

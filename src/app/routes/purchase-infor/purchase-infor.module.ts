@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
-    path: "",
+    path: ":trade_num",
     component: PurchaseInforComponent,
   }
 ];

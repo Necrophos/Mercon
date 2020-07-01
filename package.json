@@ -24,6 +24,7 @@
     "bootstrap": "^4.4.1",
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
+    "moment": "^2.27.0",
     "ngx-pagination": "^5.0.0",
     "ngx-tabs": "0.0.13",
     "rxjs": "~6.4.0",

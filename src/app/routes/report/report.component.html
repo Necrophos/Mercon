@@ -1,31 +1,6 @@
 <div class="d-flex" id="wrapper">
-
-
   <div id="page-content-wrapper">
-
-    <!-- bar mobile -->
-
-    <nav class="navbar navbar-expand-lg barmobile">
-
-      <button id="menu-toggle"><i data-feather="menu"></i></button>
-    </nav>
-    <!-- / bar mobile -->
-
     <div class="container reports">
-      <div class="title">
-        <div class="links">
-          <h3>Available Reports</h3>
-        </div>
-        <div class="user">
-          <h3>Starbuck Coffee Trading Sarl
-            <span>John Mayers</span></h3>
-          <div class="avatar">
-            <img src="assets/images/profile.png" alt="profile">
-          </div>
-        </div>
-      </div>
-
-
       <div class="box">
         <div class="table-responsive">
           <table id="example" class="table table-custom table-nolinktr mb-0">
@@ -39,10 +14,10 @@
             <tbody>
               <tr *ngFor="let report of reports; let i=index">
                 <td><a class="linkdocument">
-                    {{report?.fileName}}
+                    {{report?.file_name}}
                   </a></td>
                 <td>
-                  {{report?.date}}
+                  {{report?.strLastModified}}
                 </td>
                 <td align="right">
                   <div ngbDropdown placement="left" display="dynamic" class="d-inline-block dropdown-option">

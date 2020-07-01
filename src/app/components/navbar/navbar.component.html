@@ -1,7 +1,29 @@
+<div class="d-flex" id="wrapper">
+  <div id="page-content-wrapper">
+    <nav class="navbar navbar-expand-lg barmobile">
+      <button id="menu-toggle"><i data-feather="menu"></i></button>
+    </nav>
+    <div class="container">
+      <div class="title">
+        <h3 class="text-capitalize">
+          {{title}}
+        </h3>
+        <div class="user">
+          <h3>Starbuck Coffee Trading Sarl
+            <span>John Mayers</span></h3>
+          <div class="avatar">
+            <img src="assets/images/profile.png" alt="profile">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div class="marcon-navbar-mobile d-block d-sm-none">
   <div class="navbar navbar-mb pt-2 w-100 position-fixed" [class.scrolled]="scrolled" [class.awake]="awake">
     <div class="row w-100">
-
       <div (click)="showMobileNav()" [class.icon-flow]="stretching" class="col-2 p-0 non-flow text-right">
         <i [class.iconHidden]="stretching" style="font-size: 25px;" class="fal fa-bars pt-3"></i>
         <i id="x-icon" [class.iconHidden]="!stretching" style="font-size: 30px;" class="fal fa-times pt-3"></i>
@@ -19,7 +41,8 @@
             </a>
           </li>
           <li class="nav-item">
-            <a (click)="hiddenMobileNav()" class="nav-link" [routerLink]="['/admin/dashboard']" routerLinkActive="active" >
+            <a (click)="hiddenMobileNav()" class="nav-link" [routerLink]="['/admin/dashboard']"
+              routerLinkActive="active">
               <i class="fal fa-chart-pie-alt mr-2"></i>
               Dashboard
             </a>
@@ -31,7 +54,8 @@
             </a>
           </li>
           <li class="nav-item ">
-            <a (click)="hiddenMobileNav()" class="nav-link" [routerLink]="['/admin/purchase']" routerLinkActive="active">
+            <a (click)="hiddenMobileNav()" class="nav-link" [routerLink]="['/admin/purchase']"
+              routerLinkActive="active">
               <i class="fal fa-info-circle mr-2"></i>
               About
             </a>

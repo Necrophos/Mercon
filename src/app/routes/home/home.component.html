@@ -1,26 +1,7 @@
 <div class="d-flex" id="wrapper">
 
   <div id="page-content-wrapper">
-
-    <!-- bar mobile -->
-
-    <nav class="navbar navbar-expand-lg barmobile">
-
-      <button id="menu-toggle"><i data-feather="menu"></i></button>
-    </nav>
-    <!-- / bar mobile -->
-
     <div class="container">
-      <div class="title">
-        <h3>Home</h3>
-        <div class="user">
-          <h3>Starbuck Coffee Trading Sarl
-            <span>John Mayers</span></h3>
-          <div class="avatar">
-            <img src="assets/images/profile.png" alt="profile">
-          </div>
-        </div>
-      </div>
       <div class="box">
         <form [formGroup]="searchForm" class="row mb-2 search-form">
           <div class="form-group col-lg-3 col-md-6 col-sm-12">
@@ -29,7 +10,7 @@
           </div>
           <div class="form-group col-lg-3 col-md-6 col-sm-12">
             <label>Origin</label>
-            <ng-select [items]="cities" bindLabel="name" bindValue="name" formControlName="origin"  name="select">
+            <ng-select [items]="cities" bindLabel="name" bindValue="name" formControlName="origin" name="select">
             </ng-select>
           </div>
           <div class="form-group col-lg-3 col-md-6 col-sm-12">
@@ -40,7 +21,7 @@
             <label style="opacity: 0; margin-bottom: 11px;" class="d-none d-md-block">button</label>
             <div class="row justify-content-end">
               <div class="col-lg-6 col-md-6 col-6">
-                <button  (click)="searchByKeyword()" type="submit" class="btn btnPrimary">Search</button>
+                <button (click)="searchByKeyword()" type="submit" class="btn btnPrimary text-white">Search</button>
               </div>
               <div class="col-lg-6 col-md-6 col-6">
                 <button type="submit" class="btn btnOutline">Clear</button>
@@ -62,18 +43,19 @@
             </thead>
             <tbody>
 
-              <tr *ngFor="let trade of listTrades | paginate: { itemsPerPage: 6, currentPage: page}">
+              <tr [routerLink]="['/admin/purchase/',trade?.trade_num]" routerLinkActive="router-link-active"
+                *ngFor="let trade of listPurchaseItems | paginate: { itemsPerPage: 6, currentPage: page}">
                 <td class="color1">
-                  {{trade?.number}}
+                  {{trade?.trade_num}}
                 </td>
                 <td class="color2">
-                  {{trade?.ref}}
+                  {{trade?.reference}}
                 </td>
                 <td>
                   {{trade?.quality}}
                 </td>
                 <td>
-                  {{trade?.period}}
+                  {{trade?.dlyPeriod}}
                 </td>
                 <td>
                   {{trade?.bags}}
@@ -89,8 +71,9 @@
           </table>
         </div>
         <div class="paginationCustom mt-4">
-          <span>Showing 1 to 25 of 57 entries</span>
-          <pagination-controls class="marcon-pagination" nextLabel="" previousLabel="" autoHide="true" maxSize="3" responsive="true" (pageChange)="page = $event"></pagination-controls>
+          <span>Showing 1 of 57 entries</span>
+          <pagination-controls class="marcon-pagination" nextLabel="" previousLabel="" autoHide="true" maxSize="3"
+            responsive="true" (pageChange)="page = $event"></pagination-controls>
         </div>
       </div>
 
