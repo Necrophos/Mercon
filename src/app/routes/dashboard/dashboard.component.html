@@ -14,6 +14,9 @@
                     name="select">
                   </ng-select>
                 </div>
+                <div class="col-12">
+                  <app-target-bags-chart></app-target-bags-chart>
+                </div>
               </div>
             </div>
           </div>
@@ -34,6 +37,9 @@
                   <ng-select [items]="cities" bindLabel="name" bindValue="id" [(ngModel)]="selectedCityId"
                     name="select">
                   </ng-select>
+                </div>
+                <div class="col-12">
+                  <app-rates-chart></app-rates-chart>
                 </div>
               </div>
             </div>
