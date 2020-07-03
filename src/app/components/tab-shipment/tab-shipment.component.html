@@ -9,7 +9,7 @@
             <label class="col-5">Bill of lading</label>
             <div class="col-7 linkfile">
               {{shipmentData?.blNumber}}
-              <button class="btn btnPrimary" href=""><i class="fal fa-file-invoice"></i></button>
+              <button class="btn btnPrimary" [routerLink]="['/admin/document', tradeNumber, bl_number]" routerLinkActive="router-link-active" ><i class="fal fa-file-invoice"></i></button>
             </div>
           </li>
           <li class="row">

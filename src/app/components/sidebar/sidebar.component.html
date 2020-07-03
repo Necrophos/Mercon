@@ -3,23 +3,23 @@
     <img src="assets/images/logo.png" alt="logo">
   </a>
   <div class="list-group">
-    <a [routerLink]="['/admin/home']" routerLinkActive="active">
+    <a [routerLink]="['/admin/home']" (click)="changeBreadcrumb('home')" routerLinkActive="active">
       <i class="fal fa-home-lg-alt mr-2"></i>
       Home
     </a>
-    <a [routerLink]="['/admin/dashboard']" routerLinkActive="active">
+    <a [routerLink]="['/admin/dashboard']" (click)="changeBreadcrumb('dashboard')" routerLinkActive="active">
       <i class="fal fa-chart-pie-alt mr-2"></i>Dashboard
     </a>
 
-    <a [routerLink]="['/admin/report']" routerLinkActive="active">
+    <a [routerLink]="['/admin/report']" (click)="changeBreadcrumb('report')" routerLinkActive="active">
       <i class="fal fa-file mr-2"></i>Reports
     </a>
 
-    <a [routerLink]="['/admin/purchase']">
+    <a [routerLink]="['/admin/purchase']" (click)="changeBreadcrumb('purchase')">
       <i class="fal fa-info-circle mr-2"></i>About
     </a>
 
-    <a [routerLink]="['/admin/chat']" routerLinkActive="active">
+    <a [routerLink]="['/admin/chat']" (click)="changeBreadcrumb('chat')" routerLinkActive="active">
       <i class="fal fa-comment-alt mr-2"></i>
       Chat
     </a>

@@ -1,4 +1,3 @@
-import { DocumentModule } from "@components/document/document.module";
 import { GeneralModule } from "./../general/general.module";
 import { RouterModule, Routes } from "@angular/router";
 import { NgModule } from "@angular/core";
@@ -24,8 +23,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     NgxPaginationModule,
-    GeneralModule,
-    DocumentModule,
+    GeneralModule
   ],
 })
 export class PurchaseModule {}

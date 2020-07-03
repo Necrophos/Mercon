@@ -98,4 +98,9 @@ export class HomeComponent implements OnInit {
   clearForm() {
     this.searchForm.reset(this.searchForm.value);
   }
+
+  changeBreadcrumb(routes, tradeNumber) {
+    this.shareService.getBreadcrumb(routes);
+    this.shareService.getTradeNumber(tradeNumber)
+  }
 }

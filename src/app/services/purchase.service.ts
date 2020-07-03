@@ -17,4 +17,17 @@ export class PurchaseService {
     let routes = `${environment.api}/getPurchaseDetail?trade_num=${tradeNum}`;
     return this.apiService.callApi(routes);
   }
+
+  getAllDocument(paramsObj) {
+    let routes = `${environment.api}/getFilesForShipment?`;
+    const params = {
+      trade_num: paramsObj.trade_num,
+      bl_num: paramsObj.bt_num,
+      platform: environment.PLATFORM_ID,
+      app_id: environment.APP_ID,
+    }
+
+    routes = this.apiService.createParams(routes, params);
+    return this.apiService.callApi(routes);
+  }
 }

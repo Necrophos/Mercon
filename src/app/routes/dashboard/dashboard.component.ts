@@ -19,14 +19,14 @@ export class DashboardComponent implements OnInit {
 
   getTargetBagsChart(companyNum) {
     this.dashboardService.getTargetBagsChart(companyNum).subscribe((res) => {
-      console.log(res);
+      // console.log(res);
       
     })
   }
 
   getRatesChart(companyNum) {
     this.dashboardService.getRatesChart(companyNum).subscribe((res) => {
-      console.log(res);
+      // console.log(res);
       
     })
   }

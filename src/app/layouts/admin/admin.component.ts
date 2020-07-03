@@ -1,4 +1,5 @@
-import { Router,Event, NavigationStart, NavigationEnd } from "@angular/router";
+import { ShareService } from "./../../services/share.service";
+import { Router, Event, NavigationStart, NavigationEnd } from "@angular/router";
 import { Component, OnInit } from "@angular/core";
 
 @Component({
@@ -7,21 +8,26 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./admin.component.scss"],
 })
 export class AdminComponent implements OnInit {
-  title: string;
+  title = "home";
+  tradeNumber = null;
 
-  constructor(private router: Router) {
-     router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationEnd) {
-        this.changeTitle();
+  constructor(private router: Router, private shareService: ShareService) {}
+
+  ngOnInit() {
+    this.shareService.breadcrumbChange.subscribe((res) => {
+      if (res) {
+        this.title = res;
+      }
+    });
+
+    this.shareService.tradeNumber.subscribe((res) => {
+      if (res) {
+        this.tradeNumber = res;
       }
     });
   }
 
-  ngOnInit() {
-  }
+  changeTitle() {}
 
-  changeTitle() {
-    this.title = this.router.url;
-    this.title = this.title.substring(7, this.title.length);
-  }
+  //sua lai phan in title dung even emit
 }

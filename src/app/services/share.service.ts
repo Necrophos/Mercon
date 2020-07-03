@@ -9,9 +9,19 @@ export class ShareService {
   objUser = JSON.parse(this.user);
 
   clientChosen: EventEmitter<any> = new EventEmitter();
+  breadcrumbChange: EventEmitter<any> = new EventEmitter();
+  tradeNumber: EventEmitter<any> = new EventEmitter();
 
   getDataByClient(event) {
     this.clientChosen.emit(event); 
+  }
+
+  getBreadcrumb(event) {
+    this.breadcrumbChange.emit(event);
+  }
+
+  getTradeNumber(event) {
+    this.tradeNumber.emit(event);
   }
 
   getUserId() {

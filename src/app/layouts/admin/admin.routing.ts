@@ -25,6 +25,10 @@ const routes: Routes = [
             {
                 path: 'purchase',
                 loadChildren: () => import('@routes/purchase/purchase.module').then(mod => mod.PurchaseModule)
+            },
+            {
+                path: 'document',
+                loadChildren: () => import('@components/document/document.module').then(mod => mod.DocumentModule)
             }
         ]
     }

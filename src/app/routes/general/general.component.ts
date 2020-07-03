@@ -9,6 +9,7 @@ import { Component, OnInit, ViewEncapsulation, Input } from "@angular/core";
 export class GeneralComponent implements OnInit {
   tabs: string[] = ["Home", "About me", "Contacts", "Map"];
   @Input() data: any;
+  @Input() tradeNumber: any;
 
   generalData: any;
   shipmentData: any;

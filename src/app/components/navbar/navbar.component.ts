@@ -1,5 +1,5 @@
 import { ShareService } from './../../services/share.service';
-import { Router,Event, NavigationStart, NavigationEnd } from "@angular/router";
+import { Router,Event, NavigationStart, NavigationEnd, ActivatedRoute } from "@angular/router";
 import { Component, OnInit, Input } from "@angular/core";
 import { HostListener, PLATFORM_ID, Inject } from "@angular/core";
 import { isPlatformBrowser } from "@angular/common";
@@ -11,10 +11,13 @@ import { isPlatformBrowser } from "@angular/common";
 })
 export class NavbarComponent implements OnInit {
   @Input() title: any;
+  @Input() tradeNumber: any;
 
   constructor(
     @Inject(PLATFORM_ID) public platformId: string,
-    private shareService: ShareService
+    private shareService: ShareService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
   }
 
@@ -26,6 +29,7 @@ export class NavbarComponent implements OnInit {
   public fuelsLogoW = "assets/icons/fuels-logo-white.png";
   companyName: any;
   userName: any;
+  isPurchase = false;
 
   @HostListener("window:scroll", [])
   onWindowScroll() {
@@ -51,8 +55,10 @@ export class NavbarComponent implements OnInit {
         this.companyName = res.companyCd
       }
     });
+    this.shareService.tradeNumber.subscribe((res) => {
+      this.tradeNumber = res;
+    })
   }
-
   
   scrollTop() {
     window.scroll({

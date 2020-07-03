@@ -8,9 +8,13 @@ import * as moment from "moment";
 })
 export class TabShipmentComponent implements OnInit {
   @Input() shipment: any;
+  @Input() tradeNumber: any;
   shipmentData: any;
   departDate: any;
   arrivalDate: any;
+
+  bl_number = 'asdfasfd'
+
   constructor() {}
 
   formatDate(milliseconds) {

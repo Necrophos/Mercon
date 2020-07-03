@@ -1,5 +1,5 @@
+import { ShareService } from './../../services/share.service';
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { environment } from "@env/environment";
 import { ReportService } from "@services/report.service";
 
 @Component({
@@ -9,19 +9,18 @@ import { ReportService } from "@services/report.service";
   encapsulation: ViewEncapsulation.None,
 })
 export class ReportComponent implements OnInit {
-  user = localStorage.getItem(environment.USER);
-  objUser = JSON.parse(this.user);
-  companyNum = this.objUser.internalCompanies[0].companyNum;
+
 
   reports: any;
-  constructor(private reportService: ReportService) {}
+  constructor(private reportService: ReportService, private shareService: ShareService) {}
 
   ngOnInit() {
-    this.getAllReports();
+    const companyNum = this.shareService.getFirstCompanyNum();
+    this.getAllReports(companyNum);
   }
 
-  getAllReports() {
-    this.reportService.getAllReports(this.companyNum).subscribe((res) => {
+  getAllReports(companyNum) {
+    this.reportService.getAllReports(companyNum).subscribe((res) => {
       this.reports = res;
     });
   }

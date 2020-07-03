@@ -18,6 +18,11 @@ export class SidebarComponent implements OnInit {
     this.shareService.getDataByClient(client);   
   }
 
+  changeBreadcrumb(routes) {
+    this.shareService.getBreadcrumb(routes);
+    this.shareService.getTradeNumber('');
+  }
+
   logOut() {
     localStorage.clear();
   }

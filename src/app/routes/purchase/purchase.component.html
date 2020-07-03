@@ -1,95 +1,13 @@
-<!-- <div class="d-flex" id="wrapper">
-  <div id="page-content-wrapper">
-    <nav class="navbar navbar-expand-lg barmobile">
-      <button id="menu-toggle"><i data-feather="menu"></i></button>
-    </nav>
-    <div class="container">
-      <div class="title">
-        <div class="links">
-          <h3><a href="#"><i data-feather="chevron-left"></i></a> Purchase <span class="colorPrimary">12346</span> </h3>
-          <a [routerLink]="['/admin/purchase/information']" routerLinkActive="router-link-active">PSS Infomation</a>
-        </div>
-        <div class="user">
-          <h3>Starbuck Coffee Trading Sarl
-            <span>John Mayers</span></h3>
-          <div class="avatar">
-            <img src="assets/images/profile.png" alt="profile">
-          </div>
-        </div>
-      </div>
-      <div class="box">
-        <div class="mb-3 font-weight-semibold">Going</div>
-        <div class="table-responsive">
-          <table id="example" class="table table-custom mb-0">
-            <thead>
-              <tr>
-                <th width="35%">BL Number </th>
-                <th width="35%">Vessel</th>
-                <th width="5%">Bags</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let trade of listTrades | paginate: { itemsPerPage: 6, currentPage: page}">
-                <td class="color1">
-                  {{trade?.number}}
-                </td>
-                <td>
-                  {{trade?.vessel}}
-                </td>
-                <td>
-                  {{trade?.bags}}
-                </td>
-                <td>
-                  <div class="status " [class.status-apr]="trade?.status == 'Approved'"
-                    [class.status-pending]="trade?.status == 'Pending'" [class.status-going]="trade?.status == 'Going'">
-                    {{trade?.status}} <span *ngIf="trade?.status == 'Going'" class="note">{{trade?.note}}</span>
-                  </div>
-                </td>
-              </tr>
-              <tr class="last">
-                <td></td>
-                <td align="right" class="font-weight-semibold">Total Bags </td>
-                <td class="font-weight-semibold">1234</td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="paginationCustom mt-4">
-          <span>Showing 1 to 25 of 57 entries</span>
-          <pagination-controls class="marcon-pagination" nextLabel="" previousLabel="" autoHide="true" maxSize="3"
-            responsive="true" (pageChange)="page = $event"></pagination-controls>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</div> -->
 <div class="d-flex" id="wrapper">
   <div id="page-content-wrapper">
     <nav class="navbar navbar-expand-lg barmobile">
       <button id="menu-toggle"><i data-feather="menu"></i></button>
     </nav>
     <div class="container">
-      <div class="title">
-        <div class="links">
-          <h3><a href="#"><i data-feather="chevron-left"></i></a> Purchase <span class="colorPrimary">
-              {{tradeNumber}}
-            </span>
-          </h3>
-          <a href="">PSS Infomation</a>
-        </div>
-        <div class="user">
-          <h3>Starbuck Coffee Trading Sarl
-            <span>John Mayers</span></h3>
-          <div class="avatar">
-            <img src="images/profile.png" alt="profile">
-          </div>
-        </div>
+      <div class="links">
+        <a  class="m-0" href="">PSS Information</a>
       </div>
-      <app-general *ngIf="purchaseDetail" [data]="purchaseDetail"></app-general>
-
+      <app-general *ngIf="purchaseDetail" [tradeNumber]="tradeNumber" [data]="purchaseDetail"></app-general>
     </div>
   </div>
 </div>
