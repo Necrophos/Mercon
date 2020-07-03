@@ -32,14 +32,14 @@
           <i style="padding: 5px;" class="far fa-angle-right float-right"></i>
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <button *ngFor="let client of listClientCompanies" class="btn" ngbDropdownItem>
+          <button (click)="changeClient(client)" *ngFor="let client of listClientCompanies" class="btn" ngbDropdownItem>
             {{client?.companyCd}}
           </button>
         </div>
       </div>
     </a>
 
-    <a><i class="fal fa-sign-out mr-2"></i> Log Out
+    <a (click)="logOut()"><i class="fal fa-sign-out mr-2"></i> Log Out
     </a>
   </div>
 </div>

@@ -1,3 +1,4 @@
+import { ShareService } from './services/share.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -18,7 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
     ClientModule,
     AdminModule
   ],
-  providers: [],
+  providers: [ShareService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

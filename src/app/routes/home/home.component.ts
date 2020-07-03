@@ -1,9 +1,9 @@
+import { ShareService } from "./../../services/share.service";
 import { PurchaseService } from "./../../services/purchase.service";
 import { SearchService } from "./../../services/search.service";
 import { AuthService } from "./../../services/auth.service";
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { environment } from "@env/environment";
 
 @Component({
   selector: "app-home",
@@ -15,12 +15,16 @@ import { environment } from "@env/environment";
 export class HomeComponent implements OnInit {
   constructor(
     private searchService: SearchService,
+    private shareService: ShareService,
     private purchaseService: PurchaseService
   ) {}
 
+  locations: any;
+  selectedCityId: number = null;
+
   searchForm = new FormGroup({
     trade_num: new FormControl("", [Validators.required]),
-    origin: new FormControl("Vilnius", [Validators.required]),
+    origin: new FormControl(null, [Validators.required]),
     ref: new FormControl("", [Validators.required]),
     start_dt: new FormControl("", [Validators.required]),
     end_dt: new FormControl("", [Validators.required]),
@@ -28,17 +32,7 @@ export class HomeComponent implements OnInit {
 
   result: any;
   listPurchaseItems: any;
-  user = localStorage.getItem(environment.USER);
-  objUser = JSON.parse(this.user);
-  companyNum = this.objUser.internalCompanies[0].companyNum;
-
-
-  cities = [
-    { id: 1, name: "Vilnius" },
-    { id: 2, name: "Kaunas" },
-    { id: 3, name: "Pavilnys" },
-  ];
-  selectedCityId: number = null;
+  companyNum: any;
 
   page: number = 1;
 
@@ -53,33 +47,55 @@ export class HomeComponent implements OnInit {
   get ref() {
     return this.searchForm.value.ref;
   }
+
   get start_dt() {
     return this.searchForm.value.start_dt;
   }
+
   get end_dt() {
     return this.searchForm.value.end_dt;
+  }
+
+  ngOnInit() {
+    const companyNum = this.shareService.getFirstCompanyNum();
+    this.getAllPurchase(companyNum);
+    this.getLocationDropdown(companyNum);
+    this.shareService.clientChosen.subscribe((res) => {
+      if (res) {
+        this.getAllPurchase(res.companyNum);
+      }
+    });
   }
 
   searchByKeyword() {
     const keyword = {
       trade_num: this.trade_num,
-      origin_num: this.origin,
+      origin_num: this.origin.id.numLocation,
       start_dt: this.start_dt,
+      end_dt: this.end_dt,
       ref: this.ref,
     };
+
+    console.log(keyword);
 
     this.searchService.searchByKeyword(keyword).subscribe((res) => {
       this.result = res;
     });
   }
 
-  getAllPurchase() {
-    this.purchaseService.getAllPurchase(this.companyNum).subscribe((res) => {
+  getAllPurchase(companyNum) {
+    this.purchaseService.getAllPurchase(companyNum).subscribe((res) => {
       this.listPurchaseItems = res;
     });
   }
 
-  ngOnInit() {
-    this.getAllPurchase();  
+  getLocationDropdown(companyNum) {
+    this.searchService.getLocation(companyNum).subscribe((res) => {
+      this.locations = res;
+    });
+  }
+
+  clearForm() {
+    this.searchForm.reset(this.searchForm.value);
   }
 }

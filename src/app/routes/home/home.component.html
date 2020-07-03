@@ -6,16 +6,16 @@
         <form [formGroup]="searchForm" class="row mb-2 search-form">
           <div class="form-group col-lg-3 col-md-6 col-sm-12">
             <label>Mercon's Trade Number</label>
-            <input formControlName="trade_num" type="text" class="form-control" placeholder="115622">
+            <input formControlName="trade_num" type="text" class="form-control" placeholder="Trade number">
           </div>
           <div class="form-group col-lg-3 col-md-6 col-sm-12">
             <label>Origin</label>
-            <ng-select [items]="cities" bindLabel="name" bindValue="name" formControlName="origin" name="select">
+            <ng-select placeholder="Location" [items]="locations" bindLabel="id.nameLocation" formControlName="origin" name="select">
             </ng-select>
           </div>
           <div class="form-group col-lg-3 col-md-6 col-sm-12">
             <label>Cilent's Ref</label>
-            <input formControlName="ref" type="text" class="form-control" placeholder="115622">
+            <input formControlName="ref" type="text" class="form-control" placeholder="Client's ref">
           </div>
           <div class="form-group col-lg-3 col-md-6 col-sm-12 justify-content-end">
             <label style="opacity: 0; margin-bottom: 11px;" class="d-none d-md-block">button</label>
@@ -24,7 +24,7 @@
                 <button (click)="searchByKeyword()" type="submit" class="btn btnPrimary text-white">Search</button>
               </div>
               <div class="col-lg-6 col-md-6 col-6">
-                <button type="submit" class="btn btnOutline">Clear</button>
+                <button type="button" (click)="clearForm()"  class="btn btnOutline">Clear</button>
               </div>
             </div>
           </div>

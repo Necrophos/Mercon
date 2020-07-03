@@ -1,5 +1,6 @@
+import { ShareService } from './../../services/share.service';
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { environment } from '@env/environment';
+
 
 @Component({
   selector: "app-sidebar",
@@ -9,12 +10,18 @@ import { environment } from '@env/environment';
 })
 export class SidebarComponent implements OnInit {
   listClientCompanies: any;
-  user = localStorage.getItem(environment.USER);
-  objUser = JSON.parse(this.user);
+  client: any;
 
-  constructor() {}
+  constructor(private shareService: ShareService) {}
 
+  changeClient(client) {
+    this.shareService.getDataByClient(client);   
+  }
+
+  logOut() {
+    localStorage.clear();
+  }
   ngOnInit() { 
-    this.listClientCompanies = this.objUser.internalCompanies;
+    this.listClientCompanies = this.shareService.getListCompany();
   }
 }

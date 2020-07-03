@@ -11,11 +11,13 @@ export class SearchService {
 
   searchByKeyword(keyword) {
     let routes = `${environment.api}/getAllPurchaseBySearch?`;
-    let user_id = localStorage.getItem(environment.USER_ID);
+    let user_id = localStorage.getItem('USER_ID');
 
     const params = {
+      company_num: environment.COMPANY_NUM,
       trade_num: keyword.trade_num,
       start_dt: keyword.start_dt,
+      end_dt: keyword.end_dt,
       origin_num: keyword.origin_num,
       ref: keyword.ref,
       platform: environment.PLATFORM_ID,
@@ -23,6 +25,11 @@ export class SearchService {
     };
 
     routes = this.apiService.createParams(routes, params);
+    return this.apiService.callApi(routes);
+  }
+
+  getLocation(companyNum) {
+    let routes = `${environment.dropdownEndpoint}?counterpart=${companyNum}`;
     return this.apiService.callApi(routes);
   }
 }

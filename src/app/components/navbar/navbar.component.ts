@@ -1,3 +1,4 @@
+import { ShareService } from './../../services/share.service';
 import { Router,Event, NavigationStart, NavigationEnd } from "@angular/router";
 import { Component, OnInit, Input } from "@angular/core";
 import { HostListener, PLATFORM_ID, Inject } from "@angular/core";
@@ -12,7 +13,8 @@ export class NavbarComponent implements OnInit {
   @Input() title: any;
 
   constructor(
-    @Inject(PLATFORM_ID) public platformId: string
+    @Inject(PLATFORM_ID) public platformId: string,
+    private shareService: ShareService
   ) {
   }
 
@@ -22,6 +24,8 @@ export class NavbarComponent implements OnInit {
   public stretching: boolean = false;
   public fuelsLogo = "assets/icons/fuels-logo.png";
   public fuelsLogoW = "assets/icons/fuels-logo-white.png";
+  companyName: any;
+  userName: any;
 
   @HostListener("window:scroll", [])
   onWindowScroll() {
@@ -38,6 +42,18 @@ export class NavbarComponent implements OnInit {
     }
   }
 
+
+  ngOnInit() {
+    this.companyName = this.shareService.getListCompany()[0].companyCd;
+    this.userName = this.shareService.getUser().userName;
+    this.shareService.clientChosen.subscribe((res) => {
+      if (res) {
+        this.companyName = res.companyCd
+      }
+    });
+  }
+
+  
   scrollTop() {
     window.scroll({
       top: 0,
@@ -53,6 +69,4 @@ export class NavbarComponent implements OnInit {
   hiddenMobileNav() {
     this.stretching = !this.stretching;
   }
-
-  ngOnInit() {}
 }
