@@ -33,10 +33,10 @@ export class HomeService extends BaseService{
     let user_id = localStorage.getItem('USER_ID');
 
     const params = {
-      company_num: environment.COMPANY_NUM,
+      company_num: keyword.company_num,
       trade_num: keyword.trade_num,
-      start_dt: keyword.start_dt,
-      end_dt: keyword.end_dt,
+      // start_dt: keyword.start_dt,
+      // end_dt: keyword.end_dt,
       origin_num: keyword.origin_num,
       ref: keyword.ref,
       platform: environment.PLATFORM_ID,

@@ -55,11 +55,13 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    const companyNum = this.shareService.getFirstCompanyNum();
-    this.getAllPurchase(companyNum);
-    this.getLocationDropdown(companyNum);
-    this.shareService.clientChosen.subscribe((res) => {
+    this.companyNum = this.shareService.getFirstCompanyNum();
+    this.getAllPurchase(this.companyNum);
+    this.getLocationDropdown(this.companyNum);
+    this.shareService.client.subscribe((res) => {
+      console.log('dcm ne')
       if (res) {
+        this.companyNum = res.companyNum;
         this.getAllPurchase(res.companyNum);
       }
     });
@@ -68,16 +70,17 @@ export class HomeComponent implements OnInit {
   searchByKeyword() {
     const keyword = {
       trade_num: this.trade_num,
-      origin_num: this.origin.id.numLocation,
-      start_dt: this.start_dt,
-      end_dt: this.end_dt,
+      origin_num: this.origin ? this.origin.id.numLocation : null,
+      // start_dt: this.start_dt,
+      // end_dt: this.end_dt,
+      company_num: this.companyNum,
       ref: this.ref,
     };
 
     console.log(keyword);
 
     this.homeService.searchByKeyword(keyword).subscribe((res) => {
-      this.result = res;
+      this.listPurchaseItems = res;
     });
   }
 
@@ -94,7 +97,7 @@ export class HomeComponent implements OnInit {
   }
 
   clearForm() {
-    this.searchForm.reset(this.searchForm.value);
+    this.searchForm.reset();
   }
 
   changeBreadcrumb(routes, tradeNumber) {

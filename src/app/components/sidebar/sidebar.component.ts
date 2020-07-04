@@ -15,7 +15,7 @@ export class SidebarComponent implements OnInit {
   constructor(private shareService: ShareService) {}
 
   changeClient(client) {
-    this.shareService.getDataByClient(client);   
+    this.shareService.setClient(client);   
   }
 
   changeBreadcrumb(routes) {
