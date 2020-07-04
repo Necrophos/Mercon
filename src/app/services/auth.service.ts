@@ -5,8 +5,7 @@ import { environment } from "@env/environment";
 @Injectable({
   providedIn: "root",
 })
-export class AuthService {
-  constructor(private apiService: BaseService) {}
+export class AuthService extends BaseService{
 
   public login(username, password) {
     let routes = `${environment.loginEndpoint}?`;
@@ -16,8 +15,7 @@ export class AuthService {
       platform: environment.PLATFORM_ID,
       app_id: environment.APP_ID,
     };
-    routes = this.apiService.createParams(routes, params);
-    return this.apiService.callApi(routes);
+    return this.get(routes, params);
   }
 
   public resetPassword(email, username) {
@@ -27,8 +25,7 @@ export class AuthService {
       user_name: username,
       platform: environment.PLATFORM_ID,
     };
-    routes = this.apiService.createParams(routes, params);
-    return this.apiService.callApi(routes)
+    return this.get(routes, params)
   }
 
   

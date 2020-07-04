@@ -1,4 +1,4 @@
-import { PurchaseService } from "@services/purchase.service";
+import { HomeService } from "@services/home.service";
 import { ActivatedRoute } from "@angular/router";
 import { Component, OnInit } from "@angular/core";
 
@@ -13,7 +13,7 @@ export class DocumentComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private purchaseService: PurchaseService
+    private homeService: HomeService
   ) {}
 
   ngOnInit() {
@@ -29,7 +29,7 @@ export class DocumentComponent implements OnInit {
   }
 
   getDocuments(params) {
-    this.purchaseService.getAllDocument(params).subscribe((res) => {
+    this.homeService.getAllDocument(params).subscribe((res) => {
       console.log(res);
     });
   }

@@ -5,12 +5,10 @@ import { environment } from '@env/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class ReportService {
-
-  constructor(private apiService: BaseService) { }
+export class ReportService extends BaseService{
 
   getAllReports(companyNum) {
     let routes = `${environment.api}/getFilesForClient?company_num=${companyNum}`;
-    return this.apiService.callApi(routes);
+    return this.get(routes);
   }
 }

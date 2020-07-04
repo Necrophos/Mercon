@@ -1,9 +1,8 @@
 import { ShareService } from "./../../services/share.service";
-import { PurchaseService } from "./../../services/purchase.service";
-import { SearchService } from "./../../services/search.service";
 import { AuthService } from "./../../services/auth.service";
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { HomeService } from '@services/home.service';
 
 @Component({
   selector: "app-home",
@@ -14,9 +13,8 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 })
 export class HomeComponent implements OnInit {
   constructor(
-    private searchService: SearchService,
-    private shareService: ShareService,
-    private purchaseService: PurchaseService
+    private homeService: HomeService,
+    private shareService: ShareService
   ) {}
 
   locations: any;
@@ -78,19 +76,19 @@ export class HomeComponent implements OnInit {
 
     console.log(keyword);
 
-    this.searchService.searchByKeyword(keyword).subscribe((res) => {
+    this.homeService.searchByKeyword(keyword).subscribe((res) => {
       this.result = res;
     });
   }
 
   getAllPurchase(companyNum) {
-    this.purchaseService.getAllPurchase(companyNum).subscribe((res) => {
+    this.homeService.getAllPurchase(companyNum).subscribe((res) => {
       this.listPurchaseItems = res;
     });
   }
 
   getLocationDropdown(companyNum) {
-    this.searchService.getLocation(companyNum).subscribe((res) => {
+    this.homeService.getLocation(companyNum).subscribe((res) => {
       this.locations = res;
     });
   }

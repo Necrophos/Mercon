@@ -1,4 +1,4 @@
-import { PurchaseService } from "./../../services/purchase.service";
+import { HomeService } from "../../services/home.service";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 
@@ -12,7 +12,7 @@ export class PurchaseInforComponent implements OnInit {
   purchaseDetail: any;
   constructor(
     private route: ActivatedRoute,
-    private purchaseService: PurchaseService
+    private homeService: HomeService
   ) {}
 
   ngOnInit() {

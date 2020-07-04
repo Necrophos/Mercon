@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { PurchaseService } from "@services/purchase.service";
+import { HomeService } from '@services/home.service';
 
 @Component({
   selector: "app-purchase",
@@ -57,7 +57,7 @@ export class PurchaseComponent implements OnInit {
   purchaseDetail: any;
   constructor(
     private route: ActivatedRoute,
-    private purchaseService: PurchaseService
+    private homeService: HomeService
   ) {}
 
   ngOnInit() {
@@ -68,7 +68,7 @@ export class PurchaseComponent implements OnInit {
   }
 
   getPurchaseDetail(tradeNum) {
-    this.purchaseService.getPurchaseDetail(tradeNum).subscribe((res) => {
+    this.homeService.getPurchaseDetail(tradeNum).subscribe((res) => {
       this.purchaseDetail = res;
       // console.log(this.purchaseDetail);
     });
