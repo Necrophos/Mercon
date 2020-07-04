@@ -18,7 +18,4 @@ export class DashboardService {
     let routes = `${environment.api}/getDashboardSample?company_num=${companyNum}`;
     return this.apiService.callApi(routes);
   }
-
-  
-
 }

@@ -13,6 +13,8 @@ import {
   ApexYAxis,
   ApexGrid,
 } from "ng-apexcharts";
+import { DashboardService } from '@services/dashboard.service';
+import { ShareService } from '@services/share.service';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -35,9 +37,12 @@ export type ChartOptions = {
 export class RatesChartComponent implements OnInit {
   @ViewChild("chart-rate", { static: false }) chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
-  approved = [44, 55, 41, 67, 22, 43, 44, 55, 41, 67, 22, 43];
-  rejected = [56, 45, 59, 33, 78, 57, 56, 45, 59, 33, 78, 57];
+  approved = [];
+  rejected = [];
   month = [
+    "Oct",
+    "Nov",
+    "Dec",
     "Jan",
     "Feb",
     "Mar",
@@ -47,12 +52,15 @@ export class RatesChartComponent implements OnInit {
     "Jul",
     "Aug",
     "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
   ];
+  chartData;
+  crops;
+  types;
+  selectedCrop;
+  selectedType;
+  originData;
 
-  constructor() {
+  constructor(private dashboardService: DashboardService, private shareService: ShareService) {
     this.chartOptions = {
       series: [{
         name: 'Approved',
@@ -124,9 +132,6 @@ export class RatesChartComponent implements OnInit {
         },
     
       },
-    
-    
-    
       yaxis: {
         tickAmount: 5,
         labels: {
@@ -161,5 +166,64 @@ export class RatesChartComponent implements OnInit {
       }],
     };
   }
-  ngOnInit() {}
+  ngOnInit() {
+    this.getRatesChart()
+  }
+
+  getRatesChart() {
+    const companyNum = this.shareService.getFirstCompanyNum();
+    this.dashboardService.getRatesChart(companyNum).subscribe((res) => {
+      this.originData = res;
+      this.getCrop();
+      this.getType();
+      this.chartRender();
+    })
+  }
+
+  getCrop() {
+    this.crops = Array.from(new Set(this.originData.map(a => a.fiscalYear)))
+      .map(fiscalYear => this.originData.find(a => a.fiscalYear === fiscalYear)).map((res, i) => {
+        return {label: res.fiscalYear, value: i}
+      }).filter(data => data.label).sort((a,b) => b.label.localeCompare(a.label))
+      this.selectedCrop = this.crops[0];
+      this.chartData = this.originData.filter(data => data.fiscalYear === this.selectedCrop.label);
+  }
+
+  getType() {
+    this.types = Array.from(new Set(this.originData.map(a => a.type)))
+    .map(type => this.originData.find(a => a.type === type)).map((res, i) => {
+      return {label: res.type, value: i}
+    })
+  }
+
+  chartRender() {
+    this.approved = [];
+    this.rejected = [];
+    const months = Array(12).fill(0).map((x,i)=>i);
+    months.map(month => {
+      if(month <= 8) {
+        const approvedItem = this.chartData.find(data => data.month == month && data.result === "Approved");
+        const rejectedItem = this.chartData.find(data => data.month == month && data.result === "Rejected");
+        approvedItem ? this.approved[months.length / 4 + month] = approvedItem.count : this.approved[months.length / 4 + month] = 0;
+        rejectedItem ? this.rejected[months.length / 4 + month] = rejectedItem.count : this.rejected[months.length / 4 + month] = 0;
+      } else {
+        const approvedItem = this.chartData.find(data => data.month == month && data.result === "Approved");
+        const rejectedItem = this.chartData.find(data => data.month == month && data.result === "Rejected");
+        approvedItem ? this.approved[month - 9] = approvedItem.count : this.approved[month - 9] = 0;
+        rejectedItem ? this.rejected[month - 9] = rejectedItem.count : this.rejected[month - 9] = 0;
+      }
+      this.chartOptions.series = [{
+        name: 'Approved',
+        data: this.approved
+      }, {
+        name: 'Reject',
+        data: this.rejected
+      }]
+    })
+  }
+
+  onSelectChange() {
+    this.chartData = this.originData.filter(data => data.fiscalYear === this.selectedCrop.label && (this.selectedType ? data.type === this.selectedType.label : true));
+    this.chartRender();
+  }
 }
