@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from "@angular/core";
 import {
   ApexChart,
   ApexAxisChartSeries,
@@ -6,8 +6,11 @@ import {
   ApexDataLabels,
   ApexPlotOptions,
   ApexLegend,
-  ApexGrid
+  ApexGrid,
 } from "ng-apexcharts";
+import { DashboardService } from "@services/dashboard.service";
+import { ShareService } from "@services/share.service";
+import { Subscription } from "rxjs";
 
 type ApexXAxis = {
   type?: "category" | "datetime" | "numeric";
@@ -40,79 +43,131 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-target-bags-chart',
-  templateUrl: './target-bags-chart.component.html',
-  styleUrls: ['./target-bags-chart.component.scss']
+  selector: "app-target-bags-chart",
+  templateUrl: "./target-bags-chart.component.html",
+  styleUrls: ["./target-bags-chart.component.scss"],
 })
 export class TargetBagsChartComponent implements OnInit {
-  @ViewChild("chart", {static: false}) chart: ChartComponent;
+  @ViewChild("chart", { static: false }) chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
+  originData;
+  crops;
+  selectedCrop;
+  chartData;
+  renderData =[];
+  subVars: Subscription;
 
-  constructor() {
+  constructor(
+    private dashboardService: DashboardService,
+    private shareService: ShareService
+  ) {
     this.chartOptions = {
       series: [
         {
           name: "series-1",
-          data: [21, 85]
-        }
+          data: this.renderData,
+        },
       ],
       chart: {
         height: 450,
         type: "bar",
         events: {
-          click: function(chart, w, e) {
+          click: function (chart, w, e) {
             // console.log(chart, w, e)
-          }
+          },
         },
         toolbar: {
-          show: false
-        }
+          show: false,
+        },
       },
-      colors: [
-        "#008FFB",
-        "rgba(244, 144, 14, 0.85)"
-      ],
+      colors: ["#008FFB", "rgba(244, 144, 14, 0.85)"],
       plotOptions: {
         bar: {
           columnWidth: "45%",
-          distributed: true
-        }
+          distributed: true,
+        },
       },
       dataLabels: {
-        enabled: false
+        enabled: false,
       },
       legend: {
-        show: false
+        show: false,
       },
       grid: {
-        show: false
+        show: false,
       },
       xaxis: {
-        categories: [
-          ["Target"],
-          ["Total Sales"]
-        ],
+        categories: [["Total Target"], ["Total Sales"]],
         labels: {
           style: {
-            colors: [
-              "#000",
-              "#000"
-            ],
-            fontSize: "13px"
-          }
-        }
+            colors: ["#000", "#000"],
+            fontSize: "13px",
+          },
+        },
       },
       yaxis: {
         labels: {
           style: {
-            fontSize: "13px"
-          }
-        }
-      }
+            fontSize: "13px",
+          },
+        },
+      },
     };
   }
 
   ngOnInit() {
+    const companyNum = this.shareService.getCompany;
+    this.getTargetChart(companyNum);
+    this.subVars = this.shareService.client.subscribe((client) => {
+      if (client) {
+        this.getTargetChart(client.companyNum);
+      }
+    });
   }
 
+  getCrop() {
+    this.crops = Array.from(new Set(this.originData.map((a) => a.fiscalYear)))
+      .map((fiscalYear) =>
+        this.originData.find((a) => a.fiscalYear === fiscalYear)
+      )
+      .map((res, i) => {
+        return { label: res.fiscalYear, value: i };
+      })
+      .filter((data) => data.label)
+      .sort((a, b) => b.label.localeCompare(a.label));
+    this.selectedCrop = this.crops[0];
+    this.chartData = this.originData.filter(
+      (data) => data.fiscalYear === this.selectedCrop.label
+    );
+  }
+
+  getTargetChart(companyNum) {
+    this.dashboardService.getTargetBagsChart(companyNum).subscribe((res) => {
+      this.originData = res;
+      this.getCrop();
+      this.chartRender();
+    });
+  }
+
+  chartRender() {
+    this.renderData = Object.values(this.chartData[0])
+    this.renderData.pop();
+    this.chartOptions.series = [{
+      name: "series-1",
+      data: this.renderData
+    }]
+  }
+
+  onSelectChange() {
+    this.chartData = this.originData.filter(
+      (data) => data.fiscalYear === this.selectedCrop.label
+    );
+    this.chartRender();
+  }
+
+  ngOnDestroy() {
+    if (this.subVars) {
+      this.subVars.unsubscribe();
+    }
+  }
 }

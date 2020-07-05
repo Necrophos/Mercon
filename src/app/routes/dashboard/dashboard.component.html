@@ -3,23 +3,7 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-4 col-md-12 mb-3">
-          <div class="box">
-            <div class="form-group container p-0 m-0">
-              <div class="row">
-                <div class="col-5">
-                  <label class="marcon-label">Target bags</label>
-                </div>
-                <div class="col-7">
-                  <ng-select [items]="cities" bindLabel="name" bindValue="id" [(ngModel)]="selectedCityId"
-                    name="select">
-                  </ng-select>
-                </div>
-                <div class="col-12">
-                  <app-target-bags-chart></app-target-bags-chart>
-                </div>
-              </div>
-            </div>
-          </div>
+          <app-target-bags-chart></app-target-bags-chart>
         </div>
         <div class="col-lg-8 col-md-12">
           <app-rates-chart></app-rates-chart>
