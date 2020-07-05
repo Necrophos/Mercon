@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BaseService } from "./base.service";
 import { environment } from "@env/environment";
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: "root",
@@ -15,7 +16,17 @@ export class AuthService extends BaseService{
       platform: environment.PLATFORM_ID,
       app_id: environment.APP_ID,
     };
-    return this.get(routes, params);
+    return this.get(routes, params).pipe(
+      map(res => {
+        console.log(res)
+        if (res.status) {
+           this.companyNum = res.user.internalCompanies[0].companyNum;
+           console.log(this.companyNum)
+           localStorage.setItem('USER', JSON.stringify(res.user));
+        }
+        return res;
+     })
+    );
   }
 
   public resetPassword(email, username) {

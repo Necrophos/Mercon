@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
 
 import {
   ApexAxisChartSeries,
@@ -15,6 +15,7 @@ import {
 } from "ng-apexcharts";
 import { DashboardService } from '@services/dashboard.service';
 import { ShareService } from '@services/share.service';
+import { Subscription } from 'rxjs';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -34,7 +35,7 @@ export type ChartOptions = {
   templateUrl: "./rates-chart.component.html",
   styleUrls: ["./rates-chart.component.scss"],
 })
-export class RatesChartComponent implements OnInit {
+export class RatesChartComponent implements OnInit, OnDestroy {
   @ViewChild("chart-rate", { static: false }) chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
   approved = [];
@@ -59,6 +60,7 @@ export class RatesChartComponent implements OnInit {
   selectedCrop;
   selectedType;
   originData;
+  subVars: Subscription;
 
   constructor(private dashboardService: DashboardService, private shareService: ShareService) {
     this.chartOptions = {
@@ -167,17 +169,29 @@ export class RatesChartComponent implements OnInit {
     };
   }
   ngOnInit() {
-    this.getRatesChart()
+    const companyNum = this.shareService.getCompany;
+
+    this.getRatesChart(companyNum);
+    this.subVars = this.shareService.client.subscribe(client => {
+      if(client) {
+        this.getRatesChart(client.companyNum);
+      }
+    })
   }
 
-  getRatesChart() {
-    const companyNum = this.shareService.getFirstCompanyNum();
+  getRatesChart(companyNum) {
     this.dashboardService.getRatesChart(companyNum).subscribe((res) => {
       this.originData = res;
       this.getCrop();
       this.getType();
       this.chartRender();
     })
+  }
+
+  ngOnDestroy() {
+    if (this.subVars) {
+      this.subVars.unsubscribe()
+    }
   }
 
   getCrop() {

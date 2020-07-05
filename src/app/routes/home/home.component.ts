@@ -1,8 +1,9 @@
 import { ShareService } from "./../../services/share.service";
 import { AuthService } from "./../../services/auth.service";
-import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { HomeService } from '@services/home.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: "app-home",
@@ -11,7 +12,7 @@ import { HomeService } from '@services/home.service';
   encapsulation: ViewEncapsulation.None,
   providers: [AuthService],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private homeService: HomeService,
     private shareService: ShareService
@@ -31,7 +32,7 @@ export class HomeComponent implements OnInit {
   result: any;
   listPurchaseItems: any;
   companyNum: any;
-
+  subVars: Subscription;
   page: number = 1;
 
   get trade_num() {
@@ -55,16 +56,22 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.companyNum = this.shareService.getFirstCompanyNum();
+    this.companyNum = this.shareService.getCompany;
     this.getAllPurchase(this.companyNum);
     this.getLocationDropdown(this.companyNum);
-    this.shareService.client.subscribe((res) => {
-      console.log('dcm ne')
+    this.subVars = this.shareService.client.subscribe((res) => {
       if (res) {
-        this.companyNum = res.companyNum;
+        this.listPurchaseItems = [];
         this.getAllPurchase(res.companyNum);
+        this.getLocationDropdown(res.companyNum);
       }
     });
+  }
+
+  ngOnDestroy() {
+    if (this.subVars) {
+      this.subVars.unsubscribe()
+    }
   }
 
   searchByKeyword() {
@@ -76,8 +83,6 @@ export class HomeComponent implements OnInit {
       company_num: this.companyNum,
       ref: this.ref,
     };
-
-    console.log(keyword);
 
     this.homeService.searchByKeyword(keyword).subscribe((res) => {
       this.listPurchaseItems = res;
