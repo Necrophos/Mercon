@@ -1,19 +1,20 @@
 import { Injectable, EventEmitter } from "@angular/core";
+import { BaseService } from './base.service';
 
 @Injectable({
   providedIn: "root",
 })
-export class ShareService {
-  constructor() {}
+export class ShareService extends BaseService {
+  
   user = localStorage.getItem("USER");
   objUser = JSON.parse(this.user);
-
-  clientChosen: EventEmitter<any> = new EventEmitter();
+  client: EventEmitter<any> = new EventEmitter();
   breadcrumbChange: EventEmitter<any> = new EventEmitter();
   tradeNumber: EventEmitter<any> = new EventEmitter();
 
-  getDataByClient(event) {
-    this.clientChosen.emit(event); 
+  
+  setClient(client) {
+    this.client.emit(client); 
   }
 
   getBreadcrumb(event) {

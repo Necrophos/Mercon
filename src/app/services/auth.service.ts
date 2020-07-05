@@ -1,12 +1,12 @@
 import { Injectable } from "@angular/core";
 import { BaseService } from "./base.service";
 import { environment } from "@env/environment";
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: "root",
 })
-export class AuthService {
-  constructor(private apiService: BaseService) {}
+export class AuthService extends BaseService{
 
   public login(username, password) {
     let routes = `${environment.loginEndpoint}?`;
@@ -16,8 +16,17 @@ export class AuthService {
       platform: environment.PLATFORM_ID,
       app_id: environment.APP_ID,
     };
-    routes = this.apiService.createParams(routes, params);
-    return this.apiService.callApi(routes);
+    return this.get(routes, params).pipe(
+      map(res => {
+        console.log(res)
+        if (res.status) {
+           this.companyNum = res.user.internalCompanies[0].companyNum;
+           console.log(this.companyNum)
+           localStorage.setItem('USER', JSON.stringify(res.user));
+        }
+        return res;
+     })
+    );
   }
 
   public resetPassword(email, username) {
@@ -27,8 +36,7 @@ export class AuthService {
       user_name: username,
       platform: environment.PLATFORM_ID,
     };
-    routes = this.apiService.createParams(routes, params);
-    return this.apiService.callApi(routes)
+    return this.get(routes, params)
   }
 
   

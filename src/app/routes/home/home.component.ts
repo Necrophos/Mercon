@@ -1,9 +1,9 @@
 import { ShareService } from "./../../services/share.service";
-import { PurchaseService } from "./../../services/purchase.service";
-import { SearchService } from "./../../services/search.service";
 import { AuthService } from "./../../services/auth.service";
-import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { HomeService } from '@services/home.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: "app-home",
@@ -12,11 +12,10 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
   encapsulation: ViewEncapsulation.None,
   providers: [AuthService],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   constructor(
-    private searchService: SearchService,
-    private shareService: ShareService,
-    private purchaseService: PurchaseService
+    private homeService: HomeService,
+    private shareService: ShareService
   ) {}
 
   locations: any;
@@ -33,7 +32,7 @@ export class HomeComponent implements OnInit {
   result: any;
   listPurchaseItems: any;
   companyNum: any;
-
+  subVars: Subscription;
   page: number = 1;
 
   get trade_num() {
@@ -57,46 +56,53 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    const companyNum = this.shareService.getFirstCompanyNum();
-    this.getAllPurchase(companyNum);
-    this.getLocationDropdown(companyNum);
-    this.shareService.clientChosen.subscribe((res) => {
+    this.companyNum = this.shareService.getCompany;
+    this.getAllPurchase(this.companyNum);
+    this.getLocationDropdown(this.companyNum);
+    this.subVars = this.shareService.client.subscribe((res) => {
       if (res) {
+        this.listPurchaseItems = [];
         this.getAllPurchase(res.companyNum);
+        this.getLocationDropdown(res.companyNum);
       }
     });
+  }
+
+  ngOnDestroy() {
+    if (this.subVars) {
+      this.subVars.unsubscribe()
+    }
   }
 
   searchByKeyword() {
     const keyword = {
       trade_num: this.trade_num,
-      origin_num: this.origin.id.numLocation,
-      start_dt: this.start_dt,
-      end_dt: this.end_dt,
+      origin_num: this.origin ? this.origin.id.numLocation : null,
+      // start_dt: this.start_dt,
+      // end_dt: this.end_dt,
+      company_num: this.companyNum,
       ref: this.ref,
     };
 
-    console.log(keyword);
-
-    this.searchService.searchByKeyword(keyword).subscribe((res) => {
-      this.result = res;
+    this.homeService.searchByKeyword(keyword).subscribe((res) => {
+      this.listPurchaseItems = res;
     });
   }
 
   getAllPurchase(companyNum) {
-    this.purchaseService.getAllPurchase(companyNum).subscribe((res) => {
+    this.homeService.getAllPurchase(companyNum).subscribe((res) => {
       this.listPurchaseItems = res;
     });
   }
 
   getLocationDropdown(companyNum) {
-    this.searchService.getLocation(companyNum).subscribe((res) => {
+    this.homeService.getLocation(companyNum).subscribe((res) => {
       this.locations = res;
     });
   }
 
   clearForm() {
-    this.searchForm.reset(this.searchForm.value);
+    this.searchForm.reset();
   }
 
   changeBreadcrumb(routes, tradeNumber) {

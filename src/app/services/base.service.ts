@@ -14,10 +14,13 @@ export interface CustomResponse {
 })
 export class BaseService {
   protected configs;
+
   constructor(private http: HttpClient) {}
 
-
-  callApi(apiEndpoint) {
+  get(apiEndpoint, param?) {
+    if(param) {
+      apiEndpoint = this.createParams(apiEndpoint, param);
+    }
     return this.http
       .get<CustomResponse>(apiEndpoint)
       .pipe(
@@ -26,6 +29,12 @@ export class BaseService {
       );
   }
 
+  post(url, data) {
+    return this.http.post(url, data).pipe(
+            map((response) => response),
+            catchError(this.handleError)
+          );
+  }
   protected handleError(error: any) {
     console.log(error);
     return throwError(error);
@@ -39,4 +48,13 @@ export class BaseService {
     });
     return (routes = routes.substring(0, routes.length - 1));
   }
+
+  get getCompany(): any {
+    return localStorage ? localStorage.getItem('company') || '' : '';
+  }
+
+  set companyNum(company) {
+    localStorage ? localStorage.setItem('company', company) : null;
+  }
+
 }

@@ -9,51 +9,57 @@
 @import "~@ng-select/ng-select/themes/default.theme.css";
 
 .marcon-pagination {
-    .ngx-pagination {
-        .current {
-            background: #a3cf60;
-            border: 1px solid #a3cf60;
-            color: white;
-            padding: 7px 15px;
-            margin: 5px;
-            border-radius: 4px;
-        }
-
-        a {
-            color: #6d6e70;
-            display: unset;
-            padding: 9px 15px;
-            margin: 5px;
-            border-radius: 4px;
-            border: 1px solid #dee2e6;
-
-            &:hover {
-                transition-duration: 0.3s;
-                background: #e9ecef;
-                text-decoration: none;
-            }
-        }
+  .ngx-pagination {
+    .current {
+      background: #a3cf60;
+      border: 1px solid #a3cf60;
+      color: white;
+      padding: 7px 15px;
+      margin: 5px;
+      border-radius: 4px;
     }
 
-    .ngx-pagination .pagination-next a::after,
-    .ngx-pagination .pagination-next.disabled::after {
-        content: "\203A";
-        font-size: 30px;
-        position: relative;
-        top: 4px;
-        margin: 0;
-    }
+    a {
+      color: #6d6e70;
+      display: unset;
+      padding: 9px 15px;
+      margin: 5px;
+      border-radius: 4px;
+      border: 1px solid #dee2e6;
 
-    .ngx-pagination .pagination-previous a::before,
-    .ngx-pagination .pagination-previous.disabled::before {
-        content: "\2039";
-        font-size: 30px;
-        position: relative;
-        top: 4px;
-        margin: 0;
+      &:hover {
+        transition-duration: 0.3s;
+        background: #e9ecef;
+        text-decoration: none;
+      }
     }
+  }
+
+  .ngx-pagination .pagination-next a::after,
+  .ngx-pagination .pagination-next.disabled::after {
+    content: "\203A";
+    font-size: 30px;
+    position: relative;
+    top: 4px;
+    margin: 0;
+  }
+
+  .ngx-pagination .pagination-previous a::before,
+  .ngx-pagination .pagination-previous.disabled::before {
+    content: "\2039";
+    font-size: 30px;
+    position: relative;
+    top: 4px;
+    margin: 0;
+  }
 }
 
-ng-select .ng-clear-wrapper {
+ng-select {
+  .ng-clear-wrapper {
     display: none !important;
+  }
+
+  .ng-input input {
+    height: 100% !important;
+  }
 }

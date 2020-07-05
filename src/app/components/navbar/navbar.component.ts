@@ -50,7 +50,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     this.companyName = this.shareService.getListCompany()[0].companyCd;
     this.userName = this.shareService.getUser().userName;
-    this.shareService.clientChosen.subscribe((res) => {
+    this.shareService.client.subscribe((res) => {
       if (res) {
         this.companyName = res.companyCd
       }
