@@ -3,8 +3,7 @@ import { ShareService } from "@services/share.service";
 import { ChatService } from "./../../services/chat.service";
 import { Component, OnInit, EventEmitter } from "@angular/core";
 import { Subscription } from "rxjs";
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { stringify } from 'querystring';
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 @Component({
   selector: "app-chat",
@@ -20,16 +19,15 @@ export class ChatComponent implements OnInit {
   groupChat;
   chatter: EventEmitter<any> = new EventEmitter();
   subVars: Subscription;
-
-  connection;
   messageReceived;
+  messageToDisplay;
 
   messageForm = new FormGroup({
-    messageToSend: new FormControl("", [Validators.required]),
+    messageRaw: new FormControl("", [Validators.required]),
   });
 
-  get messageToSend() {
-    return this.messageForm.value.messageToSend;
+  get messageRaw() {
+    return this.messageForm.value.messageRaw;
   }
 
   ngOnInit() {
@@ -37,14 +35,13 @@ export class ChatComponent implements OnInit {
     this.getGroupChat(userId);
 
     setTimeout(() => {
-      this.chatInit(userId, this.groupChat.groupId);
-    }, 3000);
+     this.messageReceived = this.chatService.chatInit(userId, this.groupChat.groupId);
+    }, 2000);
 
     this.subVars = this.chatter.subscribe((res) => {
       if (res) {
         this.groupChat = res;
-        this.connection.close();
-        this.chatInit(userId, this.groupChat.groupId);
+        this.chatService.closeWebsocket();
       }
     });
   }
@@ -55,50 +52,14 @@ export class ChatComponent implements OnInit {
     }
   }
 
-  chatInit(userId, groupId) {
-    const that = this;
-    this.connection = new WebSocket(
-      `${environment.WEB_SOCKET_LINK}/${userId}/38/${groupId}`
-    );
-    this.connection.onopen = function (event) {
-      const pendingParams = {
-        type: 'getPendingMessages',
-        sender_id: userId
-      }
-      that.connection.send(JSON.stringify(pendingParams)) 
-      
-      console.log("Connection established!");
-      const those = that;
-      that.connection.onmessage = function (e) {
-        console.log(e);
-        
-        // const data = JSON.parse(e.data)
-        // let message = those.chatService.decrypted(those.groupChat.password, data.data, )
-        // console.log(message);
-      };
-    };
-  }
-
-  sendMessage = (groupContent) => {
+  sendMessage() {
+    const messageEncrypted = this.chatService.encrypt(this.groupChat.password, this.messageRaw);
     const userId = this.shareService.getUserId();
-    let encryptMessage = this.chatService.encrypt(groupContent.password, this.messageToSend);
-    const message = {
-      type: "text",
-      data: encryptMessage,
-      sender_id: userId,
-      group_id: groupContent.groupId,
-      check_id: "123",
-    };
-    console.log(message);
-    this.connection.send(JSON.stringify(message));
-  };
-
-  encryptMessage(key, message) {
-    return this.chatService.encrypt(key, message);
+    this.chatService.sendMessage(userId, this.groupChat.groupId, messageEncrypted);
   }
 
-  decryptMessage(key, message) {
-    return this.chatService.decrypted(key, message);
+  messageDecrypted() {
+   return this.messageToDisplay = this.chatService.decrypted(this.groupChat.password, this.messageReceived)
   }
 
   setClient(client) {

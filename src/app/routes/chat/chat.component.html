@@ -62,8 +62,8 @@
               top: 10px;" class="fal fa-paperclip"></i>
                 <input type="file">
               </div>
-              <input formControlName="messageToSend" type="text" placeholder="Type your message..." />
-              <button (click)="sendMessage(groupChat)"><i class="fal fa-paper-plane"></i></button>
+              <input formControlName="messageRaw" type="text" placeholder="Type your message..." />
+              <button (click)="sendMessage()"><i class="fal fa-paper-plane"></i></button>
             </div>
           </form>
         </div>
