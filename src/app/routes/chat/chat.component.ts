@@ -59,7 +59,7 @@ export class ChatComponent implements OnInit {
   }
 
   messageDecrypted() {
-   return this.messageToDisplay = this.chatService.decrypted(this.groupChat.password, this.messageReceived)
+   this.messageToDisplay = this.chatService.decrypted(this.groupChat.password, this.messageReceived)
   }
 
   setClient(client) {
