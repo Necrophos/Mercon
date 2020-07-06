@@ -4,6 +4,7 @@ import { ChatService } from "./../../services/chat.service";
 import { Component, OnInit, EventEmitter } from "@angular/core";
 import { Subscription } from "rxjs";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { share } from 'rxjs/operators';
 
 @Component({
   selector: "app-chat",
@@ -32,16 +33,14 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     const userId = this.shareService.getUserId();
-    this.getGroupChat(userId);
-
-    setTimeout(() => {
-     this.messageReceived = this.chatService.chatInit(userId, this.groupChat.groupId);
-    }, 2000);
-
+    this.getGroupChat(userId).subscribe((res) => {
+      this.chatService.chatInit(userId, this.groupChat.groupId);
+    });
     this.subVars = this.chatter.subscribe((res) => {
       if (res) {
         this.groupChat = res;
         this.chatService.closeWebsocket();
+        this.chatService.chatInit(userId, this.groupChat.groupId);
       }
     });
   }
@@ -71,9 +70,11 @@ export class ChatComponent implements OnInit {
   }
 
   getGroupChat(userId) {
-    this.chatService.getGroupChat(userId).subscribe((res) => {
+    const call = this.chatService.getGroupChat(userId).pipe(share());
+    call.subscribe((res) => {
       this.listGroup = res;
       this.groupChat = res[0];
     });
+    return call;
   }
 }
