@@ -15,29 +15,13 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>MEDU 667728 </td>
-                <td>25697113</td>
-                <td>25697113</td>
-                <td>MEDU 667728 </td>
-                <td>25697113</td>
-                <td>25697113</td>
-              </tr>
-              <tr>
-                <td>MEDU 667728 </td>
-                <td>25697113</td>
-                <td>25697113</td>
-                <td>MEDU 667728 </td>
-                <td>25697113</td>
-                <td>25697113</td>
-              </tr>
-              <tr>
-                <td>MEDU 667728 </td>
-                <td>25697113</td>
-                <td>25697113</td>
-                <td>MEDU 667728 </td>
-                <td>25697113</td>
-                <td>25697113</td>
+              <tr *ngFor="let container of containers">
+                <td>{{container?.container}}</td>
+                <td> {{container?.ico}}</td>
+                <td> {{container?.warehouseID}}</td>
+                <td> {{container?.warehouse_id_date}}</td>
+                <td> {{container?.uom}}</td>
+                <td> {{container?.bags}}</td>
               </tr>
               <tr class="last">
                 <td></td>
@@ -45,7 +29,9 @@
                 <td></td>
                 <td></td>
                 <td align="right" class="font-weight-semibold">Total Bags </td>
-                <td class="font-weight-semibold">1234</td>
+                <td class="font-weight-semibold">
+                  {{sumBags}}
+                </td>
               </tr>
             </tbody>
           </table>

@@ -9,33 +9,10 @@ import { Component, OnInit } from '@angular/core';
   providers:[DashboardService]
 })
 export class DashboardComponent implements OnInit {
-  cities = [
-    { id: 1, name: "Vilnius" },
-    { id: 2, name: "Kaunas" },
-    { id: 3, name: "Pavilnys" },
-  ];
-  selectedCityId: number = null;
-  constructor(private dashboardService: DashboardService, private shareService: ShareService) { }
 
-  getTargetBagsChart(companyNum) {
-    this.dashboardService.getTargetBagsChart(companyNum).subscribe((res) => {
-      // console.log(res);
-      
-    })
-  }
-
-  getRatesChart(companyNum) {
-    this.dashboardService.getRatesChart(companyNum).subscribe((res) => {
-      // console.log(res);
-      
-    })
-  }
+  constructor() { }
 
   ngOnInit() {
-    this.selectedCityId = this.cities[0].id;
-    const companyNum = this.shareService.getFirstCompanyNum();
-    this.getTargetBagsChart(companyNum);
-
   }
 
 }

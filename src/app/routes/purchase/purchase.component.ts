@@ -25,7 +25,7 @@ export class PurchaseComponent implements OnInit {
 
   getPurchaseDetail(tradeNum) {
     this.homeService.getPurchaseDetail(tradeNum).subscribe((res) => {
-      this.purchaseDetail = res;
+      this.purchaseDetail = res;   
     });
   }
 }

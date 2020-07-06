@@ -11,7 +11,7 @@
         <app-tab-shipment *ngIf="shipmentData" [tradeNumber]="tradeNumber" [shipment]="shipmentData"></app-tab-shipment>
       </tab>
       <tab title="Container">
-        <app-tab-container></app-tab-container>
+        <app-tab-container *ngIf="containerData" [containers]= "containerData"></app-tab-container>
       </tab>
     </tabset>
   </div>
