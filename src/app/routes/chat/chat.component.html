@@ -28,7 +28,7 @@
           <header>
             <img src="assets/images/avatar.png" alt="" />
             <div class="info">
-              <span  class="user">
+              <span class="user">
                 {{chatContent?.groupName}}
               </span>
               <span class="time">Account Manager</span>
@@ -52,18 +52,20 @@
               </div>
               <div class="time">now</div>
             </div>
-            
+
           </div>
+          <form [formGroup]="messageForm">
           <div class="message-footer">
-            <div class="sendfile">
-              <i style="font-size: 20px;
+              <div class="sendfile">
+                <i style="font-size: 20px;
               position: relative;
               top: 10px;" class="fal fa-paperclip"></i>
-              <input type="file">
+                <input type="file">
+              </div>
+              <input formControlName="messageToSend" type="text" placeholder="Type your message..." />
+              <button (click)="sendMessage(groupChat)"><i class="fal fa-paper-plane"></i></button>
             </div>
-            <input type="text" placeholder="Type your message..." />
-            <button><i class="fal fa-paper-plane"></i></button>
-          </div>
+          </form>
         </div>
 
       </div>
