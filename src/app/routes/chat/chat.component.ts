@@ -2,9 +2,9 @@ import { environment } from "@env/environment";
 import { ShareService } from "@services/share.service";
 import { ChatService } from "./../../services/chat.service";
 import { Component, OnInit, EventEmitter } from "@angular/core";
-import { Subscription } from "rxjs";
+import { Subscription, Subject } from "rxjs";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { share } from 'rxjs/operators';
+import { share, takeUntil } from "rxjs/operators";
 
 @Component({
   selector: "app-chat",
@@ -20,6 +20,7 @@ export class ChatComponent implements OnInit {
   groupChat;
   chatter: EventEmitter<any> = new EventEmitter();
   subVars: Subscription;
+  onDestroy$ = new Subject();
   messageReceived;
   messageToDisplay;
 
@@ -33,32 +34,62 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     const userId = this.shareService.getUserId();
-    this.getGroupChat(userId).subscribe((res) => {
-      this.chatService.chatInit(userId, this.groupChat.groupId);
+    this.getGroupChat(userId).subscribe(async () => {
+      this.messageReceived = await this.chatService.chatInit(
+        userId,
+        this.groupChat.groupId
+      );
+      this.chatService.onComingMessage$
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe((message: any) => {
+          const objMessage = JSON.parse(message);
+          // this.messageToDisplay = this.messageDecrypted(objMessage.data);
+          // console.log(this.messageToDisplay);
+          console.log(objMessage);
+          // console.log(objMessage.data);
+          
+          
+        });
     });
+
     this.subVars = this.chatter.subscribe((res) => {
+      this.chatService.closeWebsocket();
       if (res) {
         this.groupChat = res;
-        this.chatService.closeWebsocket();
+     console.log(this.messageDecrypted('mfvU6rwobFAjh+Jz866oVg=='))
+         
         this.chatService.chatInit(userId, this.groupChat.groupId);
       }
     });
+
+   
   }
 
   ngOnDestroy() {
+    this.onDestroy$.next(true);
     if (this.subVars) {
       this.subVars.unsubscribe();
     }
   }
 
   sendMessage() {
-    const messageEncrypted = this.chatService.encrypt(this.groupChat.password, this.messageRaw);
+    const messageEncrypted = this.chatService.encrypt(
+      this.groupChat.password,
+      this.messageRaw
+    );
     const userId = this.shareService.getUserId();
-    this.chatService.sendMessage(userId, this.groupChat.groupId, messageEncrypted);
+    this.chatService.sendMessage(
+      userId,
+      this.groupChat.groupId,
+      messageEncrypted
+    );
   }
 
-  messageDecrypted() {
-   this.messageToDisplay = this.chatService.decrypted(this.groupChat.password, this.messageReceived)
+  messageDecrypted(message) {
+    return this.chatService.decrypted(
+      this.groupChat.password,
+      message
+    );
   }
 
   setClient(client) {

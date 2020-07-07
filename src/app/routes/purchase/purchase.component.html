@@ -5,9 +5,53 @@
     </nav>
     <div class="container">
       <div class="links">
-        <a  class="m-0" href="">PSS Information</a>
+        <a class="m-0" href="">PSS Information</a>
       </div>
-      <app-general *ngIf="purchaseDetail" [tradeNumber]="tradeNumber" [data]="purchaseDetail"></app-general>
+      <div class="box mt-4">
+        <div class="mb-3 font-weight-semibold">Going</div>
+        <div class="table-responsive">
+          <table id="example" class="table table-custom mb-0">
+            <thead>
+              <tr>
+                <th width="35%">BL Number </th>
+                <th width="35%">Vessel</th>
+                <th width="5%">Bags</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr [routerLink]="['/admin/purchase',tradeNumber, (item?.blNumber == null ? '' : item?.blNumber)]"
+                routerLinkActive="router-link-active" *ngFor="let item of shipmentInfoList">
+                <td>
+                  {{item?.blNumber}}
+                </td>
+                <td>
+                  {{item?.vessel}}
+                </td>
+                <td>
+                  {{item?.totalBags}}
+                </td>
+                <td>
+                  <div class="status " [class.status-apr]="item?.status == 'Approved'"
+                    [class.status-pending]="item?.status == 'Pending to be shipped'"
+                    [class.status-going]="item?.status == 'Afloat'">
+                    {{item?.status}} <span *ngIf="item?.status == 'Going'" class="note">{{item?.note}}</span>
+                  </div>
+                </td>
+              </tr>
+
+              <tr class="last">
+                <td></td>
+                <td align="right" class="font-weight-semibold">Total Bags </td>
+                <td class="font-weight-semibold">
+                  {{totalBags}}
+                </td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -26,6 +26,10 @@ const routes: Routes = [
                 path: 'purchase',
                 loadChildren: () => import('@routes/purchase/purchase.module').then(mod => mod.PurchaseModule)
             },
+            // {
+            //     path: 'general',
+            //     loadChildren: () => import('@routes/general/general.module').then(mod => mod.GeneralModule)
+            // },
             {
                 path: 'document',
                 loadChildren: () => import('@components/document/document.module').then(mod => mod.DocumentModule)

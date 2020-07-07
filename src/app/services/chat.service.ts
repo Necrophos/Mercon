@@ -2,6 +2,7 @@ import { BaseService } from "./base.service";
 import { Injectable } from "@angular/core";
 import { environment } from "@env/environment";
 import * as CryptoJS from "crypto-js";
+import { Subject } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -9,6 +10,7 @@ import * as CryptoJS from "crypto-js";
 export class ChatService extends BaseService {
   connection;
 
+  onComingMessage$ = new Subject();
   getGroupChat(userId) {
     let routes = `${environment.chatEndpoint}/getUserGroupsByApp?`;
     const params = {
@@ -18,26 +20,34 @@ export class ChatService extends BaseService {
     return this.get(routes, params);
   }
 
-  chatInit(userId, groupId) {
-    const that = this;
-    let messageReceived;
-    this.connection = new WebSocket(
-      `${environment.WEB_SOCKET_LINK}/${userId}/${environment.APP_ID}/${groupId}`
-    );
-    this.connection.onopen = function (event) {
-      const requestPendingMessage = {
-        type: "getPendingMessages",
-        sender_id: userId,
+  chatInit = (userId, groupId) => {
+    new Promise((res, rej) => {
+      const that = this;
+      let messageReceived;
+      this.connection = new WebSocket(
+        `${environment.WEB_SOCKET_LINK}/${userId}/${environment.APP_ID}/${groupId}`
+      );
+      this.connection.onopen = async (event) => {
+        const requestPendingMessage = {
+          type: "getPendingMessages",
+          sender_id: userId,
+        };
+        const clearBadge = {
+          type: "clearBadge",
+          sender_id: userId,
+        };
+        console.log("Connection established!");
+        // that.connection.send(JSON.stringify(requestPendingMessage));
+        that.connection.send(JSON.stringify(clearBadge)); 
       };
-      that.connection.send(JSON.stringify(requestPendingMessage));
-      console.log("Connection established!");
-      that.connection.onmessage = function (event) {
+
+      that.connection.onmessage = (event) => {
         messageReceived = event.data;
-        console.log(messageReceived);
+        res();
+        this.onComingMessage$.next(messageReceived);
       };
-    };
-   
-  }
+    });
+  };
 
   sendMessage(userId, groupId, messageToSend) {
     const message = {

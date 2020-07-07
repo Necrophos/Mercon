@@ -1,18 +1,28 @@
-<div class="tabs">
-  <div class="tab-content mt-4" id="nav-tabContent">
-    <tabset [pills]="true">
-      <tab title="General">
-        <!-- <span *tabHeading>
-                <b style="color: deepskyblue">About</b> <i style="color: deeppink">me</i>
-              </span> -->
-        <app-tab-general *ngIf="generalData" [general]="generalData"></app-tab-general>
-      </tab>
-      <tab title="Shipment">
-        <app-tab-shipment *ngIf="shipmentData" [tradeNumber]="tradeNumber" [shipment]="shipmentData"></app-tab-shipment>
-      </tab>
-      <tab title="Container">
-        <app-tab-container *ngIf="containerData" [containers]= "containerData"></app-tab-container>
-      </tab>
-    </tabset>
+<div class="d-flex" id="wrapper">
+  <div id="page-content-wrapper">
+    <nav class="navbar navbar-expand-lg barmobile">
+      <button id="menu-toggle"><i data-feather="menu"></i></button>
+    </nav>
+    <div class="container">
+      <div class="links">
+        <a class="m-0" href="">PSS Information</a>
+      </div>
+      <div class="tabs">
+        <div class="tab-content mt-4" id="nav-tabContent">
+          <tabset [pills]="true">
+            <tab title="General">
+              <app-tab-general *ngIf="generalData" [general]="generalData" [notes]="notes"></app-tab-general>
+            </tab>
+            <tab title="Shipment">
+              <app-tab-shipment *ngIf="shipmentData" [tradeNumber]="tradeNumber" [shipment]="shipmentData">
+              </app-tab-shipment>
+            </tab>
+            <tab title="Container">
+              <app-tab-container *ngIf="containerData" [containers]="containerData"></app-tab-container>
+            </tab>
+          </tabset>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

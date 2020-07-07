@@ -18,10 +18,10 @@ export class AuthService extends BaseService{
     };
     return this.get(routes, params).pipe(
       map(res => {
-        console.log(res)
+        // console.log(res)
         if (res.status) {
            this.companyNum = res.user.internalCompanies[0].companyNum;
-           console.log(this.companyNum)
+          //  console.log(this.companyNum)
            localStorage.setItem('USER', JSON.stringify(res.user));
         }
         return res;

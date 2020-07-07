@@ -103,6 +103,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   clearForm() {
     this.searchForm.reset();
+    this.getAllPurchase(this.companyNum);
   }
 
   changeBreadcrumb(routes, tradeNumber) {

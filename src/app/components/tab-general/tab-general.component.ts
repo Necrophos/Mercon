@@ -1,15 +1,19 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input } from "@angular/core";
 
 @Component({
-  selector: 'app-tab-general',
-  templateUrl: './tab-general.component.html',
-  styleUrls: ['./tab-general.component.scss']
+  selector: "app-tab-general",
+  templateUrl: "./tab-general.component.html",
+  styleUrls: ["./tab-general.component.scss"],
 })
 export class TabGeneralComponent implements OnInit {
   @Input() general: any;
-  constructor() { }
+  @Input() notes: any;
+  tradeNotes = null;
+  constructor() {}
 
-  ngOnInit() {   
+  ngOnInit() {
+    if(this.notes) {
+      this.tradeNotes = this.notes.tradeNotes;
+    }
   }
-
 }

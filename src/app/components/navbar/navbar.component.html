@@ -6,6 +6,7 @@
     <div class="container pb-0">
       <div class="title">
         <h3 class="text-capitalize">
+          <i (click)="backToPrevPage()" *ngIf="tradeNumber" style="cursor: pointer;" class="far fa-angle-left mr-2"></i>
           {{title}} <span style="color: #A3CF60;">
             {{tradeNumber}}
           </span>
@@ -26,7 +27,7 @@
 </div>
 
 
-<div class="marcon-navbar-mobile d-block d-sm-none">
+<div class="marcon-navbar-mobile d-block d-md-none">
   <div class="navbar navbar-mb pt-2 w-100 position-fixed" [class.scrolled]="scrolled" [class.awake]="awake">
     <div class="row w-100">
       <div (click)="showMobileNav()" [class.icon-flow]="stretching" class="col-2 p-0 non-flow text-right">

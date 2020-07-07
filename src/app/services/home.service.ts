@@ -19,11 +19,12 @@ export class HomeService extends BaseService{
 
   getAllDocument(paramsObj) {
     let routes = `${environment.api}/getFilesForShipment?`;
+    let user_id = localStorage.getItem('USER_ID');
     const params = {
       trade_num: paramsObj.trade_num,
       bl_num: paramsObj.bt_num,
       platform: environment.PLATFORM_ID,
-      app_id: environment.APP_ID,
+      user_id: paramsObj.userId,
     }
     return this.get(routes, params);
   }

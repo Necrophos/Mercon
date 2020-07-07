@@ -51,7 +51,7 @@
       <div class="box">
         <div class="font-weight-semibold">Coffee Quaity</div>
         <hr>
-       {{general?.coffeeQuality}}
+        {{general?.coffeeQuality}}
 
       </div>
     </div>
@@ -59,13 +59,9 @@
       <div class="box">
         <div class="font-weight-semibold">Notes</div>
         <hr>
-        Et et consectetur ipsum labore excepteur est proident excepteur ad velit occaecat qui minim
-        occaecat
-
-        minim occaecat. Amet duis do nisi duis veniam non est eiusmod tempor incididunt tempor dolor
-        ipsum in
-        qui sit. Exercitation mollit sit culpa nisi culpa non adipisicing reprehenderit do dolore. Duis
-        reprehenderit occaecat anim ullamco ad duis occaecat ex.
+        <p *ngFor="let notes of tradeNotes">
+          {{notes?.noteText}}
+        </p>
       </div>
     </div>
   </div>

@@ -1,7 +1,7 @@
 import { ShareService } from './../../services/share.service';
-import { Router,Event, NavigationStart, NavigationEnd, ActivatedRoute } from "@angular/router";
 import { Component, OnInit, Input } from "@angular/core";
 import { HostListener, PLATFORM_ID, Inject } from "@angular/core";
+import {Location} from '@angular/common';
 import { isPlatformBrowser } from "@angular/common";
 
 @Component({
@@ -16,8 +16,7 @@ export class NavbarComponent implements OnInit {
   constructor(
     @Inject(PLATFORM_ID) public platformId: string,
     private shareService: ShareService,
-    private route: ActivatedRoute,
-    private router: Router
+    private _location: Location
   ) {
   }
 
@@ -58,6 +57,10 @@ export class NavbarComponent implements OnInit {
     this.shareService.tradeNumber.subscribe((res) => {
       this.tradeNumber = res;
     })
+  }
+
+  backToPrevPage() {
+    this._location.back();
   }
   
   scrollTop() {

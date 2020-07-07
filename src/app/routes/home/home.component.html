@@ -62,7 +62,7 @@
                 </td>
                 <td>
                   <div class="status " [class.status-apr]="trade?.status == 'Approved'"
-                    [class.status-pending]="trade?.status == 'Pending'" [class.status-going]="trade?.status == 'Going'">
+                    [class.status-pending]="trade?.status == 'Pending to be shipped'" [class.status-going]="trade?.status == 'Afloat'">
                     {{trade?.status}} <span *ngIf="trade?.status == 'Going'" class="note">{{trade?.note}}</span>
                   </div>
                 </td>
@@ -72,7 +72,7 @@
         </div>
         <div class="paginationCustom mt-4">
           <span>Showing 1 of {{listPurchaseItems?.length}} entries</span>
-          <pagination-controls class="marcon-pagination" nextLabel="" previousLabel="" autoHide="true" maxSize="3"
+          <pagination-controls class="marcon-pagination" nextLabel="" previousLabel="" autoHide="true" maxSize="5"
             responsive="true" (pageChange)="page = $event"></pagination-controls>
         </div>
       </div>

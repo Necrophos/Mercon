@@ -12,7 +12,7 @@ export class TabContainerComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    console.log(this.containers);
+    // console.log(this.containers);
     this.sumBags = this.containers.reduce(function (prev, cur) {
       return prev + cur.bags;
     }, 0);

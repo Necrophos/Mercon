@@ -13,8 +13,6 @@ export class TabShipmentComponent implements OnInit {
   departDate: any;
   arrivalDate: any;
 
-  bl_number = 'asdfasfd'
-
   constructor() {}
 
   formatDate(milliseconds) {
@@ -22,10 +20,9 @@ export class TabShipmentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.shipmentData = this.shipment[0];
-    if (this.shipmentData) {
-      this.departDate = this.formatDate(this.shipmentData.depart_dt);
-      this.arrivalDate = this.formatDate(this.shipmentData.arrival_dt);
+    if (this.shipment) {
+      this.departDate = this.formatDate(this.shipment.depart_dt);
+      this.arrivalDate = this.formatDate(this.shipment.arrival_dt);
     }
   }
 }

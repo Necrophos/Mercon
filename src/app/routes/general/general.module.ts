@@ -5,6 +5,8 @@ import { TabsModule } from "ngx-tabs";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { GeneralComponent } from "./general.component";
+import { RouterModule, Routes } from '@angular/router';
+
 
 @NgModule({
   declarations: [GeneralComponent],
