@@ -11,7 +11,7 @@ export class ShareService extends BaseService {
   client: EventEmitter<any> = new EventEmitter();
   breadcrumbChange: EventEmitter<any> = new EventEmitter();
   tradeNumber: EventEmitter<any> = new EventEmitter();
-
+  purchaseDetail: any;
   
   setClient(client) {
     this.client.emit(client); 
