@@ -69,8 +69,6 @@ export class ChatService extends BaseService {
   }
 
   decrypted(key, textToDecrypt) {
-    return CryptoJS.AES.decrypt(textToDecrypt, key.trim()).toString(
-      CryptoJS.enc.Utf8
-    );
+    return CryptoJS.AES.decrypt(textToDecrypt, key).toString(CryptoJS.enc.Utf8)
   }
 }

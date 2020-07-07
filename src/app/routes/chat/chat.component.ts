@@ -1,4 +1,5 @@
-import { environment } from "@env/environment";
+import { Message } from "./../../models/message.model";
+import * as moment from "moment";
 import { ShareService } from "@services/share.service";
 import { ChatService } from "./../../services/chat.service";
 import { Component, OnInit, EventEmitter } from "@angular/core";
@@ -17,12 +18,12 @@ export class ChatComponent implements OnInit {
     private shareService: ShareService
   ) {}
   listGroup;
+  listMessages = [];
   groupChat;
   chatter: EventEmitter<any> = new EventEmitter();
   subVars: Subscription;
   onDestroy$ = new Subject();
   messageReceived;
-  messageToDisplay;
 
   messageForm = new FormGroup({
     messageRaw: new FormControl("", [Validators.required]),
@@ -43,12 +44,8 @@ export class ChatComponent implements OnInit {
         .pipe(takeUntil(this.onDestroy$))
         .subscribe((message: any) => {
           const objMessage = JSON.parse(message);
-          // this.messageToDisplay = this.messageDecrypted(objMessage.data);
-          // console.log(this.messageToDisplay);
-          console.log(objMessage);
-          // console.log(objMessage.data);
-          
-          
+          // console.log(objMessage);
+          this.pushMesToList(objMessage);
         });
     });
 
@@ -56,13 +53,10 @@ export class ChatComponent implements OnInit {
       this.chatService.closeWebsocket();
       if (res) {
         this.groupChat = res;
-     console.log(this.messageDecrypted('mfvU6rwobFAjh+Jz866oVg=='))
-         
+        this.listMessages = [];
         this.chatService.chatInit(userId, this.groupChat.groupId);
       }
     });
-
-   
   }
 
   ngOnDestroy() {
@@ -83,13 +77,35 @@ export class ChatComponent implements OnInit {
       this.groupChat.groupId,
       messageEncrypted
     );
+    this.clearMsg();
+  }
+
+  createObjMes(rawObj) {
+    let obj = new Message();
+    obj.type = rawObj.type;
+    obj.content = this.messageDecrypted(rawObj.data);
+    obj.timestamp = this.formatDate(rawObj.message_date);
+    rawObj.sender_id == this.groupChat.userId
+      ? (obj.own = true)
+      : (obj.own = false);
+    //decrypt msg here
+    return obj;
+  }
+
+  pushMesToList = async (rawObj) => {
+    if (rawObj.type == "text") {
+      let obj = await this.createObjMes(rawObj);
+      this.listMessages.push(obj);
+      console.log(this.listMessages);
+    }
+  };
+
+  formatDate(milliseconds) {
+    return moment(milliseconds).format("YYYY[-]MM[-]DD");
   }
 
   messageDecrypted(message) {
-    return this.chatService.decrypted(
-      this.groupChat.password,
-      message
-    );
+    return this.chatService.decrypted(this.groupChat.password, message);
   }
 
   setClient(client) {
@@ -107,5 +123,9 @@ export class ChatComponent implements OnInit {
       this.groupChat = res[0];
     });
     return call;
+  }
+
+  clearMsg() {
+    this.messageForm.reset();
   }
 }
