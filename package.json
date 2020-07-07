@@ -60,7 +60,7 @@
   },
   "browser": {
     "http": false,
-    "https":false,
+    "https": false,
     "net": false,
     "path": false,
     "stream": false,

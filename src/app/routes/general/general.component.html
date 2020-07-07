@@ -9,16 +9,15 @@
       </div>
       <div class="tabs">
         <div class="tab-content mt-4" id="nav-tabContent">
-          <tabset [pills]="true">
+          <tabset [pills]="true" *ngIf="data" >
             <tab title="General">
-              <app-tab-general *ngIf="generalData" [general]="generalData" [notes]="notes"></app-tab-general>
+              <app-tab-general [general]="data?.generalInfo"></app-tab-general>
             </tab>
             <tab title="Shipment">
-              <app-tab-shipment *ngIf="shipmentData" [tradeNumber]="tradeNumber" [shipment]="shipmentData">
-              </app-tab-shipment>
+              <app-tab-shipment [tradeNumber]="tradeNumber" [shipment]="data?.shipmentInfo" [bl_number]="bl_number"></app-tab-shipment>
             </tab>
             <tab title="Container">
-              <app-tab-container *ngIf="containerData" [containers]="containerData"></app-tab-container>
+              <app-tab-container [containers]="data?.containerInfo"></app-tab-container>
             </tab>
           </tabset>
         </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { HomeService } from '@services/home.service';
+import { ShareService } from '@services/share.service';
 
 @Component({
   selector: "app-purchase",
@@ -15,7 +16,8 @@ export class PurchaseComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private homeService: HomeService
+    private homeService: HomeService,
+    private shareService: ShareService
   ) {}
 
   ngOnInit() {
@@ -28,20 +30,13 @@ export class PurchaseComponent implements OnInit {
   getPurchaseDetail(tradeNum) {
     this.homeService.getPurchaseDetail(tradeNum).subscribe((res) => {
       this.shipmentInfoList = res['shipmentInfo'];
-      this.totalBags = this.sum(this.shipmentInfoList)
-      localStorage.setItem('PURCHASE_DETAIL', JSON.stringify(res));
-      if(res.shipmentInfo.length == 1) {
-        this.router.navigate(["admin/purchase", tradeNum, this.shipmentInfoList[0].blNumber])
-      }
-      if(res.shipmentInfo.length == 0) {
-        this.router.navigate(["admin/purchase", tradeNum, 'undefiled'])
+      this.shareService.purchaseDetail = res;
+      this.totalBags = this.shipmentInfoList.reduce((prev, cur) => prev + cur.totalBags, 0);
+      // localStorage.setItem('PURCHASE_DETAIL', JSON.stringify(res));
+      if(res.shipmentInfo.length <= 1) {
+        this.router.navigate(["admin/purchase", tradeNum, this.shipmentInfoList.length ? this.shipmentInfoList[0].blNumber : ''])
       }
     });
   }
 
-  sum(array) {
-    return array.reduce(function (prev, cur) {
-      return prev + cur.totalBags;
-    }, 0);
-  }
 }

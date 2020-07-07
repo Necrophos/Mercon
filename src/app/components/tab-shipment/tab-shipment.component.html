@@ -8,32 +8,34 @@
           <li class="row">
             <label class="col-5">Bill of lading</label>
             <div class="col-7 linkfile">
-              {{shipment?.blNumber}}
-              <button class="btn btnPrimary" [routerLink]="['/admin/document', tradeNumber, shipment?.blNumber]" routerLinkActive="router-link-active" ><i class="fal fa-file-invoice"></i></button>
+              {{data?.blNumber}}
+              <button class="btn btnPrimary" (click)="onClickBOL()" routerLinkActive="router-link-active" >
+                <i class="fal fa-file-invoice"></i>
+              </button>
             </div>
           </li>
           <li class="row">
             <label class="col-5">Booking #</label>
             <div class="col-7">
-              {{shipment?.booking_number}}
+              {{data?.booking_number}}
             </div>
           </li>
           <li class="row">
             <label class="col-5">Vessel</label>
             <div class="col-7">
-              {{shipment?.vessel}}
+              {{data?.vessel}}
             </div>
           </li>
           <li class="row">
             <label class="col-5">Duration </label>
             <div class="col-7">
-              {{shipment?.duration}}
+              {{data?.duration}}
             </div>
           </li>
           <li class="row">
             <label class="col-5">Requested</label>
             <div class="col-7">
-              {{shipment?.etsRequest}}
+              {{data?.etsRequest}}
             </div>
           </li>
         </ul>
@@ -42,32 +44,34 @@
     <div class="col-lg-4 col-md-12 col-sm-12">
       <div class="box" style="overflow: hidden;">
 
-        <div [class.progressDays]="shipment?.duration" class="text-center mt-3 ">
+        <div class="text-center mt-3 progressDays">
           <svg width="140" height="140" viewBox="0 0 120 120">
             <circle cx="60" cy="60" r="54" fill="none" stroke="#e6e6e6" stroke-width="7" />
             <circle cx="60" cy="60" r="54" fill="none" stroke="#A3CF60" stroke-width="7" stroke-linecap="round"
-              stroke-dasharray="360" stroke-dashoffset="20" />
+              stroke-dasharray="340" stroke-dashoffset="330" />
           </svg>
           <span class="text">
-            {{shipment?.duration}}
-            <span *ngIf="shipment?.duration">days left</span>
+            {{data?.duration}}
+            <span *ngIf="data?.duration">days left</span>
           </span>
         </div>
         <div  class="shipmentprogress">
-          <span [class.ttboat]="shipment?.duration"><img style="width: 50px;" src="assets/images/boat.svg"></span>
+          <span [class.ttboat]="data?.duration">
+            <img style="width: 50px;" src="assets/images/boat.svg">
+          </span>
           <div class="progress">
-            <div class="progress-bar" role="progressbar" [class.w-50]="shipment?.duration" aria-valuenow="35" aria-valuemin="0"
+            <div class="progress-bar" role="progressbar" [class.w-50]="data?.duration" aria-valuenow="75" aria-valuemin="0"
               aria-valuemax="100"></div>
           </div>
           <div class="days">
             <div class="text-left">
-              {{shipment?.departure}}
+              {{data?.departure}}
               <span>
                 {{departDate}}
               </span>
             </div>
             <div class="text-right">
-              {{shipment?.arrival}}
+              {{data?.arrival}}
               <span>
                 {{arrivalDate}}
               </span>
@@ -83,13 +87,13 @@
           <li class="row">
             <label class="col-5">Date of dispatched</label>
             <div class="col-7">
-              {{shipment?.dispatchedDate}}
+              {{data?.dispatchedDate}}
             </div>
           </li>
           <li class="row">
             <label class="col-5">Dispatch AWB </label>
             <div class="col-7">
-              {{shipment?.dispatchAwb}}
+              {{data?.dispatchAwb}}
             </div>
           </li>
           <li class="row">
@@ -101,7 +105,7 @@
           <li class="row">
             <label class="col-5">Docs arrival </label>
             <div class="col-7">
-              {{shipment?.docsArrivalClient}}
+              {{data?.docsArrivalClient}}
             </div>
           </li>
         </ul>
