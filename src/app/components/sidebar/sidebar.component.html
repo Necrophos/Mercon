@@ -1,6 +1,6 @@
 <div [class.show]="isShow" id="sidebar-wrapper">
-  <a href="#" class="sidebar-heading">
-    <img src="assets/images/logo.png" alt="logo">
+  <a class="sidebar-heading">
+    <img src="assets/images/logo.png" alt="logo" [routerLink]="['/']">
   </a>
   <div class="list-group">
     <a [routerLink]="['/admin/home']" (click)="changeBreadcrumb('home')" routerLinkActive="active">
@@ -39,8 +39,7 @@
       </div>
     </a>
 
-    <a (click)="logOut()"><i class="fal fa-sign-out mr-2"></i> Log Out
-    </a>
+    <a (click)="logOut()"><i class="fal fa-sign-out mr-2"></i>Log Out</a>
   </div>
 </div>
 

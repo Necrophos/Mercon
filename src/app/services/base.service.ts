@@ -57,4 +57,11 @@ export class BaseService {
     localStorage ? localStorage.setItem('company', company) : null;
   }
 
+  get user(): any {
+    return localStorage ? JSON.parse(localStorage.getItem('USER')) || '' : '';
+  }
+
+  set user(user: any) {
+    localStorage ? localStorage.setItem('USER', JSON.stringify(user)) : null;
+  }
 }
