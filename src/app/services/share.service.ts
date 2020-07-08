@@ -8,6 +8,7 @@ export class ShareService extends BaseService {
   
   user = localStorage.getItem("USER");
   objUser = JSON.parse(this.user);
+  showSidebar: EventEmitter<any> = new EventEmitter();
   client: EventEmitter<any> = new EventEmitter();
   breadcrumbChange: EventEmitter<any> = new EventEmitter();
   tradeNumber: EventEmitter<any> = new EventEmitter();
@@ -15,6 +16,10 @@ export class ShareService extends BaseService {
   
   setClient(client) {
     this.client.emit(client); 
+  }
+
+  displaySidebar(isShow) {
+    this.showSidebar.emit(isShow);
   }
 
   getBreadcrumb(event) {

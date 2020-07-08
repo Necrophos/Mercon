@@ -1,4 +1,5 @@
 @import "src/assets/scss/app-variables";
+@import "src/assets/scss/breakpoints";
 
 .iconHidden {
   display: none;
@@ -78,10 +79,15 @@
 .shadow {
   width: 100%;
   height: 100vh;
+  top: 0;
   position: fixed;
   display: none;
   z-index: 900;
   background: rgba(32, 32, 32, 0.6);
+
+  @include sm {
+    display: none !important;
+  }
 }
 
 .display {

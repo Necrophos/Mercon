@@ -1,4 +1,4 @@
-<div id="sidebar-wrapper">
+<div [class.show]="isShow" id="sidebar-wrapper">
   <a href="#" class="sidebar-heading">
     <img src="assets/images/logo.png" alt="logo">
   </a>
@@ -42,4 +42,8 @@
     <a (click)="logOut()"><i class="fal fa-sign-out mr-2"></i> Log Out
     </a>
   </div>
+</div>
+
+<div (click)="exitSidebar()" [class.d-block]="isShow" class="shadow">
+
 </div>

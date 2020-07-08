@@ -29,6 +29,7 @@ export class NavbarComponent implements OnInit {
   companyName: any;
   userName: any;
   isPurchase = false;
+  isShowSidebar = true;
 
   @HostListener("window:scroll", [])
   onWindowScroll() {
@@ -77,5 +78,9 @@ export class NavbarComponent implements OnInit {
 
   hiddenMobileNav() {
     this.stretching = !this.stretching;
+  }
+
+  showSidebar(isShow) {
+    this.shareService.displaySidebar(isShow)
   }
 }
