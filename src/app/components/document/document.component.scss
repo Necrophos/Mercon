@@ -1,0 +1,15 @@
+.dropdown-option {
+    .dropdown-toggle::after {
+        display: none !important;
+    }
+}
+
+.reports {
+    .table-responsive {
+        overflow: hidden;
+    }
+
+    .box {
+        overflow: hidden;
+    }
+}

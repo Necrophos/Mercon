@@ -1,27 +1,42 @@
 <div class="d-flex" id="wrapper">
-    <div id="page-content-wrapper">
-      <div class="container">
-        <div class="box">
-          <div class="mb-3 font-weight-semibold">Document</div>
-          <div class="table-responsive">
-            <table id="example" class="table table-custom mb-0">
-              <thead>
-                <tr>
-                  <th>File name</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><a class="linkdocument">No data found</a></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+  <div id="page-content-wrapper">
+    <div class="container">
+      <div class="box">
+        <div class="mb-3 font-weight-semibold">Document</div>
+        <div class="table-responsive document">
+          <table id="example" class="table table-custom mb-0">
+            <thead>
+              <tr>
+                <th>File name</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="padding-bottom: 55px;">
+                <td><a class="linkdocument">No data found</a></td>
+                <td>
+                  <div ngbDropdown placement="right" display="dynamic" class="d-inline-block dropdown-option">
+                    <button class="btn dot-report" id="dropdownBasic1" ngbDropdownToggle>
+                      <i class="far fa-ellipsis-v"></i>
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                      <button class="btn" ngbDropdownItem><i class="far fa-arrow-to-bottom mr-2"></i>Download</button>
+                      <button (click)="sendShipmentFileByEmail('ffffff.xls')" class="btn" ngbDropdownItem><i class="far fa-envelope mr-2"></i> Sent Email</button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
 
+
+
+            </tbody>
+          </table>
         </div>
 
       </div>
-    </div>
-    <!-- /#page-content-wrapper -->
 
+    </div>
   </div>
+  <!-- /#page-content-wrapper -->
+
+</div>

@@ -29,6 +29,14 @@ export class ShareService extends BaseService {
     return this.objUser.userId;
   }
 
+  get getUserName() {
+    return this.objUser.firstLastname;
+  }
+
+  get getUserEmail() {
+    return this.objUser.email;
+  }
+
   getUser() {
     return this.objUser;
   }
