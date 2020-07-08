@@ -12,8 +12,6 @@ export class TabGeneralComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    if(this.notes) {
-      this.tradeNotes = this.notes.tradeNotes;
-    }
+    console.log(this.notes)
   }
 }

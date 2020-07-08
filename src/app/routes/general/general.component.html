@@ -8,7 +8,7 @@
         <div class="tab-content mt-4" id="nav-tabContent">
           <tabset [pills]="true" *ngIf="data" >
             <tab title="General">
-              <app-tab-general [general]="data?.generalInfo"></app-tab-general>
+              <app-tab-general [general]="data?.generalInfo" [notes]="notes"></app-tab-general>
             </tab>
             <tab title="Shipment">
               <app-tab-shipment [tradeNumber]="tradeNumber" [shipment]="data?.shipmentInfo" [bl_number]="bl_number"></app-tab-shipment>
