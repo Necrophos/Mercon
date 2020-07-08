@@ -6,8 +6,6 @@ import { BaseService } from './base.service';
 })
 export class ShareService extends BaseService {
   
-  user = localStorage.getItem("USER");
-  objUser = JSON.parse(this.user);
   showSidebar: EventEmitter<any> = new EventEmitter();
   client: EventEmitter<any> = new EventEmitter();
   breadcrumbChange: EventEmitter<any> = new EventEmitter();
@@ -31,26 +29,26 @@ export class ShareService extends BaseService {
   }
 
   getUserId() {
-    return this.objUser.userId;
+    return this.user.userId;
   }
 
   get getUserName() {
-    return this.objUser.firstLastname;
+    return this.user.firstLastname;
   }
 
   get getUserEmail() {
-    return this.objUser.email;
+    return this.user.email;
   }
 
   getUser() {
-    return this.objUser;
+    return this.user;
   }
 
   getListCompany() {
-    return this.objUser.internalCompanies;
+    return this.user.internalCompanies;
   }
 
   getFirstCompanyNum() {
-    return this.objUser.internalCompanies[0].companyNum;
+    return this.user.internalCompanies[0].companyNum;
   }
 }

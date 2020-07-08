@@ -22,7 +22,8 @@ export class AuthService extends BaseService{
         if (res.status) {
            this.companyNum = res.user.internalCompanies[0].companyNum;
           //  console.log(this.companyNum)
-           localStorage.setItem('USER', JSON.stringify(res.user));
+          this.user = res.user;
+          //  localStorage.setItem('USER', res.user);
         }
         return res;
      })
@@ -39,5 +40,8 @@ export class AuthService extends BaseService{
     return this.get(routes, params)
   }
 
+  isLoggedIn(): boolean {
+    return !!this.user;
+ }
   
 }
