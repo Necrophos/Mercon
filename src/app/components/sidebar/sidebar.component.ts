@@ -1,6 +1,7 @@
 import { Subscription } from "rxjs";
 import { ShareService } from "./../../services/share.service";
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-sidebar",
@@ -14,7 +15,7 @@ export class SidebarComponent implements OnInit {
   isShow = false;
   subVars: Subscription;
 
-  constructor(private shareService: ShareService) {}
+  constructor(private shareService: ShareService, private router: Router) {}
 
   changeClient(client) {
     this.shareService.setClient(client);

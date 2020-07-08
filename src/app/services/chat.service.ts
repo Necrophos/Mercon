@@ -82,7 +82,6 @@ export class ChatService extends BaseService {
       return CryptoJS.AES.decrypt(textToDecrypt, key).toString(CryptoJS.enc.Utf8)
     } catch (error) {
       console.log(error);
-      
     }
   }
 }

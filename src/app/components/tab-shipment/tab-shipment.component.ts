@@ -14,6 +14,7 @@ export class TabShipmentComponent implements OnInit {
   shipmentData: any;
   departDate: any;
   arrivalDate: any;
+  dayLeft: any;
   data;
   
   constructor(private activatedRoute: ActivatedRoute,
@@ -27,9 +28,17 @@ export class TabShipmentComponent implements OnInit {
     this.data = this.shipment.find(
       shipment => shipment.blNumber == this.bl_number
     );
-    if(this.data) {
+    if(this.data) {    
+   
       this.departDate = this.formatDate(this.data.depart_dt);
       this.arrivalDate = this.formatDate(this.data.arrival_dt);
+
+      const departDay = moment(this.data.depart_dt).format('D');
+      const arrivalDay = moment(this.data.arrival_dt).format('D');
+      this.dayLeft = parseInt(departDay) - parseInt(arrivalDay)
+      console.log(this.dayLeft);
+      
+      
     }
   }
 
