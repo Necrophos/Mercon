@@ -46,17 +46,21 @@
                 {{message.timestamp}}
               </div>
             </div>
+            <div  *ngIf="isTyping" class="typing mx-auto p-2">
+              <span>User is typing ...</span>
+            </div>
           </div>
           <form [formGroup]="messageForm">
-          <div class="message-footer">
+            <div class="message-footer">
               <div class="sendfile">
                 <i style="font-size: 20px;
               position: relative;
               top: 10px;" class="fal fa-paperclip"></i>
                 <input type="file">
               </div>
-              <input formControlName="messageRaw" type="text" placeholder="Type your message..." />
-              <button [disabled]="messageForm.invalid" (click)="sendMessage()"><i class="fal fa-paper-plane"></i></button>
+              <input (keyup)="showTyping()" formControlName="messageRaw" type="text" placeholder="Type your message..." />
+              <button [disabled]="messageForm.invalid" (click)="sendMessage()"><i
+                  class="fal fa-paper-plane"></i></button>
             </div>
           </form>
         </div>

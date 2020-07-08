@@ -5,7 +5,7 @@ import { ChatService } from "./../../services/chat.service";
 import { Component, OnInit, EventEmitter } from "@angular/core";
 import { Subscription, Subject } from "rxjs";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { share, takeUntil } from "rxjs/operators";
+import { share, takeUntil, skipWhile, filter } from "rxjs/operators";
 
 @Component({
   selector: "app-chat",
@@ -18,11 +18,14 @@ export class ChatComponent implements OnInit {
     private shareService: ShareService
   ) {}
   listGroup;
+  isTyping;
   listMessages = [];
   groupChat;
   chatter: EventEmitter<any> = new EventEmitter();
   subVars: Subscription;
   onDestroy$ = new Subject();
+  onTyping$ = new Subject()
+
   messageReceived;
 
   messageForm = new FormGroup({
@@ -45,12 +48,18 @@ export class ChatComponent implements OnInit {
         .subscribe((message: any) => {
           const objMessage = JSON.parse(message);
           // console.log(objMessage);
-          this.pushMesToList(objMessage);
+          this.pushMesToList(objMessage, userId);
+
+          //function typing
+          this.onTyping$.pipe(filter((isOwn: boolean) => !isOwn)).subscribe(() => {
+            this.isTyping = true;
+          })
+
         });
     });
 
     this.subVars = this.chatter.subscribe((res) => {
-      this.chatService.closeWebsocket();
+      // this.chatService.closeWebsocket();
       if (res) {
         this.groupChat = res;
         this.listMessages = [];
@@ -80,6 +89,11 @@ export class ChatComponent implements OnInit {
     this.clearMsg();
   }
 
+  showTyping() {
+    const userId = this.shareService.getUserId();
+    this.chatService.showUserTyping(userId, this.groupChat.groupId);
+  }
+
   createObjMes(rawObj) {
     let obj = new Message();
     obj.type = rawObj.type;
@@ -92,11 +106,17 @@ export class ChatComponent implements OnInit {
     return obj;
   }
 
-  pushMesToList = async (rawObj) => {
+  pushMesToList = async (rawObj, userId) => {
     if (rawObj.type == "text") {
       let obj = await this.createObjMes(rawObj);
+      obj.own == false ? this.isTyping = false : '';
       this.listMessages.push(obj);
       console.log(this.listMessages);
+    }
+    if (rawObj.type == "typing") {
+      let obj = await this.createObjMes(rawObj);
+      this.onTyping$.next(obj.own);
+      // console.log(obj);
     }
   };
 

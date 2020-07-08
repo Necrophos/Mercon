@@ -60,6 +60,15 @@ export class ChatService extends BaseService {
     this.connection.send(JSON.stringify(message));
   }
 
+  showUserTyping(userId, groupId) {
+    const params = {
+      type: "typing",
+      sender_id: userId,
+      group_id: groupId
+    };
+    this.connection.send(JSON.stringify(params));
+  }
+
   closeWebsocket() {
     this.connection.close();
   }
