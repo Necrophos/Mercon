@@ -48,19 +48,20 @@
           <svg width="140" height="140" viewBox="0 0 120 120">
             <circle cx="60" cy="60" r="54" fill="none" stroke="#e6e6e6" stroke-width="7" />
             <circle cx="60" cy="60" r="54" fill="none" stroke="#A3CF60" stroke-width="7" stroke-linecap="round"
-              stroke-dasharray="340" stroke-dashoffset="330" />
+              stroke-dasharray="340"  [attr.stroke-dashoffset]="dashOffset" />
           </svg>
-          <span class="text">
-            {{data?.duration}}
-            <span *ngIf="data?.duration">days left</span>
+          <span *ngIf="dayLeft > 0" class="text">
+            {{dayLeft}}
+            <span *ngIf="dayLeft > 0">days left</span>
           </span>
+          <span class="text" *ngIf="dayLeft < 0">Arrived</span>
         </div>
         <div  class="shipmentprogress">
-          <span [class.ttboat]="data?.duration">
+          <span [style.margin-left]="progress + '%'" [class.ttboat]="data?.duration">
             <img style="width: 50px;" src="assets/images/boat.svg">
           </span>
           <div class="progress">
-            <div class="progress-bar" role="progressbar" [class.w-50]="data?.duration" aria-valuenow="75" aria-valuemin="0"
+            <div class="progress-bar" role="progressbar" [style.width]="progress + '%'" aria-valuenow="75" aria-valuemin="0"
               aria-valuemax="100"></div>
           </div>
           <div class="days">
