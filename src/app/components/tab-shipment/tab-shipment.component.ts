@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import * as moment from "moment";
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "app-tab-shipment",
@@ -16,9 +16,11 @@ export class TabShipmentComponent implements OnInit {
   arrivalDate: any;
   dayLeft: any;
   data;
-  
-  constructor(private activatedRoute: ActivatedRoute,
-              private router: Router) {}
+  duration;
+  progress;
+  dashOffset;
+
+  constructor(private activatedRoute: ActivatedRoute, private router: Router) {}
 
   formatDate(milliseconds) {
     return moment(milliseconds).format("YYYY[-]MM[-]DD");
@@ -26,23 +28,37 @@ export class TabShipmentComponent implements OnInit {
 
   ngOnInit() {
     this.data = this.shipment.find(
-      shipment => shipment.blNumber == this.bl_number
+      (shipment) => shipment.blNumber == this.bl_number
     );
-    if(this.data) {    
-   
+    if (this.data) {
       this.departDate = this.formatDate(this.data.depart_dt);
-      this.arrivalDate = this.formatDate(this.data.arrival_dt);
-
-      const departDay = moment(this.data.depart_dt).format('D');
-      const arrivalDay = moment(this.data.arrival_dt).format('D');
-      this.dayLeft = parseInt(departDay) - parseInt(arrivalDay)
-      console.log(this.dayLeft);
-      
-      
+      this.arrivalDate = this.formatDate(this.data.arrive_dt);
+      const day_depart = moment(this.data.depart_dt);
+      const day_arr = moment(this.data.arrive_dt);
+      const day_now = moment();
+      this.dayLeft = day_arr.diff(day_now, "days");
+      this.duration = day_arr.diff(day_depart, "days");
     }
+
+    this.percentage();
+  }
+
+  percentage() {
+    this.dayLeft < 0
+      ? (this.dashOffset = 0)
+      : (this.dashOffset = (this.dayLeft / this.duration) * 340);
+
+    this.dayLeft < 0
+      ? (this.progress = 100)
+      : this.progress = (this.dayLeft / this.duration) * 100;
   }
 
   onClickBOL() {
-    if(this.bl_number) this.router.navigate(['/admin/document', this.tradeNumber, this.bl_number])
+    if (this.bl_number)
+      this.router.navigate([
+        "/admin/document",
+        this.tradeNumber,
+        this.bl_number,
+      ]);
   }
 }
