@@ -58,7 +58,7 @@
               top: 10px;" class="fal fa-paperclip"></i>
                 <input type="file">
               </div>
-              <input (keyup)="showTyping()" formControlName="messageRaw" type="text" placeholder="Type your message..." />
+              <input  (keyup)="showTyping($event)" formControlName="messageRaw" type="text" placeholder="Type your message..." />
               <button [disabled]="messageForm.invalid" (click)="sendMessage()"><i
                   class="fal fa-paper-plane"></i></button>
             </div>

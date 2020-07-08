@@ -92,9 +92,13 @@ export class ChatComponent implements OnInit {
     this.clearMsg();
   }
 
-  showTyping() {
+  showTyping(event: KeyboardEvent) {
+    console.log(event);
+    
+    if(event.key == "Enter" ) return
     const userId = this.shareService.getUserId();
     this.chatService.showUserTyping(userId, this.groupChat.groupId);
+    
   }
 
   createObjMes(rawObj) {
