@@ -20,11 +20,13 @@ export class ChatComponent implements OnInit {
   listGroup;
   isTyping;
   listMessages = [];
+  typingNotify = [];
   groupChat;
   chatter: EventEmitter<any> = new EventEmitter();
   subVars: Subscription;
   onDestroy$ = new Subject();
   onTyping$ = new Subject()
+
 
   messageReceived;
 
@@ -55,11 +57,12 @@ export class ChatComponent implements OnInit {
             this.isTyping = true;
           })
 
-        });
+        }, error => alert(error)
+        );
     });
 
     this.subVars = this.chatter.subscribe((res) => {
-      // this.chatService.closeWebsocket();
+      this.chatService.closeWebsocket();
       if (res) {
         this.groupChat = res;
         this.listMessages = [];
@@ -116,7 +119,7 @@ export class ChatComponent implements OnInit {
     if (rawObj.type == "typing") {
       let obj = await this.createObjMes(rawObj);
       this.onTyping$.next(obj.own);
-      // console.log(obj);
+      console.log(obj);
     }
   };
 
