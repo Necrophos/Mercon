@@ -1,12 +1,15 @@
 import { ShareService } from './services/share.service';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { interceptors } from '@core/interceptor';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ClientModule } from '@layouts/client/client.module';
 import { AdminModule } from '@layouts/admin/admin.module';
 import { HttpClientModule } from '@angular/common/http';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
   declarations: [
@@ -14,12 +17,15 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     ClientModule,
+    NgxSpinnerModule,
     AdminModule
   ],
-  providers: [ShareService],
+  providers: [ShareService, ...interceptors],
+  schemas: [NO_ERRORS_SCHEMA],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

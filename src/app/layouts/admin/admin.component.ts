@@ -11,6 +11,7 @@ export class AdminComponent implements OnInit {
   title = "home";
   tradeNumber = null;
 
+
   constructor(private router: Router, private shareService: ShareService) {}
 
   ngOnInit() {
