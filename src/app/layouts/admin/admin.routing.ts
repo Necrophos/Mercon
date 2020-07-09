@@ -38,6 +38,11 @@ const routes: Routes = [
         (mod) => mod.DocumentModule
       ),
   },
+  {
+    path: "about",
+    loadChildren: () =>
+      import("@routes/about/about.module").then((mod) => mod.AboutModule),
+  },
 ];
 
 @NgModule({
