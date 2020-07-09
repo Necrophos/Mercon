@@ -1,3 +1,4 @@
+import { FileService } from './../../services/file.service';
 import { Message } from "./../../models/message.model";
 import * as moment from "moment";
 import { ShareService } from "@services/share.service";
@@ -15,13 +16,15 @@ import { share, takeUntil, skipWhile, filter } from "rxjs/operators";
 export class ChatComponent implements OnInit {
   constructor(
     private chatService: ChatService,
-    private shareService: ShareService
+    private shareService: ShareService,
+    private fileService: FileService
   ) {}
   listGroup;
   isTyping;
   listMessages = [];
   typingNotify = [];
   groupChat;
+  imgTemp = '';
   chatter: EventEmitter<any> = new EventEmitter();
   subVars: Subscription;
   onDestroy$ = new Subject();
@@ -30,8 +33,8 @@ export class ChatComponent implements OnInit {
   messageReceived;
 
   messageForm = new FormGroup({
-    messageRaw: new FormControl(""),
-    fileRaw: new FormControl(""),
+    messageRaw: new FormControl(''),
+    fileRaw: new FormControl(''),
   });
 
   get messageRaw() {
@@ -87,10 +90,22 @@ export class ChatComponent implements OnInit {
     }
   }
 
+
   readFile(fileEvent: any) {
     const file = fileEvent.target.files[0];
-    console.log('size', file.size);
-    console.log('type', file.type);
+
+// convert file to base64
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (e: any) => {
+      this.imgTemp = e.target.result;
+      this.messageForm.patchValue({
+        fileRaw: this.imgTemp.substring(this.imgTemp.indexOf(',') + 1, this.imgTemp.length)
+      })
+      console.log(this.fileRaw);
+    };
+    
+    // this.fileService.resizeFile(file)
  }
 
   sendMessage() {

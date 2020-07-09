@@ -18,7 +18,9 @@
                 </span>
                 <span class="text">Hi! :)</span>
               </div>
-              <span class="count">20</span>
+              <span class="count">
+                {{item?.badge}}
+              </span>
               <span class="time">now</span>
             </div>
 
@@ -56,7 +58,7 @@
                 <i style="font-size: 20px;
               position: relative;
               top: 10px;" class="fal fa-paperclip"></i>
-                <input formControlName="fileRaw" type="file" (change)="readFile($event)">
+                <input  type="file" (change)="readFile($event)">
               </div>
               <input  (keyup)="showTyping($event)" formControlName="messageRaw" type="text" placeholder="Type your message..." />
               <button [disabled]="messageForm.invalid" (click)="sendMessage()"><i
