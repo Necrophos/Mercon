@@ -12,6 +12,8 @@ import { Router } from "@angular/router";
 export class ResetPasswordComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
+  error: any;
+
   resetPasswordForm = new FormGroup({
     email: new FormControl("", [Validators.required]),
     username: new FormControl("", [Validators.required]),
@@ -32,10 +34,14 @@ export class ResetPasswordComponent implements OnInit {
         .subscribe((res) => {
           if (res.status) {
             this.router.navigate(["/"]);
+            
+          }
+          if (!res.status) {
+            this.error = true;
           }
         });
     } else {
-      console.log("false");
+      this.error = true;
     }
 
     this.router.navigate(["/"]);

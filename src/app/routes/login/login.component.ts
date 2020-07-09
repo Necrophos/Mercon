@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router, private authService: AuthService) {}
 
   loginResponse: any;
+  error: any;
 
   ngOnInit() {}
 
@@ -30,13 +31,23 @@ export class LoginComponent implements OnInit {
     return this.loginForm.value.password;
   }
 
+  close() {
+    this.error = false;
+  }
+
   login() {
     if (this.loginForm.valid) {
       this.authService.login(this.username, this.password).subscribe((res) => {
         if (res.status) {
           this.router.navigate(["/admin/home"]);
         }
+        else {
+          this.error = true;
+        }
       });
+    }
+    else {
+      this.error = true;
     }
   }
 }
