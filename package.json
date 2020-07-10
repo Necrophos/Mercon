@@ -23,6 +23,7 @@
     "@ng-select/ng-select": "^3.0.0",
     "aes256": "^1.0.4",
     "apexcharts": "^3.19.3",
+    "blueimp-canvas-to-blob": "^3.27.0",
     "bootstrap": "^4.4.1",
     "crypto-js": "^4.0.0",
     "font-awesome": "^4.7.0",

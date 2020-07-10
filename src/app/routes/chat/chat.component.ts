@@ -1,4 +1,5 @@
-import { FileService } from './../../services/file.service';
+import { AlertComponent } from "./../../modals/alert/alert.component";
+import { FileService } from "./../../services/file.service";
 import { Message } from "./../../models/message.model";
 import * as moment from "moment";
 import { ShareService } from "@services/share.service";
@@ -8,33 +9,40 @@ import { Subscription, Subject } from "rxjs";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { share, takeUntil, skipWhile, filter } from "rxjs/operators";
 
+import { Ng2ImgMaxService } from "ng2-img-max";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+
 @Component({
   selector: "app-chat",
   templateUrl: "./chat.component.html",
   styleUrls: ["./chat.component.scss"],
+  providers: [FileService],
 })
 export class ChatComponent implements OnInit {
   constructor(
     private chatService: ChatService,
     private shareService: ShareService,
-    private fileService: FileService
+    private ng2ImgMax: Ng2ImgMaxService,
+    private modalService: NgbModal
   ) {}
   listGroup;
   isTyping;
   listMessages = [];
   typingNotify = [];
   groupChat;
-  imgTemp = '';
+  fileTemp = "";
   chatter: EventEmitter<any> = new EventEmitter();
   subVars: Subscription;
   onDestroy$ = new Subject();
   onTyping$ = new Subject();
 
   messageReceived;
+  uploadedImage: Blob;
+  fileErr;
 
   messageForm = new FormGroup({
-    messageRaw: new FormControl(''),
-    fileRaw: new FormControl(''),
+    messageRaw: new FormControl(""),
+    fileRaw: new FormControl(""),
   });
 
   get messageRaw() {
@@ -47,29 +55,29 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     const userId = this.shareService.getUserId();
-    this.getGroupChat(userId).subscribe(async () => {
-      this.messageReceived = await this.chatService.chatInit(
-        userId,
-        this.groupChat.groupId
-      );
-      this.chatService.onComingMessage$
-        .pipe(takeUntil(this.onDestroy$))
-        .subscribe(
-          (message: any) => {
-            const objMessage = JSON.parse(message);
-            // console.log(objMessage);
-            this.pushMesToList(objMessage, userId);
+    // this.getGroupChat(userId).subscribe(async () => {
+    //   this.messageReceived = await this.chatService.chatInit(
+    //     userId,
+    //     this.groupChat.groupId
+    //   );
+    //   this.chatService.onComingMessage$
+    //     .pipe(takeUntil(this.onDestroy$))
+    //     .subscribe(
+    //       (message: any) => {
+    //         const objMessage = JSON.parse(message);
+    //         // console.log(objMessage);
+    //         this.pushMesToList(objMessage, userId);
 
-            //function typing
-            this.onTyping$
-              .pipe(filter((isOwn: boolean) => !isOwn))
-              .subscribe(() => {
-                this.isTyping = true;
-              });
-          },
-          (error) => alert(error)
-        );
-    });
+    //         //function typing
+    //         this.onTyping$
+    //           .pipe(filter((isOwn: boolean) => !isOwn))
+    //           .subscribe(() => {
+    //             this.isTyping = true;
+    //           });
+    //       },
+    //       (error) => alert(error)
+    //     );
+    // });
 
     this.subVars = this.chatter.subscribe((res) => {
       this.chatService.closeWebsocket();
@@ -88,27 +96,85 @@ export class ChatComponent implements OnInit {
     }
   }
 
-
   readFile(fileEvent: any) {
     const file = fileEvent.target.files[0];
 
-// convert file to base64
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = (e: any) => {
-      this.imgTemp = e.target.result;
-      this.messageForm.patchValue({
-        fileRaw: this.imgTemp.substring(this.imgTemp.indexOf(',') + 1, this.imgTemp.length)
-      })
-      console.log(this.fileRaw);
-    };
-    
-    // this.fileService.resizeFile(file)
- }
+    const typePhoto = [
+      "image/jpg",
+      "image/jpeg",
+      "image/png",
+      "image/gif",
+      "image/tiff",
+      "image/raw",
+    ];
+
+    // if upload is img, so resize the image before update 2097152
+    if (typePhoto.includes(file.type)) {
+      if (file.size > 2097152) {
+        this.ng2ImgMax.compressImage(file, 0.2).subscribe(
+          (result) => {
+            this.uploadedImage = new File([result], result.name);
+            // convert to base64 after compress the file
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (e: any) => {
+              this.fileTemp = e.target.result;
+              this.messageForm.patchValue({
+                fileRaw: this.fileTemp.substring(
+                  this.fileTemp.indexOf(",") + 1,
+                  this.fileTemp.length
+                ),
+              });
+              console.log("file > 2mb", this.fileRaw);
+            };
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
+
+      //convert to base64 immediately if the size of img is valid
+      else {
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (e: any) => {
+          this.fileTemp = e.target.result;
+          this.messageForm.patchValue({
+            fileRaw: this.fileTemp.substring(
+              this.fileTemp.indexOf(",") + 1,
+              this.fileTemp.length
+            ),
+          });
+          console.log("file <2MB", this.fileRaw);
+        };
+      }
+    }
+
+    //if upload is file, so check if file is invalid and convert to base64
+    if (!typePhoto.includes(file.type)) {
+      if (file.size > 20971520) {
+        this.sizeAlert();
+      } else {
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (e: any) => {
+          this.fileTemp = e.target.result;
+          this.messageForm.patchValue({
+            fileRaw: this.fileTemp.substring(
+              this.fileTemp.indexOf(",") + 1,
+              this.fileTemp.length
+            ),
+          });
+          console.log("valid file", this.fileRaw);
+        };
+      }
+    }
+  }
 
   sendMessage() {
     if (this.messageRaw == "") return;
-    
+
     const messageEncrypted = this.chatService.encrypt(
       this.groupChat.password,
       this.messageRaw
@@ -131,7 +197,10 @@ export class ChatComponent implements OnInit {
   createObjMes(rawObj) {
     let obj = new Message();
     obj.type = rawObj.type;
-    obj.content = this.chatService.decrypted(this.groupChat.password, rawObj.data);
+    obj.content = this.chatService.decrypted(
+      this.groupChat.password,
+      rawObj.data
+    );
     obj.timestamp = moment(rawObj.message_date).format("YYYY[-]MM[-]DD");
     rawObj.sender_id == this.groupChat.userId
       ? (obj.own = true)
@@ -173,5 +242,11 @@ export class ChatComponent implements OnInit {
 
   clearMsg() {
     this.messageForm.reset();
+  }
+
+  sizeAlert() {
+    const modalRef = this.modalService.open(AlertComponent, { centered: true });
+    modalRef.componentInstance.msg =
+      "The file you have selected is too large. The maximum size is 20MB";
   }
 }

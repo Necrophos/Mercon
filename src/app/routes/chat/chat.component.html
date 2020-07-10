@@ -55,10 +55,8 @@
           <form [formGroup]="messageForm">
             <div class="message-footer">
               <div class="sendfile">
-                <i style="font-size: 20px;
-              position: relative;
-              top: 10px;" class="fal fa-paperclip"></i>
-                <input  type="file" (change)="readFile($event)">
+                <i class="fal fa-paperclip att-icon"></i>
+                <input style="cursor: pointer;" type="file" (change)="readFile($event)">
               </div>
               <input  (keyup)="showTyping($event)" formControlName="messageRaw" type="text" placeholder="Type your message..." />
               <button [disabled]="messageForm.invalid" (click)="sendMessage()"><i

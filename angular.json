@@ -30,7 +30,8 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/apexcharts/dist/apexcharts.min.js"
+              "node_modules/apexcharts/dist/apexcharts.min.js",
+              "node_modules/blueimp-canvas-to-blob/js/canvas-to-blob.min.js"
             ]
           },
           "configurations": {

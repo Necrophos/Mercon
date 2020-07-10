@@ -1,10 +1,12 @@
-import { BaseService } from "./base.service";
 import { Injectable } from "@angular/core";
+import { Ng2ImgMaxService } from 'ng2-img-max';
 
 @Injectable({
   providedIn: "root",
 })
-export class FileService extends BaseService {
+export class FileService {
+
+  constructor( private ng2ImgMax: Ng2ImgMaxService) {}
   typePhoto = [
     "image/jpg",
     "image/jpeg",
@@ -14,13 +16,15 @@ export class FileService extends BaseService {
     "image/raw",
   ];
 
-  resizeFile(file) {
+  resizeImg(file) {
     if (this.typePhoto.includes(file.type)) {
-      console.log("this is img");
+      return this.ng2ImgMax.compressImage(file, 2)
     }
+  }
 
+  resizeFile(file) {
     if (!this.typePhoto.includes(file.type)) {
-      console.log("this is file");
+      return file.size > 20971520 ? true : false;
     }
   }
 }
