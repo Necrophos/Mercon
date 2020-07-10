@@ -10,6 +10,7 @@ import { ClientModule } from '@layouts/client/client.module';
 import { AdminModule } from '@layouts/admin/admin.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
     HttpClientModule,
     ClientModule,
     NgxSpinnerModule,
-    AdminModule
+    AdminModule,
+    ToastrModule.forRoot()
   ],
   providers: [ShareService, ...interceptors],
   schemas: [NO_ERRORS_SCHEMA],

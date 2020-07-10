@@ -38,6 +38,7 @@ export class TabShipmentComponent implements OnInit {
       const day_now = moment();
       this.dayLeft = day_arr.diff(day_now, "days");
       this.duration = day_arr.diff(day_depart, "days");
+      day_now < day_depart ? (this.dayLeft = this.duration) : "";
     }
 
     this.percentage();
@@ -50,7 +51,9 @@ export class TabShipmentComponent implements OnInit {
 
     this.dayLeft < 0
       ? (this.progress = 100)
-      : this.progress = (this.dayLeft / this.duration) * 100;
+      : (this.progress = (this.dayLeft / this.duration) * 100);
+
+    this.dayLeft == this.duration ? (this.progress = 0) : "";
   }
 
   onClickBOL() {

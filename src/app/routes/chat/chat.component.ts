@@ -47,8 +47,6 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     const userId = this.shareService.getUserId();
-    console.log(userId);
-
     this.getGroupChat(userId).subscribe(async () => {
       this.messageReceived = await this.chatService.chatInit(
         userId,
@@ -59,7 +57,7 @@ export class ChatComponent implements OnInit {
         .subscribe(
           (message: any) => {
             const objMessage = JSON.parse(message);
-            console.log(objMessage);
+            // console.log(objMessage);
             this.pushMesToList(objMessage, userId);
 
             //function typing
@@ -133,8 +131,8 @@ export class ChatComponent implements OnInit {
   createObjMes(rawObj) {
     let obj = new Message();
     obj.type = rawObj.type;
-    obj.content = this.messageDecrypted(rawObj.data);
-    obj.timestamp = this.formatDate(rawObj.message_date);
+    obj.content = this.chatService.decrypted(this.groupChat.password, rawObj.data);
+    obj.timestamp = moment(rawObj.message_date).format("YYYY[-]MM[-]DD");
     rawObj.sender_id == this.groupChat.userId
       ? (obj.own = true)
       : (obj.own = false);
@@ -155,14 +153,6 @@ export class ChatComponent implements OnInit {
       console.log(obj);
     }
   };
-
-  formatDate(milliseconds) {
-    return moment(milliseconds).format("YYYY[-]MM[-]DD");
-  }
-
-  messageDecrypted(message) {
-    return this.chatService.decrypted(this.groupChat.password, message);
-  }
 
   setClient(client) {
     this.chatter.emit(client);

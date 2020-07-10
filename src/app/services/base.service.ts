@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { throwError } from "rxjs";
 import { map, catchError } from "rxjs/operators";
+import { ToastrService } from 'ngx-toastr';
 
 export interface CustomResponse {
   status: boolean;
@@ -15,7 +16,7 @@ export interface CustomResponse {
 export class BaseService {
   protected configs;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,  private toastr: ToastrService) {}
 
   get(apiEndpoint, param?) {
     if(param) {
@@ -35,8 +36,9 @@ export class BaseService {
             catchError(this.handleError)
           );
   }
-  protected handleError(error: any) {
-    console.log(error);
+  protected handleError = (error: any) => {
+    console.log(error.error);
+    this.toastr.error(error.error, 'Error!');
     return throwError(error);
   }
 

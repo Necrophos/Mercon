@@ -1,5 +1,5 @@
 import { ShareService } from './../../services/share.service';
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, ViewEncapsulation } from "@angular/core";
 import { HostListener, PLATFORM_ID, Inject } from "@angular/core";
 import {Location} from '@angular/common';
 import { isPlatformBrowser } from "@angular/common";
@@ -8,6 +8,7 @@ import { isPlatformBrowser } from "@angular/common";
   selector: "app-navbar",
   templateUrl: "./navbar.component.html",
   styleUrls: ["./navbar.component.scss"],
+  encapsulation: ViewEncapsulation.None
 })
 export class NavbarComponent implements OnInit {
   @Input() title: any;
@@ -29,6 +30,7 @@ export class NavbarComponent implements OnInit {
   companyName: any;
   userName: any;
   isPurchase = false;
+  listClientCompanies: any;
   isShowSidebar = true;
 
   @HostListener("window:scroll", [])
@@ -49,6 +51,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.companyName = this.shareService.getListCompany()[0].companyCd;
+    this.listClientCompanies = this.shareService.getListCompany();
     this.userName = this.shareService.getUser().userName;
     this.shareService.client.subscribe((res) => {
       if (res) {
@@ -64,6 +67,13 @@ export class NavbarComponent implements OnInit {
     this._location.back();
   }
   
+  
+  changeClient(client) {
+    this.shareService.setClient(client);
+    this.shareService.companyNum = client.companyNum;
+    this.stretching = !this.stretching;
+  }
+
   scrollTop() {
     window.scroll({
       top: 0,

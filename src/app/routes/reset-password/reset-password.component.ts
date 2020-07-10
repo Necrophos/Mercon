@@ -33,9 +33,12 @@ export class ResetPasswordComponent implements OnInit {
         .resetPassword(this.email, this.username)
         .subscribe((res) => {
           if (res.status) {
-            this.router.navigate(["/"]);
+            // this.router.navigate(["/"]);
+            console.log(res.status);
             
           }
+          console.log(res.status);
+          
           if (!res.status) {
             this.error = true;
           }
@@ -43,8 +46,6 @@ export class ResetPasswordComponent implements OnInit {
     } else {
       this.error = true;
     }
-
-    this.router.navigate(["/"]);
   }
 
   ngOnInit() {}

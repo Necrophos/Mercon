@@ -75,9 +75,19 @@
             </a>
           </li>
           <li class="nav-item ">
-            <a (click)="hiddenMobileNav()" class="nav-link" [routerLink]="['/admin/app']" routerLinkActive="active">
-              <i class="fal fa-hexagon mr-2"></i>
-              App
+            <a class="nav-link" [routerLink]="['/admin/app']" routerLinkActive="active">
+              <div ngbDropdown placement="right" display="dynamic" class="d-inline-block dropdown-option w-100">
+                <button class="btn p-0 w-100 text-left" id="dropdownBasic1" ngbDropdownToggle>
+                  <i class="fal fa-hexagon mr-2"></i>
+                  Client
+                  <i style="padding: 5px;" class="far fa-angle-right float-right"></i>
+                </button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                  <button (click)="changeClient(client)" *ngFor="let client of listClientCompanies" class="btn" ngbDropdownItem>
+                    {{client?.companyCd}}
+                  </button>
+                </div>
+              </div>
             </a>
           </li>
           <li class="nav-item ">

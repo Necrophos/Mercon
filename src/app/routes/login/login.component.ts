@@ -2,7 +2,9 @@ import { AuthService } from "./../../services/auth.service";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { environment } from '@env/environment';
+import { environment } from "@env/environment";
+import { ToastrService } from "ngx-toastr";
+import * as moment from "moment";
 
 @Component({
   selector: "app-login",
@@ -11,12 +13,17 @@ import { environment } from '@env/environment';
   providers: [AuthService],
 })
 export class LoginComponent implements OnInit {
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private toastr: ToastrService
+  ) {}
 
   loginResponse: any;
   error: any;
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   loginForm = new FormGroup({
     username: new FormControl("", [Validators.required]),
@@ -40,14 +47,21 @@ export class LoginComponent implements OnInit {
       this.authService.login(this.username, this.password).subscribe((res) => {
         if (res.status) {
           this.router.navigate(["/admin/home"]);
-        }
-        else {
+          this.setSession();
+          // this.toastr.success('Login Success', 'Toastr fun!');
+        } else {
           this.error = true;
+          // this.toastr.error('everything is broken', 'Major Error');
         }
       });
-    }
-    else {
+    } else {
       this.error = true;
     }
+  }
+
+  setSession() {
+    const time_now = moment().valueOf();
+    const timeOut = time_now + environment.SESSION_EXPIRE * 60000;
+    localStorage.setItem("SESSION_EXPIRE", timeOut.toString());
   }
 }

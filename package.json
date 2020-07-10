@@ -11,7 +11,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "~8.0.0",
+    "@angular/animations": "^8.0.3",
     "@angular/common": "~8.0.0",
     "@angular/compiler": "~8.0.0",
     "@angular/core": "~8.0.0",
@@ -34,6 +34,7 @@
     "ngx-socket-io": "^3.2.0",
     "ngx-spinner": "^9.0.2",
     "ngx-tabs": "0.0.13",
+    "ngx-toastr": "^11.3.3",
     "rxjs": "~6.4.0",
     "script-loader": "^0.7.2",
     "tslib": "^1.9.0",
