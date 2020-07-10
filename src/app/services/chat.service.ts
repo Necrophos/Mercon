@@ -51,8 +51,20 @@ export class ChatService extends BaseService {
 
   sendMessage(userId, groupId, messageToSend) {
     const message = {
-      type: "text",
+      type: 'text',
       data: messageToSend, //message is encrypted
+      sender_id: userId,
+      group_id: groupId,
+      check_id: "dev_test",
+    };
+    this.connection.send(JSON.stringify(message));
+  }
+
+  sendFile(userId, groupId, fileToSend, fileName) {
+    const message = {
+      type: 'binary',
+      data: fileToSend, //message is encrypted
+      file_name: fileName,
       sender_id: userId,
       group_id: groupId,
       check_id: "dev_test",

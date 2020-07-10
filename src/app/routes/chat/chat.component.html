@@ -38,21 +38,35 @@
 
           </header>
           <div class="message-wrap">
+
             <div [class.me]="message.own" *ngFor="let message of listMessages" class="message-list">
-              <div class="msg">
+              <div *ngIf="message.type == 'text'" class="msg">
                 <p>
                   {{message.content}}
                 </p>
+              </div>
+              <div *ngIf="message.type == 'image'" class="msg">
+                <img [src]="message?.content" alt="#image">
+              </div>
+              <div *ngIf="message.type == 'file'" class="msg">
+                <a [href]="message.content">
+                  {{message.fileName}}
+                </a>
               </div>
               <div class="time">
                 {{message.timestamp}}
               </div>
             </div>
+
             <div  *ngIf="isTyping" class="typing mx-auto p-2">
               <span>User is typing ...</span>
             </div>
           </div>
           <form [formGroup]="messageForm">
+            <div *ngIf="fileTemp" class="preview-img w-100 p-2">
+              <img [src]="fileTemp" alt="imgUpload">
+              <button (click)="removeImg()" class="btn btn-close"><i class="fas fa-times"></i></button>
+            </div>
             <div class="message-footer">
               <div class="sendfile">
                 <i class="fal fa-paperclip att-icon"></i>

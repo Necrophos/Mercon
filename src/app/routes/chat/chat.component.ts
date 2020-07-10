@@ -27,6 +27,7 @@ export class ChatComponent implements OnInit {
   ) {}
   listGroup;
   isTyping;
+  isFile;
   listMessages = [];
   typingNotify = [];
   groupChat;
@@ -39,6 +40,7 @@ export class ChatComponent implements OnInit {
   messageReceived;
   uploadedImage: Blob;
   fileErr;
+  fileName;
 
   messageForm = new FormGroup({
     messageRaw: new FormControl(""),
@@ -55,29 +57,29 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     const userId = this.shareService.getUserId();
-    // this.getGroupChat(userId).subscribe(async () => {
-    //   this.messageReceived = await this.chatService.chatInit(
-    //     userId,
-    //     this.groupChat.groupId
-    //   );
-    //   this.chatService.onComingMessage$
-    //     .pipe(takeUntil(this.onDestroy$))
-    //     .subscribe(
-    //       (message: any) => {
-    //         const objMessage = JSON.parse(message);
-    //         // console.log(objMessage);
-    //         this.pushMesToList(objMessage, userId);
+    this.getGroupChat(userId).subscribe(async () => {
+      this.messageReceived = await this.chatService.chatInit(
+        userId,
+        this.groupChat.groupId
+      );
+      this.chatService.onComingMessage$
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe(
+          (message: any) => {
+            const objMessage = JSON.parse(message);
+            console.log(objMessage);
+            this.pushMesToList(objMessage, userId);
 
-    //         //function typing
-    //         this.onTyping$
-    //           .pipe(filter((isOwn: boolean) => !isOwn))
-    //           .subscribe(() => {
-    //             this.isTyping = true;
-    //           });
-    //       },
-    //       (error) => alert(error)
-    //     );
-    // });
+            //function typing
+            this.onTyping$
+              .pipe(filter((isOwn: boolean) => !isOwn))
+              .subscribe(() => {
+                this.isTyping = true;
+              });
+          },
+          (error) => alert(error)
+        );
+    });
 
     this.subVars = this.chatter.subscribe((res) => {
       this.chatService.closeWebsocket();
@@ -98,6 +100,7 @@ export class ChatComponent implements OnInit {
 
   readFile(fileEvent: any) {
     const file = fileEvent.target.files[0];
+    this.fileName = file.name;
 
     const typePhoto = [
       "image/jpg",
@@ -120,12 +123,9 @@ export class ChatComponent implements OnInit {
             reader.onload = (e: any) => {
               this.fileTemp = e.target.result;
               this.messageForm.patchValue({
-                fileRaw: this.fileTemp.substring(
-                  this.fileTemp.indexOf(",") + 1,
-                  this.fileTemp.length
-                ),
+                fileRaw: this.fileTemp
               });
-              console.log("file > 2mb", this.fileRaw);
+              // console.log("file > 2mb", this.fileRaw);
             };
           },
           (error) => {
@@ -141,12 +141,9 @@ export class ChatComponent implements OnInit {
         reader.onload = (e: any) => {
           this.fileTemp = e.target.result;
           this.messageForm.patchValue({
-            fileRaw: this.fileTemp.substring(
-              this.fileTemp.indexOf(",") + 1,
-              this.fileTemp.length
-            ),
+            fileRaw: this.fileTemp
           });
-          console.log("file <2MB", this.fileRaw);
+          console.log(this.fileRaw);
         };
       }
     }
@@ -161,30 +158,46 @@ export class ChatComponent implements OnInit {
         reader.onload = (e: any) => {
           this.fileTemp = e.target.result;
           this.messageForm.patchValue({
-            fileRaw: this.fileTemp.substring(
-              this.fileTemp.indexOf(",") + 1,
-              this.fileTemp.length
-            ),
+            fileRaw: this.fileTemp
           });
-          console.log("valid file", this.fileRaw);
+          // console.log("valid file", this.fileRaw);
         };
       }
     }
   }
 
   sendMessage() {
-    if (this.messageRaw == "") return;
-
-    const messageEncrypted = this.chatService.encrypt(
-      this.groupChat.password,
-      this.messageRaw
-    );
     const userId = this.shareService.getUserId();
-    this.chatService.sendMessage(
-      userId,
-      this.groupChat.groupId,
-      messageEncrypted
-    );
+    console.log("run");
+
+    if (this.messageRaw != null && this.messageRaw != "") {
+      const messageEncrypted = this.chatService.encrypt(
+        this.groupChat.password,
+        this.messageRaw
+      );
+      this.chatService.sendMessage(
+        userId,
+        this.groupChat.groupId,
+        messageEncrypted
+      );
+    }
+
+    if (this.fileRaw != null) {
+      console.log("ok");
+
+      const messageEncrypted = this.chatService.encrypt(
+        this.groupChat.password,
+        this.fileRaw
+      );
+
+      this.chatService.sendFile(
+        userId,
+        this.groupChat.groupId,
+        messageEncrypted,
+        this.fileName
+      );
+      this.fileTemp = "";
+    }
     this.clearMsg();
   }
 
@@ -195,12 +208,33 @@ export class ChatComponent implements OnInit {
   }
 
   createObjMes(rawObj) {
+    const type = [
+      '.png',
+      '.jpg',
+      'jpeg',
+      'gif'
+    ]
     let obj = new Message();
-    obj.type = rawObj.type;
-    obj.content = this.chatService.decrypted(
-      this.groupChat.password,
-      rawObj.data
-    );
+    if (rawObj.type == "text") {
+      obj.type = rawObj.type;
+      obj.content = this.chatService.decrypted(
+        this.groupChat.password,
+        rawObj.data
+      );
+    }
+
+        //check obj response is img or file
+    if (rawObj.type == "binary") {
+      let check = rawObj.data.substring(rawObj.data.length - 4, rawObj.data.length);
+      console.log('check:',check);
+      
+      type.includes(check) ? obj.type = 'image' : obj.type = 'file';
+      console.log(obj.type);
+      obj.fileName = rawObj.file_name;
+      obj.content = rawObj.data;
+    }
+   
+    
     obj.timestamp = moment(rawObj.message_date).format("YYYY[-]MM[-]DD");
     rawObj.sender_id == this.groupChat.userId
       ? (obj.own = true)
@@ -210,7 +244,7 @@ export class ChatComponent implements OnInit {
   }
 
   pushMesToList = async (rawObj, userId) => {
-    if (rawObj.type == "text") {
+    if (rawObj.type == "text" || rawObj.type == "binary") {
       let obj = await this.createObjMes(rawObj);
       obj.own == false ? (this.isTyping = false) : "";
       this.listMessages.push(obj);
@@ -248,5 +282,10 @@ export class ChatComponent implements OnInit {
     const modalRef = this.modalService.open(AlertComponent, { centered: true });
     modalRef.componentInstance.msg =
       "The file you have selected is too large. The maximum size is 20MB";
+  }
+
+  removeImg() {
+    this.fileTemp = "";
+    this.messageForm.reset();
   }
 }
