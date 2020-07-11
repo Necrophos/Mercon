@@ -20,10 +20,10 @@
                   New message
                 </span>
               </div>
-              <span class="count">
+              <span *ngIf="item?.badge != '0'" class="count">
                 {{item?.badge}}
               </span>
-              <span class="time">now</span>
+              <!-- <span class="time">now</span> -->
             </div>
 
           </div>
@@ -50,7 +50,8 @@
                 <img [src]="message?.content" alt="#image">
               </div>
               <div *ngIf="message.type == 'file'" class="msg">
-                <a [href]="message.content">
+                <i class="fas fa-file-alt mr-2"></i>
+                <a [class.text-white]="message.own" class="text-underline" [href]="message.content">
                   {{message.fileName}}
                 </a>
               </div>
@@ -59,7 +60,7 @@
               </div>
             </div>
 
-            <div  *ngIf="isTyping" class="typing mx-auto p-2">
+            <div *ngIf="isTyping" class="typing mx-auto p-2">
               <span>
                 {{whoTyping}}
               </span>
@@ -67,17 +68,39 @@
           </div>
 
           <form [formGroup]="messageForm">
-            <div *ngIf="fileTemp" class="preview-img w-100 p-2">
+            <div *ngIf="isFile" class="preview-file py-1">
+              <div class="h-100 rounded ml-1">
+                <div class="h-100 container pb-0">
+                  <div class=" h-100 row">
+                    <div class="h-100 col-3">
+                      <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="h-100 col-9 py-2">
+                      <p style="-webkit-box-orient: vertical" class="font-weight-bold text-uppercase m-0 content-text-line-clamp">
+                        {{fileType}}
+                      </p>
+                      <span style="-webkit-box-orient: vertical" class="content-text-line-clamp">
+                        {{fileName}}
+                      </span>
+                      <button (click)="removeFile()" class="btn btn-close"><i class="fas fa-times"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div *ngIf="isImg" class="preview-img w-100 p-2">
               <img [src]="fileTemp" alt="imgUpload">
-               <!-- preview img -->
-              <button (click)="removeImg()" class="btn btn-close"><i class="fas fa-times"></i></button>
+              <!-- preview img -->
+              <button (click)="removeFile()" class="btn btn-close"><i class="fas fa-times"></i></button>
             </div>
             <div class="message-footer">
               <div class="sendfile">
                 <i class="fal fa-paperclip att-icon"></i>
                 <input style="cursor: pointer;" type="file" (change)="readFile($event)">
               </div>
-              <input  (keyup)="showTyping($event)" formControlName="messageRaw" type="text" placeholder="Type your message..." />
+              <input (keyup)="showTyping($event)" formControlName="messageRaw" type="text"
+                placeholder="Type your message..." />
               <button [disabled]="messageForm.invalid" (click)="sendMessage()"><i
                   class="fal fa-paper-plane"></i></button>
             </div>
