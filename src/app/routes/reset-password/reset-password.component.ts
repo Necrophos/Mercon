@@ -28,7 +28,7 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   resetPassword() {
-    if (this.resetPasswordForm.valid) {
+    if (this.username || this.email) {
       this.authService
         .resetPassword(this.email, this.username)
         .subscribe((res) => {
