@@ -16,7 +16,9 @@
                 <span class="user">
                   {{item?.groupName}}
                 </span>
-                <span class="text">Hi! :)</span>
+                <span *ngIf="item?.badge != 0" class="text">
+                  New message
+                </span>
               </div>
               <span class="count">
                 {{item?.badge}}
@@ -33,13 +35,12 @@
               <span class="user">
                 {{groupChat?.groupName}}
               </span>
-              <span class="time">Account Manager</span>
+              <!-- <span class="time">Account Manager</span> -->
             </div>
 
           </header>
-          <div class="message-wrap">
-
-            <div [class.me]="message.own" *ngFor="let message of listMessages" class="message-list">
+          <div #scrollFrame class="message-wrap">
+            <div [class.me]="message.own" *ngFor="let message of listMessages" #item class="message-list">
               <div *ngIf="message.type == 'text'" class="msg">
                 <p>
                   {{message.content}}
@@ -59,12 +60,16 @@
             </div>
 
             <div  *ngIf="isTyping" class="typing mx-auto p-2">
-              <span>User is typing ...</span>
+              <span>
+                {{whoTyping}}
+              </span>
             </div>
           </div>
+
           <form [formGroup]="messageForm">
             <div *ngIf="fileTemp" class="preview-img w-100 p-2">
               <img [src]="fileTemp" alt="imgUpload">
+               <!-- preview img -->
               <button (click)="removeImg()" class="btn btn-close"><i class="fas fa-times"></i></button>
             </div>
             <div class="message-footer">

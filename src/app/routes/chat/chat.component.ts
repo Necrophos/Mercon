@@ -4,13 +4,14 @@ import { Message } from "./../../models/message.model";
 import * as moment from "moment";
 import { ShareService } from "@services/share.service";
 import { ChatService } from "./../../services/chat.service";
-import { Component, OnInit, EventEmitter } from "@angular/core";
+import { Component, OnInit, EventEmitter, ElementRef, ViewChild, ViewChildren, QueryList } from "@angular/core";
 import { Subscription, Subject } from "rxjs";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { share, takeUntil, skipWhile, filter } from "rxjs/operators";
 
 import { Ng2ImgMaxService } from "ng2-img-max";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { isArray } from 'util';
 
 @Component({
   selector: "app-chat",
@@ -19,6 +20,12 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
   providers: [FileService],
 })
 export class ChatComponent implements OnInit {
+  // * Auto scroll bottom when have a new msg
+  @ViewChild('scrollFrame', {static: false}) scrollFrame: ElementRef;
+  @ViewChildren('item') itemElements: QueryList<any>;
+  private scrollContainer: any;
+  // * Auto scroll bottom when have a new msg
+
   constructor(
     private chatService: ChatService,
     private shareService: ShareService,
@@ -31,7 +38,7 @@ export class ChatComponent implements OnInit {
   listMessages = [];
   typingNotify = [];
   groupChat;
-  fileTemp = "";
+  fileTemp = ""; // preview img before send var
   chatter: EventEmitter<any> = new EventEmitter();
   subVars: Subscription;
   onDestroy$ = new Subject();
@@ -41,10 +48,11 @@ export class ChatComponent implements OnInit {
   uploadedImage: Blob;
   fileErr;
   fileName;
+  whoTyping = null;
 
   messageForm = new FormGroup({
-    messageRaw: new FormControl(""),
-    fileRaw: new FormControl(""),
+    messageRaw: new FormControl(null),
+    fileRaw: new FormControl(null),
   });
 
   get messageRaw() {
@@ -66,10 +74,19 @@ export class ChatComponent implements OnInit {
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(
           (message: any) => {
+            // console.log(message);
+            // all msg received will be returned here
             const objMessage = JSON.parse(message);
-            console.log(objMessage);
-            this.pushMesToList(objMessage, userId);
 
+
+            //get 50 lasted msg to display
+            console.log(objMessage);
+            if(isArray(objMessage)) {
+              objMessage.map((obj) => this.pushMesToList(obj, userId))
+            }
+            this.pushMesToList(objMessage, userId);
+          
+            
             //function typing
             this.onTyping$
               .pipe(filter((isOwn: boolean) => !isOwn))
@@ -91,6 +108,27 @@ export class ChatComponent implements OnInit {
     });
   }
 
+
+// * Auto scroll bottom when have a new msg
+  ngAfterViewInit() {
+    this.scrollContainer = this.scrollFrame.nativeElement;  
+    this.itemElements.changes.subscribe(_ => this.onItemElementsChanged());
+  }
+
+  private onItemElementsChanged(): void {
+    this.scrollToBottom();
+  }
+
+  private scrollToBottom(): void {
+    this.scrollContainer.scroll({
+      top: this.scrollContainer.scrollHeight,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }
+// * Auto scroll bottom when have a new msg
+
+
   ngOnDestroy() {
     this.onDestroy$.next(true);
     if (this.subVars) {
@@ -111,6 +149,7 @@ export class ChatComponent implements OnInit {
       "image/raw",
     ];
 
+    //example of resize img use ng2-img-max
     // if upload is img, so resize the image before update 2097152
     if (typePhoto.includes(file.type)) {
       if (file.size > 2097152) {
@@ -143,7 +182,7 @@ export class ChatComponent implements OnInit {
           this.messageForm.patchValue({
             fileRaw: this.fileTemp
           });
-          console.log(this.fileRaw);
+          // console.log(this.fileRaw);
         };
       }
     }
@@ -154,7 +193,7 @@ export class ChatComponent implements OnInit {
         this.sizeAlert();
       } else {
         let reader = new FileReader();
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(file); // preview img
         reader.onload = (e: any) => {
           this.fileTemp = e.target.result;
           this.messageForm.patchValue({
@@ -168,9 +207,10 @@ export class ChatComponent implements OnInit {
 
   sendMessage() {
     const userId = this.shareService.getUserId();
-    console.log("run");
+
 
     if (this.messageRaw != null && this.messageRaw != "") {
+      console.log("msg send run");
       const messageEncrypted = this.chatService.encrypt(
         this.groupChat.password,
         this.messageRaw
@@ -183,7 +223,7 @@ export class ChatComponent implements OnInit {
     }
 
     if (this.fileRaw != null) {
-      console.log("ok");
+      console.log("file send run");
 
       const messageEncrypted = this.chatService.encrypt(
         this.groupChat.password,
@@ -212,7 +252,7 @@ export class ChatComponent implements OnInit {
       '.png',
       '.jpg',
       'jpeg',
-      'gif'
+      '.gif'
     ]
     let obj = new Message();
     if (rawObj.type == "text") {
@@ -221,6 +261,10 @@ export class ChatComponent implements OnInit {
         this.groupChat.password,
         rawObj.data
       );
+    }
+
+    if (rawObj.type == 'typing') {
+      
     }
 
         //check obj response is img or file
@@ -252,11 +296,13 @@ export class ChatComponent implements OnInit {
     }
     if (rawObj.type == "typing") {
       let obj = await this.createObjMes(rawObj);
+      this.whoTyping = rawObj.data;
       this.onTyping$.next(obj.own);
       console.log(obj);
     }
   };
 
+    //example use even emit
   setClient(client) {
     this.chatter.emit(client);
   }
@@ -264,6 +310,7 @@ export class ChatComponent implements OnInit {
   changeGroup(groupItem) {
     this.setClient(groupItem);
   }
+  //example use even emit
 
   getGroupChat(userId) {
     const call = this.chatService.getGroupChat(userId).pipe(share());

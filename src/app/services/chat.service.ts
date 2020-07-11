@@ -36,9 +36,15 @@ export class ChatService extends BaseService {
           type: "clearBadge",
           sender_id: userId,
         };
+
+        //loading pending msg
+        const loadAfter = {
+          type: 'loadAfter',
+        }
         console.log("Connection established!");
         // that.connection.send(JSON.stringify(requestPendingMessage));
-        that.connection.send(JSON.stringify(clearBadge)); 
+        that.connection.send(JSON.stringify(loadAfter)); 
+        // that.connection.send(JSON.stringify(clearBadge)); 
       };
 
       that.connection.onmessage = (event) => {
