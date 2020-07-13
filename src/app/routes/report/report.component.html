@@ -13,7 +13,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let report of reports; let i=index">
-                <td><a class="linkdocument">
+                <td><a [href]="host + report.web_route" class="linkdocument">
                     {{report?.file_name}}
                   </a></td>
                 <td>
@@ -25,8 +25,8 @@
                       <i class="far fa-ellipsis-v"></i>
                     </button>
                     <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                      <button class="btn" ngbDropdownItem><i class="far fa-arrow-to-bottom mr-2"></i>Download</button>
-                      <button class="btn" ngbDropdownItem><i class="far fa-envelope mr-2"></i> Sent Email</button>
+                      <a [href]="host + report.web_route" target="_blank" class="btn" ngbDropdownItem><i class="far fa-arrow-to-bottom mr-2"></i>Download</a>
+                      <button (click)="sendShipmentFileByEmail(report)" class="btn" ngbDropdownItem><i class="far fa-envelope mr-2"></i> Sent Email</button>
                     </div>
                   </div>
                 </td>

@@ -39,7 +39,7 @@ export class ResetPasswordComponent implements OnInit {
         .subscribe((res) => {
           if (res.status) {
             // this.router.navigate(["/"]);
-            this.toastr.success("Success", "Reset password request sent!");
+            this.toastr.success("Success", "Request Successful, you'll receive email in a minute!");
           }
           console.log(res.status);
 

@@ -5,6 +5,7 @@ import { PLATFORM_ID } from '@angular/core';
 
 export const environment = {
   production: false,
+  host: 'https://variousmerconcoffee.com:8443',
   api: 'https://variousmerconcoffee.com:8443/MerconConnectRWS/rest/MerconConnect',
   loginEndpoint: 'https://variousmerconcoffee.com:8443/MCGENSRWS/Usuario/getMobileUser',
   dropdownEndpoint: 'https://variousmerconcoffee.com:8443/CXLRWS/Location/getCountriesByCounterpart',
