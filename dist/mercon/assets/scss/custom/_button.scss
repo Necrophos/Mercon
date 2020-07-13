@@ -1,0 +1,22 @@
+.btn-mp3 {
+  background-image: linear-gradient(to bottom right, #00ffed, #0080ea);
+  border: 1px solid black !important;
+  &:hover {
+    transition-duration: 0.1s;
+    background: transparent;
+    color: white !important;
+    border: 1px solid white !important;
+  }
+}
+
+.btn-black {
+  background: black !important;
+  color: white !important;
+  border: black solid 1px !important;
+
+  &:hover {
+    transition-duration: 0.1s;
+    background: transparent !important;
+    color: black !important;
+  }
+}

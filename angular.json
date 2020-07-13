@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "mp3-dee": {
+    "mercon": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/mp3-dee",
+            "outputPath": "dist/mercon",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -64,18 +64,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "mp3-dee:build"
+            "browserTarget": "mercon:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "mp3-dee:build:production"
+              "browserTarget": "mercon:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "mp3-dee:build"
+            "browserTarget": "mercon:build"
           }
         },
         "test": {
@@ -112,15 +112,15 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "mp3-dee:serve"
+            "devServerTarget": "mercon:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "mp3-dee:serve:production"
+              "devServerTarget": "mercon:serve:production"
             }
           }
         }
       }
     }},
-  "defaultProject": "mp3-dee"
+  "defaultProject": "mercon"
 }
