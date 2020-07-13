@@ -62,7 +62,7 @@ export class ChatService extends BaseService {
       data: messageToSend, //message is encrypted
       sender_id: userId,
       group_id: groupId,
-      check_id: "dev_test",
+      check_id: this.generateKey(),
     };
     this.connection.send(JSON.stringify(message));
   }
@@ -74,7 +74,7 @@ export class ChatService extends BaseService {
       file_name: fileName,
       sender_id: userId,
       group_id: groupId,
-      check_id: "dev_test",
+      check_id: this.generateKey(),
     };
     console.log('oke');
     
@@ -112,5 +112,11 @@ export class ChatService extends BaseService {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  generateKey() {
+   return "XXXXXXXX-XXXX-XXXX-XXXXXXXXXXXX".replace(/X/g, function() {
+      return "0123456789MERCON".charAt(Math.floor(Math.random() * 16))
+    });
   }
 }

@@ -8,7 +8,7 @@ import { ChatService } from "./../../services/chat.service";
 import { Component, OnInit, EventEmitter, ElementRef, ViewChild, ViewChildren, QueryList } from "@angular/core";
 import { Subscription, Subject, fromEvent } from "rxjs";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { share, takeUntil, skipWhile, filter } from "rxjs/operators";
+import { share, takeUntil, skipWhile, filter, debounceTime } from "rxjs/operators";
 
 import { Ng2ImgMaxService } from "ng2-img-max";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -98,11 +98,14 @@ export class ChatComponent implements OnInit {
           
             
             //function typing
-            this.onTyping$
-              .pipe(filter((isOwn: boolean) => !isOwn))
-              .subscribe(() => {
+            const sharedTyping = this.onTyping$
+              .pipe(filter((isOwn: boolean) => !isOwn), share())
+              sharedTyping.subscribe(() => {
                 this.isTyping = true;
               });
+              sharedTyping.pipe(debounceTime(3000)).subscribe(()=> {
+                this.isTyping= false;
+              })
           },
           (error) => alert(error)
         );
@@ -321,9 +324,6 @@ export class ChatComponent implements OnInit {
     if (rawObj.type == "text" || rawObj.type == "binary") {
       let obj = await this.createObjMes(rawObj);
       obj.own == false ? (this.isTyping = false) : "";
-      
-      let id = 0;
-      console.log(id);
       
       //check prev msg returned
       // if(obj.messageId < id) {
