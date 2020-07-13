@@ -44,7 +44,7 @@ export class ChatService extends BaseService {
         console.log("Connection established!");
         // that.connection.send(JSON.stringify(requestPendingMessage));
         that.connection.send(JSON.stringify(loadAfter)); 
-        // that.connection.send(JSON.stringify(clearBadge)); 
+        that.connection.send(JSON.stringify(clearBadge)); 
       };
 
       that.connection.onmessage = (event) => {
@@ -75,6 +75,8 @@ export class ChatService extends BaseService {
       group_id: groupId,
       check_id: "dev_test",
     };
+    console.log('oke');
+    
     this.connection.send(JSON.stringify(message));
   }
 

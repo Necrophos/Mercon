@@ -35,12 +35,15 @@ export class ChatComponent implements OnInit {
   listGroup;
   isTyping;
   isFile;
+  isImg;
   listMessages = [];
   typingNotify = [];
   groupChat;
   fileTemp = ""; // preview img before send var
   chatter: EventEmitter<any> = new EventEmitter();
+  badge: EventEmitter<any> = new EventEmitter();
   subVars: Subscription;
+  subVarsToClearBadge: Subscription;
   onDestroy$ = new Subject();
   onTyping$ = new Subject();
 
@@ -48,6 +51,7 @@ export class ChatComponent implements OnInit {
   uploadedImage: Blob;
   fileErr;
   fileName;
+  fileType;
   whoTyping = null;
 
   messageForm = new FormGroup({
@@ -106,6 +110,12 @@ export class ChatComponent implements OnInit {
         this.chatService.chatInit(userId, this.groupChat.groupId);
       }
     });
+
+    this.subVarsToClearBadge = this.badge.subscribe((res) => {
+      if(res) {
+        this.groupChat.badge = res;
+      }
+    })
   }
 
 
@@ -139,6 +149,7 @@ export class ChatComponent implements OnInit {
   readFile(fileEvent: any) {
     const file = fileEvent.target.files[0];
     this.fileName = file.name;
+    this.fileType = file.type;
 
     const typePhoto = [
       "image/jpg",
@@ -152,6 +163,7 @@ export class ChatComponent implements OnInit {
     //example of resize img use ng2-img-max
     // if upload is img, so resize the image before update 2097152
     if (typePhoto.includes(file.type)) {
+      this.isImg = true;
       if (file.size > 2097152) {
         this.ng2ImgMax.compressImage(file, 0.2).subscribe(
           (result) => {
@@ -189,6 +201,7 @@ export class ChatComponent implements OnInit {
 
     //if upload is file, so check if file is invalid and convert to base64
     if (!typePhoto.includes(file.type)) {
+      this.isFile = true;
       if (file.size > 20971520) {
         this.sizeAlert();
       } else {
@@ -237,6 +250,8 @@ export class ChatComponent implements OnInit {
         this.fileName
       );
       this.fileTemp = "";
+      this.isFile = false;
+      this.isImg = false;
     }
     this.clearMsg();
   }
@@ -261,10 +276,6 @@ export class ChatComponent implements OnInit {
         this.groupChat.password,
         rawObj.data
       );
-    }
-
-    if (rawObj.type == 'typing') {
-      
     }
 
         //check obj response is img or file
@@ -292,14 +303,18 @@ export class ChatComponent implements OnInit {
       let obj = await this.createObjMes(rawObj);
       obj.own == false ? (this.isTyping = false) : "";
       this.listMessages.push(obj);
-      console.log(this.listMessages);
+      // console.log(this.listMessages);
     }
     if (rawObj.type == "typing") {
       let obj = await this.createObjMes(rawObj);
       this.whoTyping = rawObj.data;
       this.onTyping$.next(obj.own);
-      console.log(obj);
+      // console.log(obj);
     }
+    if (rawObj.type == 'clearBadge') {
+      this.clearBadge(0);
+    }
+
   };
 
     //example use even emit
@@ -307,8 +322,16 @@ export class ChatComponent implements OnInit {
     this.chatter.emit(client);
   }
 
+  setBadge(value) {
+    this.badge.emit(value);
+  }
+
   changeGroup(groupItem) {
     this.setClient(groupItem);
+  }
+
+  clearBadge(emptyValue) {
+    this.setBadge(emptyValue)
   }
   //example use even emit
 
@@ -316,6 +339,8 @@ export class ChatComponent implements OnInit {
     const call = this.chatService.getGroupChat(userId).pipe(share());
     call.subscribe((res) => {
       this.listGroup = res;
+      console.log(this.listGroup);
+      
       this.groupChat = res[0];
     });
     return call;
@@ -331,8 +356,10 @@ export class ChatComponent implements OnInit {
       "The file you have selected is too large. The maximum size is 20MB";
   }
 
-  removeImg() {
+  removeFile() {
     this.fileTemp = "";
+    this.isFile = false;
+    this.isImg = false;
     this.messageForm.reset();
   }
 }
