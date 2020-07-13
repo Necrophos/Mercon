@@ -16,6 +16,7 @@ export class ChatService extends BaseService {
     const params = {
       user_id: userId,
       app_id: environment.APP_ID,
+      platform: environment.PLATFORM_ID
     };
     return this.get(routes, params);
   }
@@ -39,7 +40,7 @@ export class ChatService extends BaseService {
 
         //loading pending msg
         const loadAfter = {
-          type: 'loadAfter',
+          type: 'loadAfter'
         }
         console.log("Connection established!");
         // that.connection.send(JSON.stringify(requestPendingMessage));
@@ -78,6 +79,14 @@ export class ChatService extends BaseService {
     console.log('oke');
     
     this.connection.send(JSON.stringify(message));
+  }
+
+  loadPrevMsg(oldest_msg_id) {
+    const loadBefore = {
+      type: 'loadBefore ',
+      message_id: oldest_msg_id
+    }
+    this.connection.send(JSON.stringify(loadBefore)); 
   }
 
   showUserTyping(userId, groupId) {

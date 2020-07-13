@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { AuthService } from "@services/auth.service";
 import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-reset-password",
@@ -10,7 +11,11 @@ import { Router } from "@angular/router";
   providers: [AuthService],
 })
 export class ResetPasswordComponent implements OnInit {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
 
   error: any;
 
@@ -34,11 +39,10 @@ export class ResetPasswordComponent implements OnInit {
         .subscribe((res) => {
           if (res.status) {
             // this.router.navigate(["/"]);
-            console.log(res.status);
-            
+            this.toastr.success("Success", "Reset password request sent!");
           }
           console.log(res.status);
-          
+
           if (!res.status) {
             this.error = true;
           }

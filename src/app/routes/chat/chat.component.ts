@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { AlertComponent } from "./../../modals/alert/alert.component";
 import { FileService } from "./../../services/file.service";
 import { Message } from "./../../models/message.model";
@@ -5,13 +6,14 @@ import * as moment from "moment";
 import { ShareService } from "@services/share.service";
 import { ChatService } from "./../../services/chat.service";
 import { Component, OnInit, EventEmitter, ElementRef, ViewChild, ViewChildren, QueryList } from "@angular/core";
-import { Subscription, Subject } from "rxjs";
+import { Subscription, Subject, fromEvent } from "rxjs";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { share, takeUntil, skipWhile, filter } from "rxjs/operators";
 
 import { Ng2ImgMaxService } from "ng2-img-max";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { isArray } from 'util';
+import { async } from '@angular/core/testing';
 
 @Component({
   selector: "app-chat",
@@ -23,7 +25,7 @@ export class ChatComponent implements OnInit {
   // * Auto scroll bottom when have a new msg
   @ViewChild('scrollFrame', {static: false}) scrollFrame: ElementRef;
   @ViewChildren('item') itemElements: QueryList<any>;
-  private scrollContainer: any;
+  private scrollContainer: Element;
   // * Auto scroll bottom when have a new msg
 
   constructor(
@@ -36,7 +38,8 @@ export class ChatComponent implements OnInit {
   isTyping;
   isFile;
   isImg;
-  listMessages = [];
+  listMessages: Message[] = [];
+
   typingNotify = [];
   groupChat;
   fileTemp = ""; // preview img before send var
@@ -53,6 +56,7 @@ export class ChatComponent implements OnInit {
   fileName;
   fileType;
   whoTyping = null;
+  prevScroll = 0;
 
   messageForm = new FormGroup({
     messageRaw: new FormControl(null),
@@ -77,7 +81,7 @@ export class ChatComponent implements OnInit {
       this.chatService.onComingMessage$
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(
-          (message: any) => {
+         async (message: any) => {
             // console.log(message);
             // all msg received will be returned here
             const objMessage = JSON.parse(message);
@@ -85,9 +89,11 @@ export class ChatComponent implements OnInit {
 
             //get 50 lasted msg to display
             console.log(objMessage);
-            if(isArray(objMessage)) {
-              objMessage.map((obj) => this.pushMesToList(obj, userId))
+
+            if (isArray(objMessage)) {
+            await objMessage.map((obj) => this.pushMesToList(obj, userId))
             }
+
             this.pushMesToList(objMessage, userId);
           
             
@@ -121,7 +127,8 @@ export class ChatComponent implements OnInit {
 
 // * Auto scroll bottom when have a new msg
   ngAfterViewInit() {
-    this.scrollContainer = this.scrollFrame.nativeElement;  
+    this.scrollContainer = this.scrollFrame.nativeElement;
+    this.getMoreMsgOnTop();
     this.itemElements.changes.subscribe(_ => this.onItemElementsChanged());
   }
 
@@ -133,8 +140,18 @@ export class ChatComponent implements OnInit {
     this.scrollContainer.scroll({
       top: this.scrollContainer.scrollHeight,
       left: 0,
-      behavior: 'smooth'
     });
+  }
+
+  private getMoreMsgOnTop(): void {
+   this.scrollContainer.addEventListener('scroll', () => {
+     const currentScroll = this.scrollContainer.scrollTop;
+     if(currentScroll == 0) {
+      if (this.listMessages[0].messageId) {
+        this.chatService.loadPrevMsg(this.listMessages[0].messageId);
+      }
+     }
+    })
   }
 // * Auto scroll bottom when have a new msg
 
@@ -276,6 +293,7 @@ export class ChatComponent implements OnInit {
         this.groupChat.password,
         rawObj.data
       );
+      obj.messageId = rawObj.message_id
     }
 
         //check obj response is img or file
@@ -287,6 +305,7 @@ export class ChatComponent implements OnInit {
       console.log(obj.type);
       obj.fileName = rawObj.file_name;
       obj.content = rawObj.data;
+      obj.messageId = rawObj.message_id
     }
    
     
@@ -302,7 +321,17 @@ export class ChatComponent implements OnInit {
     if (rawObj.type == "text" || rawObj.type == "binary") {
       let obj = await this.createObjMes(rawObj);
       obj.own == false ? (this.isTyping = false) : "";
-      this.listMessages.push(obj);
+      
+      let id = 0;
+      console.log(id);
+      
+      //check prev msg returned
+      // if(obj.messageId < id) {
+      //   this.listMessages.unshift(obj);
+      //   id = this.listMessages[0].messageId;
+      // }
+      this.listMessages.push(obj)
+      
       // console.log(this.listMessages);
     }
     if (rawObj.type == "typing") {
@@ -316,6 +345,11 @@ export class ChatComponent implements OnInit {
     }
 
   };
+
+  pushMesToHead = async (rawObj, userId) => {
+    let obj = await this.createObjMes(rawObj);
+    this.listMessages.unshift(obj);
+  }
 
     //example use even emit
   setClient(client) {
@@ -339,7 +373,7 @@ export class ChatComponent implements OnInit {
     const call = this.chatService.getGroupChat(userId).pipe(share());
     call.subscribe((res) => {
       this.listGroup = res;
-      console.log(this.listGroup);
+      // console.log(this.listGroup);
       
       this.groupChat = res[0];
     });
