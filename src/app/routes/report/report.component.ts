@@ -53,14 +53,11 @@ export class ReportComponent implements OnInit {
     const userId = this.shareService.getUserId();
     const req = {
       company_num: this.shareService.getCompany,
-      file_name: file.fileName,
+      file_name: file.file_name,
       mail_to: this.shareService.getUserEmail,
       platform: environment.PLATFORM_ID,
-      device_id: environment.APP_ID,
       generated_by: this.shareService.getUserName,
-      physical_route: `${environment.host}${file.pRoute}`,
-      user_id: userId,
-      file_id: file.fileId
+      physical_route: `${file.physical_route}`,
     }
 
     console.log(req);

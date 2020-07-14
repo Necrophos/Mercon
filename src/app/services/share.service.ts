@@ -33,7 +33,7 @@ export class ShareService extends BaseService {
   }
 
   get getUserName() {
-    return this.user.firstLastname;
+    return this.user.userName;
   }
 
   get getUserEmail() {
