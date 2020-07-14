@@ -11,6 +11,7 @@ import { AdminModule } from '@layouts/admin/admin.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { ToastrModule } from 'ngx-toastr';
+import { ChatService } from '@services/chat.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import { ToastrModule } from 'ngx-toastr';
     AdminModule,
     ToastrModule.forRoot()
   ],
-  providers: [ShareService, ...interceptors],
+  providers: [ShareService, ...interceptors, ChatService],
   schemas: [NO_ERRORS_SCHEMA],
   bootstrap: [AppComponent]
 })

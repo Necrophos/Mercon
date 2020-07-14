@@ -51,6 +51,7 @@ export class ChatComponent implements OnInit {
   onTyping$ = new Subject();
 
   messageReceived;
+  mileStone;
   uploadedImage: Blob;
   fileErr;
   fileName;
@@ -84,10 +85,9 @@ export class ChatComponent implements OnInit {
          async (message: any) => {
             // console.log(message);
             // all msg received will be returned here
-            const objMessage = JSON.parse(message);
-
-
-            //get 50 lasted msg to display
+            if(message != '') {
+              const objMessage = JSON.parse(message);
+               //get 50 lasted msg to display
             console.log(objMessage);
 
             if (isArray(objMessage)) {
@@ -95,7 +95,8 @@ export class ChatComponent implements OnInit {
             }
 
             this.pushMesToList(objMessage, userId);
-          
+            }
+           
             
             //function typing
             const sharedTyping = this.onTyping$
@@ -146,17 +147,18 @@ export class ChatComponent implements OnInit {
     });
   }
 
+  // * Get more msg when scroll to top of chat box
+
   private getMoreMsgOnTop(): void {
+    const that = this;
    this.scrollContainer.addEventListener('scroll', () => {
      const currentScroll = this.scrollContainer.scrollTop;
-     if(currentScroll == 0) {
-      if (this.listMessages[0].messageId) {
-        this.chatService.loadPrevMsg(this.listMessages[0].messageId);
-      }
+     if(currentScroll == 0 && this.listMessages.length != 0) {
+        that.chatService.loadPrevMsg(this.listMessages[0].messageId);
      }
     })
   }
-// * Auto scroll bottom when have a new msg
+
 
 
   ngOnDestroy() {
@@ -325,13 +327,13 @@ export class ChatComponent implements OnInit {
       let obj = await this.createObjMes(rawObj);
       obj.own == false ? (this.isTyping = false) : "";
       
-      //check prev msg returned
-      // if(obj.messageId < id) {
-      //   this.listMessages.unshift(obj);
-      //   id = this.listMessages[0].messageId;
-      // }
+      if (rawObj.message_id < this.mileStone) {
+        this.listMessages.unshift(obj);
+        this.mileStone = rawObj.message_id;
+      }
       this.listMessages.push(obj)
-      
+      this.mileStone = rawObj.message_id;
+      // console.log(this.mileStone);
       // console.log(this.listMessages);
     }
     if (rawObj.type == "typing") {
@@ -345,11 +347,6 @@ export class ChatComponent implements OnInit {
     }
 
   };
-
-  pushMesToHead = async (rawObj, userId) => {
-    let obj = await this.createObjMes(rawObj);
-    this.listMessages.unshift(obj);
-  }
 
     //example use even emit
   setClient(client) {
