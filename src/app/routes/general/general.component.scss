@@ -1,28 +1,33 @@
-.tabset {
-    .nav-pills {
-        li {
-            width: 33.333%;
-            border-radius: 0;
-            padding: 5px 1rem;
-            text-align: center;
-            cursor: pointer;
-
-            &:hover {
-                color: #A3CF60;
-            }
-
-            a {
-                width: 100%;
-            }
+.tab-content {
+    background-color: #f7f7f7;
+    .w-30 {
+        width: 33.333%;
+        border-radius: 0;
+        padding: 5px 1rem;
+        text-align: center;
+        cursor: pointer;
+        &:hover {
+            color: #a3cf60;
         }
 
-        .active {
-            background-color: #A3CF60;
-            color: white;
-
-            &:hover {
-                color: white;
-            }
+        a {
+            width: 100%;
         }
+    }
+
+    // .active {
+    //     background-color: #a3cf60;
+    //     color: white;
+
+    //     &:hover {
+    //         color: white;
+    //     }
+    // }
+}
+
+.links {
+    .info {
+        text-decoration: underline;
+        color: #a3cf60;
     }
 }

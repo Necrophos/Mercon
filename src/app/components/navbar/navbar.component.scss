@@ -7,6 +7,12 @@
 }
 
 .marcon-navbar-mobile {
+  .active {
+    background: #a3cf60;
+    color: #fff !important;
+    border-radius: 40px 0 0 40px;
+  }
+  
   .dropdown-option {
     .dropdown-toggle::after {
       display: none !important;
@@ -122,8 +128,4 @@
   display: block;
 }
 
-.active {
-  background: #a3cf60;
-  color: #fff !important;
-  border-radius: 40px 0 0 40px;
-}
+

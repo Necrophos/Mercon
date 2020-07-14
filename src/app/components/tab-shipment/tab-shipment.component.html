@@ -7,7 +7,7 @@
         <ul class="infoNumber">
           <li class="row">
             <label class="col-5">Bill of lading</label>
-            <div class="col-7 linkfile">
+            <div class="col-7 p-0 linkfile">
               {{data?.blNumber}}
               <button class="btn btnPrimary" (click)="onClickBOL()" routerLinkActive="router-link-active" >
                 <i class="fal fa-file-invoice"></i>
@@ -16,25 +16,25 @@
           </li>
           <li class="row">
             <label class="col-5">Booking #</label>
-            <div class="col-7">
+            <div class="col-7 p-0">
               {{data?.booking_number}}
             </div>
           </li>
           <li class="row">
             <label class="col-5">Vessel</label>
-            <div class="col-7">
+            <div class="col-7 p-0">
               {{data?.vessel}}
             </div>
           </li>
           <li class="row">
             <label class="col-5">Duration </label>
-            <div class="col-7">
+            <div class="col-7 p-0">
               {{data?.duration}}
             </div>
           </li>
           <li class="row">
             <label class="col-5">Requested</label>
-            <div class="col-7">
+            <div class="col-7 p-0">
               {{data?.etsRequest}}
             </div>
           </li>
