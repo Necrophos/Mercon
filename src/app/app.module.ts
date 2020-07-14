@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { ClientModule } from '@layouts/client/client.module';
 import { AdminModule } from '@layouts/admin/admin.module';
 import { HttpClientModule } from '@angular/common/http';
-import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxSpinnerModule, NgxSpinnerService } from "ngx-spinner";
 import { ToastrModule } from 'ngx-toastr';
 import { ChatService } from '@services/chat.service';
 
@@ -27,7 +27,7 @@ import { ChatService } from '@services/chat.service';
     AdminModule,
     ToastrModule.forRoot()
   ],
-  providers: [ShareService, ...interceptors, ChatService],
+  providers: [ShareService, ...interceptors, ChatService, NgxSpinnerService],
   schemas: [NO_ERRORS_SCHEMA],
   bootstrap: [AppComponent]
 })
