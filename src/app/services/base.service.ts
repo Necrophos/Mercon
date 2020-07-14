@@ -10,9 +10,6 @@ export interface CustomResponse {
   [key: string]: any;
 }
 
-@Injectable({
-  providedIn: "root",
-})
 export class BaseService {
   protected configs;
 

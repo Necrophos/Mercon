@@ -16,19 +16,27 @@ export class ChatService extends BaseService {
     const params = {
       user_id: userId,
       app_id: environment.APP_ID,
-      platform: environment.PLATFORM_ID
+      platform: environment.PLATFORM_ID,
     };
     return this.get(routes, params);
   }
 
   chatInit = (userId, groupId) => {
-    new Promise((res, rej) => {
+    const that = this;
+    this.openSocket(userId, groupId).then((connection) => {
+      that.connection = connection;
+      that.messageListener(connection);
+    });
+  };
+
+  openSocket(userId, groupId) {
+    return new Promise((res, rej) => {
       const that = this;
       let messageReceived;
-      this.connection = new WebSocket(
+      const connection = new WebSocket(
         `${environment.WEB_SOCKET_LINK}/${userId}/${environment.APP_ID}/${groupId}`
       );
-      this.connection.onopen = async (event) => {
+      connection.onopen = async (event) => {
         const requestPendingMessage = {
           type: "getPendingMessages",
           sender_id: userId,
@@ -40,25 +48,29 @@ export class ChatService extends BaseService {
 
         //loading pending msg
         const loadAfter = {
-          type: 'loadAfter'
-        }
+          type: "loadAfter",
+          message_id: "6184",
+        };
         console.log("Connection established!");
         // that.connection.send(JSON.stringify(requestPendingMessage));
-        that.connection.send(JSON.stringify(loadAfter)); 
-        that.connection.send(JSON.stringify(clearBadge)); 
-      };
+        console.log(loadAfter);
 
-      that.connection.onmessage = (event) => {
-        messageReceived = event.data;
-        res();
-        this.onComingMessage$.next(messageReceived);
+        connection.send(JSON.stringify(loadAfter)); //change loadAfter to loadLatest when api loadLatest fixed
+        connection.send(JSON.stringify(clearBadge));
+        res(connection);
       };
     });
-  };
+  }
+
+  messageListener(connection) {
+    connection.onmessage = (event) => {
+      this.onComingMessage$.next(event.data);
+    };
+  }
 
   sendMessage(userId, groupId, messageToSend) {
     const message = {
-      type: 'text',
+      type: "text",
       data: messageToSend, //message is encrypted
       sender_id: userId,
       group_id: groupId,
@@ -69,31 +81,35 @@ export class ChatService extends BaseService {
 
   sendFile(userId, groupId, fileToSend, fileName) {
     const message = {
-      type: 'binary',
+      type: "binary",
       data: fileToSend, //message is encrypted
       file_name: fileName,
       sender_id: userId,
       group_id: groupId,
       check_id: this.generateKey(),
     };
-    console.log('oke');
-    
+    // console.log('oke');
+
     this.connection.send(JSON.stringify(message));
   }
 
   loadPrevMsg(oldest_msg_id) {
     const loadBefore = {
-      type: 'loadBefore ',
-      message_id: oldest_msg_id
-    }
-    this.connection.send(JSON.stringify(loadBefore)); 
+      type: "loadBefore",
+      message_id: oldest_msg_id,
+    };
+    console.log(loadBefore);
+    console.log(this.connection);
+
+    this.connection
+      .send(JSON.stringify(loadBefore)); 
   }
 
   showUserTyping(userId, groupId) {
     const params = {
       type: "typing",
       sender_id: userId,
-      group_id: groupId
+      group_id: groupId,
     };
     this.connection.send(JSON.stringify(params));
   }
@@ -108,15 +124,17 @@ export class ChatService extends BaseService {
 
   decrypted(key, textToDecrypt) {
     try {
-      return CryptoJS.AES.decrypt(textToDecrypt, key).toString(CryptoJS.enc.Utf8)
+      return CryptoJS.AES.decrypt(textToDecrypt, key).toString(
+        CryptoJS.enc.Utf8
+      );
     } catch (error) {
       console.log(error);
     }
   }
 
   generateKey() {
-   return "XXXXXXXX-XXXX-XXXX-XXXXXXXXXXXX".replace(/X/g, function() {
-      return "0123456789MERCON".charAt(Math.floor(Math.random() * 16))
+    return "XXXXXXXX-XXXX-XXXX-XXXXXXXXXXXX".replace(/X/g, function () {
+      return "0123456789MERCON".charAt(Math.floor(Math.random() * 16));
     });
   }
 }
