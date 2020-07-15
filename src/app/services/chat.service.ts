@@ -51,11 +51,21 @@ export class ChatService extends BaseService {
           type: "loadAfter",
           message_id: "6184",
         };
+
+        const loadLatest50 = {
+          type: "loadLatest50",
+          sender_id: userId,
+          group_id: groupId,
+          user_id : userId,
+          app_id : 38,
+          data : "loadLatest50"
+       
+        }
         console.log("Connection established!");
         // that.connection.send(JSON.stringify(requestPendingMessage));
-        console.log(loadAfter);
+        console.log(loadLatest50);
 
-        connection.send(JSON.stringify(loadAfter)); //change loadAfter to loadLatest when api loadLatest fixed
+        connection.send(JSON.stringify(loadLatest50)); //change loadAfter to loadLatest when api loadLatest fixed
         connection.send(JSON.stringify(clearBadge));
         res(connection);
       };
