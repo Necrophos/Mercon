@@ -21,7 +21,8 @@ export class ReportComponent implements OnInit {
   constructor(
     private reportService: ReportService,
     private shareService: ShareService,
-    private documentService: DocumentService
+    private documentService: DocumentService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -44,8 +45,6 @@ export class ReportComponent implements OnInit {
   getAllReports(companyNum) {
     this.reportService.getAllReports(companyNum).subscribe((res) => {
       this.reports = res;
-      console.log(res);
-      
     });
   }
 
@@ -59,12 +58,9 @@ export class ReportComponent implements OnInit {
       generated_by: this.shareService.getUserName,
       physical_route: `${file.physical_route}`,
     }
-
-    console.log(req);
     
-    this.documentService.sendByMail(req).subscribe((res) => {
-      console.log(res);
-      
+    this.documentService.sendByMail(req).subscribe((res: any) => {
+      this.toastr.success('Success', res.message);
     })
   }
 }

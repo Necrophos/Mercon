@@ -1,19 +1,32 @@
-import { element } from 'protractor';
+import { element } from "protractor";
 import { AlertComponent } from "./../../modals/alert/alert.component";
 import { FileService } from "./../../services/file.service";
 import { Message } from "./../../models/message.model";
 import * as moment from "moment";
 import { ShareService } from "@services/share.service";
 import { ChatService } from "./../../services/chat.service";
-import { Component, OnInit, EventEmitter, ElementRef, ViewChild, ViewChildren, QueryList } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  ElementRef,
+  ViewChild,
+  ViewChildren,
+  QueryList,
+} from "@angular/core";
 import { Subscription, Subject, fromEvent } from "rxjs";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { share, takeUntil, skipWhile, filter, debounceTime } from "rxjs/operators";
+import {
+  share,
+  takeUntil,
+  skipWhile,
+  filter,
+  debounceTime,
+} from "rxjs/operators";
 
 import { Ng2ImgMaxService } from "ng2-img-max";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { isArray } from 'util';
-import { async } from '@angular/core/testing';
+import { isArray } from "util";
 
 @Component({
   selector: "app-chat",
@@ -23,8 +36,8 @@ import { async } from '@angular/core/testing';
 })
 export class ChatComponent implements OnInit {
   // * Auto scroll bottom when have a new msg
-  @ViewChild('scrollFrame', {static: false}) scrollFrame: ElementRef;
-  @ViewChildren('item') itemElements: QueryList<any>;
+  @ViewChild("scrollFrame", { static: false }) scrollFrame: ElementRef;
+  @ViewChildren("item") itemElements: QueryList<any>;
   private scrollContainer: Element;
   // * Auto scroll bottom when have a new msg
 
@@ -38,6 +51,7 @@ export class ChatComponent implements OnInit {
   isTyping;
   isFile;
   isImg;
+  scrollBot: boolean;
   listMessages: Message[] = [];
 
   typingNotify = [];
@@ -51,7 +65,7 @@ export class ChatComponent implements OnInit {
   onTyping$ = new Subject();
 
   messageReceived;
-  mileStone;
+  mileStone = 0;
   uploadedImage: Blob;
   fileErr;
   fileName;
@@ -73,6 +87,7 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.scrollBot = true;
     const userId = this.shareService.getUserId();
     this.getGroupChat(userId).subscribe(async () => {
       this.messageReceived = await this.chatService.chatInit(
@@ -82,31 +97,32 @@ export class ChatComponent implements OnInit {
       this.chatService.onComingMessage$
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(
-         async (message: any) => {
+          async (message: any) => {
             // console.log(message);
             // all msg received will be returned here
-            if(message != '') {
+            if (message != "") {
               const objMessage = JSON.parse(message);
-               //get 50 lasted msg to display
-            console.log(objMessage);
+              //get 50 lasted msg to display
+              // console.log(objMessage);
 
-            if (isArray(objMessage)) {
-            await objMessage.map((obj) => this.pushMesToList(obj, userId))
+              if (isArray(objMessage)) {
+                await objMessage.map((obj) => this.pushMesToList(obj, userId));
+              }
+
+              this.pushMesToList(objMessage, userId);
             }
 
-            this.pushMesToList(objMessage, userId);
-            }
-           
-            
             //function typing
-            const sharedTyping = this.onTyping$
-              .pipe(filter((isOwn: boolean) => !isOwn), share())
-              sharedTyping.subscribe(() => {
-                this.isTyping = true;
-              });
-              sharedTyping.pipe(debounceTime(3000)).subscribe(()=> {
-                this.isTyping= false;
-              })
+            const sharedTyping = this.onTyping$.pipe(
+              filter((isOwn: boolean) => !isOwn),
+              share()
+            );
+            sharedTyping.subscribe(() => {
+              this.isTyping = true;
+            });
+            sharedTyping.pipe(debounceTime(3000)).subscribe(() => {
+              this.isTyping = false;
+            });
           },
           (error) => alert(error)
         );
@@ -116,28 +132,28 @@ export class ChatComponent implements OnInit {
       this.chatService.closeWebsocket();
       if (res) {
         this.groupChat = res;
+        this.scrollBot = true;
         this.listMessages = [];
         this.chatService.chatInit(userId, this.groupChat.groupId);
       }
     });
 
     this.subVarsToClearBadge = this.badge.subscribe((res) => {
-      if(res) {
+      if (res) {
         this.groupChat.badge = res;
       }
-    })
+    });
   }
 
-
-// * Auto scroll bottom when have a new msg
+  // * Auto scroll bottom when have a new msg
   ngAfterViewInit() {
     this.scrollContainer = this.scrollFrame.nativeElement;
     this.getMoreMsgOnTop();
-    this.itemElements.changes.subscribe(_ => this.onItemElementsChanged());
+    this.itemElements.changes.subscribe((_) => this.onItemElementsChanged());
   }
 
   private onItemElementsChanged(): void {
-    this.scrollToBottom();
+    this.scrollBot ? this.scrollToBottom() : this.scrollToMiddle();
   }
 
   private scrollToBottom(): void {
@@ -147,19 +163,25 @@ export class ChatComponent implements OnInit {
     });
   }
 
+  private scrollToMiddle() {
+    this.scrollContainer.scroll({
+      top: this.scrollContainer.scrollHeight / 2,
+      left: 0,
+    });
+  }
+
   // * Get more msg when scroll to top of chat box
 
   private getMoreMsgOnTop(): void {
     const that = this;
-   this.scrollContainer.addEventListener('scroll', () => {
-     const currentScroll = this.scrollContainer.scrollTop;
-     if(currentScroll == 0 && this.listMessages.length != 0) {
+    this.scrollContainer.addEventListener("scroll", () => {
+      const currentScroll = this.scrollContainer.scrollTop;
+      if (currentScroll == 0 && this.listMessages.length != 0) {
         that.chatService.loadPrevMsg(this.listMessages[0].messageId);
-     }
-    })
+        this.scrollBot = false;
+      }
+    });
   }
-
-
 
   ngOnDestroy() {
     this.onDestroy$.next(true);
@@ -196,7 +218,7 @@ export class ChatComponent implements OnInit {
             reader.onload = (e: any) => {
               this.fileTemp = e.target.result;
               this.messageForm.patchValue({
-                fileRaw: this.fileTemp
+                fileRaw: this.fileTemp,
               });
               // console.log("file > 2mb", this.fileRaw);
             };
@@ -214,7 +236,7 @@ export class ChatComponent implements OnInit {
         reader.onload = (e: any) => {
           this.fileTemp = e.target.result;
           this.messageForm.patchValue({
-            fileRaw: this.fileTemp
+            fileRaw: this.fileTemp,
           });
           // console.log(this.fileRaw);
         };
@@ -232,7 +254,7 @@ export class ChatComponent implements OnInit {
         reader.onload = (e: any) => {
           this.fileTemp = e.target.result;
           this.messageForm.patchValue({
-            fileRaw: this.fileTemp
+            fileRaw: this.fileTemp,
           });
           // console.log("valid file", this.fileRaw);
         };
@@ -242,7 +264,6 @@ export class ChatComponent implements OnInit {
 
   sendMessage() {
     const userId = this.shareService.getUserId();
-
 
     if (this.messageRaw != null && this.messageRaw != "") {
       console.log("msg send run");
@@ -275,6 +296,7 @@ export class ChatComponent implements OnInit {
       this.isFile = false;
       this.isImg = false;
     }
+    this.scrollBot = true;
     this.clearMsg();
   }
 
@@ -285,12 +307,7 @@ export class ChatComponent implements OnInit {
   }
 
   createObjMes(rawObj) {
-    const type = [
-      '.png',
-      '.jpg',
-      'jpeg',
-      '.gif'
-    ]
+    const type = [".png", ".jpg", "jpeg", ".gif"];
     let obj = new Message();
     if (rawObj.type == "text") {
       obj.type = rawObj.type;
@@ -298,22 +315,24 @@ export class ChatComponent implements OnInit {
         this.groupChat.password,
         rawObj.data
       );
-      obj.messageId = rawObj.message_id
+      obj.messageId = rawObj.message_id;
     }
 
-        //check obj response is img or file
+    //check obj response is img or file
     if (rawObj.type == "binary") {
-      let check = rawObj.data.substring(rawObj.data.length - 4, rawObj.data.length);
-      console.log('check:',check);
-      
-      type.includes(check) ? obj.type = 'image' : obj.type = 'file';
-      console.log(obj.type);
+      let check = rawObj.data.substring(
+        rawObj.data.length - 4,
+        rawObj.data.length
+      );
+      // console.log('check:',check);
+
+      type.includes(check) ? (obj.type = "image") : (obj.type = "file");
+      // console.log(obj.type);
       obj.fileName = rawObj.file_name;
       obj.content = rawObj.data;
-      obj.messageId = rawObj.message_id
+      obj.messageId = rawObj.message_id;
     }
-   
-    
+
     obj.timestamp = moment(rawObj.message_date).format("YYYY[-]MM[-]DD");
     rawObj.sender_id == this.groupChat.userId
       ? (obj.own = true)
@@ -326,13 +345,15 @@ export class ChatComponent implements OnInit {
     if (rawObj.type == "text" || rawObj.type == "binary") {
       let obj = await this.createObjMes(rawObj);
       obj.own == false ? (this.isTyping = false) : "";
-      
+
       if (rawObj.message_id < this.mileStone) {
         this.listMessages.unshift(obj);
         this.mileStone = rawObj.message_id;
       }
-      this.listMessages.push(obj)
-      this.mileStone = rawObj.message_id;
+      if (rawObj.message_id > this.mileStone) {
+        this.listMessages.push(obj);
+        this.mileStone = rawObj.message_id;
+      }
       // console.log(this.mileStone);
       // console.log(this.listMessages);
     }
@@ -342,13 +363,12 @@ export class ChatComponent implements OnInit {
       this.onTyping$.next(obj.own);
       // console.log(obj);
     }
-    if (rawObj.type == 'clearBadge') {
+    if (rawObj.type == "clearBadge") {
       this.clearBadge(0);
     }
-
   };
 
-    //example use even emit
+  //example use even emit
   setClient(client) {
     this.chatter.emit(client);
   }
@@ -362,7 +382,7 @@ export class ChatComponent implements OnInit {
   }
 
   clearBadge(emptyValue) {
-    this.setBadge(emptyValue)
+    this.setBadge(emptyValue);
   }
   //example use even emit
 
@@ -371,7 +391,7 @@ export class ChatComponent implements OnInit {
     call.subscribe((res) => {
       this.listGroup = res;
       // console.log(this.listGroup);
-      
+
       this.groupChat = res[0];
     });
     return call;

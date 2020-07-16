@@ -1,112 +1,115 @@
 <div class="d-flex" id="wrapper">
   <div id="page-content-wrapper">
     <div class="container">
-      <div class="chatbox">
-        <div class="sidebar">
-          <div class="searchChat">
-            <input type="text" class="form-control" placeholder="Search Message or Name…">
-            <i style="top: 12px;
-              left: 12px;" class="fal fa-search mr-2 position-absolute"></i>
+      <div class="row chatbox">
+        <div class="col-12 col-sm-12 col-md-5 col-lg-5">
+          <div class="sidebar">
+            <div class="searchChat">
+              <input type="text" class="form-control" placeholder="Search Message or Name…">
+              <i style="top: 12px;
+                left: 12px;" class="fal fa-search mr-2 position-absolute"></i>
+            </div>
+            <div class="list-wrap">
+  
+              <div (click)="changeGroup(item)" *ngFor="let item of listGroup" class="list">
+                <img src="assets/images/avatar.png" alt="" />
+                <div class="info">
+                  <span class="user">
+                    {{item?.groupName}}
+                  </span>
+                  <span *ngIf="item?.badge != 0" class="text">
+                    New message
+                  </span>
+                </div>
+                <span *ngIf="item?.badge != '0'" class="count">
+                  {{item?.badge}}
+                </span>
+                <!-- <span class="time">now</span> -->
+              </div>
+            </div>
           </div>
-          <div class="list-wrap">
-
-            <div (click)="changeGroup(item)" *ngFor="let item of listGroup" class="list">
+        </div>
+        <div class="col-12 col-sm-12 col-md-7 col-lg-7">
+          <div class="content">
+            <header>
               <img src="assets/images/avatar.png" alt="" />
               <div class="info">
                 <span class="user">
-                  {{item?.groupName}}
+                  {{groupChat?.groupName}}
                 </span>
-                <span *ngIf="item?.badge != 0" class="text">
-                  New message
+                <!-- <span class="time">Account Manager</span> -->
+              </div>
+  
+            </header>
+            <div #scrollFrame class="message-wrap">
+              <div [class.me]="message.own" *ngFor="let message of listMessages" #item class="message-list">
+                <div *ngIf="message.type == 'text'" class="msg">
+                  <p>
+                    {{message.content}}
+                  </p>
+                </div>
+                <div *ngIf="message.type == 'image'" class="msg">
+                  <img [src]="message?.content" alt="#image">
+                </div>
+                <div *ngIf="message.type == 'file'" class="msg">
+                  <i class="fas fa-file-alt mr-2"></i>
+                  <a [class.text-white]="message.own" class="text-underline" [href]="message.content">
+                    {{message.fileName}}
+                  </a>
+                </div>
+                <div class="time">
+                  {{message.timestamp}}
+                </div>
+              </div>
+  
+              <div *ngIf="isTyping" class="typing mx-auto p-2">
+                <span>
+                  {{whoTyping}}
                 </span>
               </div>
-              <span *ngIf="item?.badge != '0'" class="count">
-                {{item?.badge}}
-              </span>
-              <!-- <span class="time">now</span> -->
             </div>
-
-          </div>
-        </div>
-        <div class="content">
-          <header>
-            <img src="assets/images/avatar.png" alt="" />
-            <div class="info">
-              <span class="user">
-                {{groupChat?.groupName}}
-              </span>
-              <!-- <span class="time">Account Manager</span> -->
-            </div>
-
-          </header>
-          <div #scrollFrame class="message-wrap">
-            <div [class.me]="message.own" *ngFor="let message of listMessages" #item class="message-list">
-              <div *ngIf="message.type == 'text'" class="msg">
-                <p>
-                  {{message.content}}
-                </p>
-              </div>
-              <div *ngIf="message.type == 'image'" class="msg">
-                <img [src]="message?.content" alt="#image">
-              </div>
-              <div *ngIf="message.type == 'file'" class="msg">
-                <i class="fas fa-file-alt mr-2"></i>
-                <a [class.text-white]="message.own" class="text-underline" [href]="message.content">
-                  {{message.fileName}}
-                </a>
-              </div>
-              <div class="time">
-                {{message.timestamp}}
-              </div>
-            </div>
-
-            <div *ngIf="isTyping" class="typing mx-auto p-2">
-              <span>
-                {{whoTyping}}
-              </span>
-            </div>
-          </div>
-
-          <form [formGroup]="messageForm">
-            <div *ngIf="isFile" class="preview-file py-1">
-              <div class="h-100 rounded ml-1">
-                <div class="h-100 container pb-0">
-                  <div class=" h-100 row">
-                    <div class="h-100 col-3">
-                      <i class="fas fa-file-alt"></i>
-                    </div>
-                    <div class="h-100 col-9 py-2">
-                      <p style="-webkit-box-orient: vertical" class="font-weight-bold text-uppercase m-0 content-text-line-clamp">
-                        {{fileType}}
-                      </p>
-                      <span style="-webkit-box-orient: vertical" class="content-text-line-clamp">
-                        {{fileName}}
-                      </span>
-                      <button (click)="removeFile()" class="btn btn-close"><i class="fas fa-times"></i></button>
+  
+            <form [formGroup]="messageForm">
+              <div *ngIf="isFile" class="preview-file py-1">
+                <div class="h-100 rounded ml-1">
+                  <div class="h-100 container pb-0">
+                    <div class=" h-100 row">
+                      <div class="h-100 col-3">
+                        <i class="fas fa-file-alt"></i>
+                      </div>
+                      <div class="h-100 col-9 py-2">
+                        <p style="-webkit-box-orient: vertical" class="font-weight-bold text-uppercase m-0 content-text-line-clamp">
+                          {{fileType}}
+                        </p>
+                        <span style="-webkit-box-orient: vertical" class="content-text-line-clamp">
+                          {{fileName}}
+                        </span>
+                        <button (click)="removeFile()" class="btn btn-close"><i class="fas fa-times"></i></button>
+                      </div>
                     </div>
                   </div>
                 </div>
+  
               </div>
-
-            </div>
-            <div *ngIf="isImg" class="preview-img w-100 p-2">
-              <img [src]="fileTemp" alt="imgUpload">
-              <!-- preview img -->
-              <button (click)="removeFile()" class="btn btn-close"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="message-footer">
-              <div class="sendfile">
-                <i class="fal fa-paperclip att-icon"></i>
-                <input style="cursor: pointer;" type="file" (change)="readFile($event)">
+              <div *ngIf="isImg" class="preview-img w-100 p-2">
+                <img [src]="fileTemp" alt="imgUpload">
+                <!-- preview img -->
+                <button (click)="removeFile()" class="btn btn-close"><i class="fas fa-times"></i></button>
               </div>
-              <input (keyup)="showTyping($event)" formControlName="messageRaw" type="text"
-                placeholder="Type your message..." />
-              <button [disabled]="messageForm.invalid" (click)="sendMessage()"><i
-                  class="fal fa-paper-plane"></i></button>
-            </div>
-          </form>
+              <div class="message-footer">
+                <div class="sendfile">
+                  <i class="fal fa-paperclip att-icon"></i>
+                  <input style="cursor: pointer;" type="file" (change)="readFile($event)">
+                </div>
+                <input (keyup)="showTyping($event)" formControlName="messageRaw" type="text"
+                  placeholder="Type your message..." />
+                <button [disabled]="messageForm.invalid" (click)="sendMessage()"><i
+                    class="fal fa-paper-plane"></i></button>
+              </div>
+            </form>
+          </div>
+  
         </div>
-
       </div>
 
     </div>

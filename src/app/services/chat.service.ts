@@ -63,9 +63,9 @@ export class ChatService extends BaseService {
         }
         console.log("Connection established!");
         // that.connection.send(JSON.stringify(requestPendingMessage));
-        console.log(loadLatest50);
+        // console.log(loadLatest50);
 
-        connection.send(JSON.stringify(loadLatest50)); //change loadAfter to loadLatest when api loadLatest fixed
+        connection.send(JSON.stringify(loadLatest50));
         connection.send(JSON.stringify(clearBadge));
         res(connection);
       };
@@ -109,7 +109,7 @@ export class ChatService extends BaseService {
       message_id: oldest_msg_id,
     };
     console.log(loadBefore);
-    console.log(this.connection);
+    // console.log(this.connection);
 
     this.connection
       .send(JSON.stringify(loadBefore)); 
