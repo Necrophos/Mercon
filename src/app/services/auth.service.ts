@@ -15,9 +15,13 @@ export class AuthService extends BaseService{
       password: password,
       platform: environment.PLATFORM_ID,
       app_id: environment.APP_ID,
+      version : "1.0",
+      build : "1.0",
+      device_token : environment.PLATFORM_ID,
+      device_id : environment.PLATFORM_ID
     };
-    return this.get(routes, params).pipe(
-      map(res => {
+    return this.post(routes, params).pipe(
+      map((res: any) => {
         // console.log(res)
         if (res.status) {
            this.companyNum = res.user.internalCompanies[0].companyNum;
