@@ -34,7 +34,7 @@ export class PurchaseComponent implements OnInit {
       this.totalBags = this.shipmentInfoList.reduce((prev, cur) => prev + cur.totalBags, 0);
       // localStorage.setItem('PURCHASE_DETAIL', JSON.stringify(res));
       if(res.shipmentInfo.length <= 1) {
-        this.router.navigate(["/purchase", tradeNum, this.shipmentInfoList.length ? this.shipmentInfoList[0].blNumber : ''])
+        this.router.navigate(["/purchase", tradeNum, 'bl', this.shipmentInfoList.length ? this.shipmentInfoList[0].blNumber : ''])
       }
     });
   }

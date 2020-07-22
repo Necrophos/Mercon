@@ -2,7 +2,7 @@
   <div id="page-content-wrapper">
     <div class="container">
       <div class="links">
-        <a class="m-0 info" [routerLink]="['pss/info']" routerLinkActive="router-link-active" >PSS Information</a>
+        <a class="m-0 info" [routerLink]="['pss-information']" routerLinkActive="router-link-active" >PSS Information</a>
       </div>
       <div class="box mt-4">
         <div class="mb-3 font-weight-semibold">Going</div>
@@ -17,7 +17,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr [routerLink]="['/purchase',tradeNumber, (item?.blNumber == null ? '' : item?.blNumber)]"
+              <tr [routerLink]="['/purchase',tradeNumber, 'bl' , (item?.blNumber == null ? '' : item?.blNumber)]"
                 routerLinkActive="router-link-active" *ngFor="let item of shipmentInfoList">
                 <td>
                   {{item?.blNumber}}

@@ -47,7 +47,8 @@
           </table>
         </div>
         <div class="paginationCustom mt-4">
-          <span>Showing 1 of {{purchaseInfos?.length}} entries</span>
+          <span *ngIf="purchaseInfos?.length != 0" >Showing 6 of {{purchaseInfos?.length}} entries</span>
+          <span *ngIf="purchaseInfos?.length < 6 && purchaseInfos?.length != 0" >Showing {{purchaseInfos?.length}}  of {{purchaseInfos?.length}} entries</span>
           <pagination-controls class="marcon-pagination" nextLabel="" previousLabel="" autoHide="true" maxSize="5"
             responsive="true" (pageChange)="page = $event"></pagination-controls>
         </div>
