@@ -8,5 +8,5 @@ export const environment = {
   APP_ID: 38,
   PLATFORM_ID: 'Web',
   WEB_SOCKET_LINK: 'wss://variousmerconcoffee.com:8443/EchoChamber/echo',
-  SESSION_EXPIRE: 10
+  SESSION_EXPIRE: 15
 };
