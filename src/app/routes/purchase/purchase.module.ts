@@ -14,6 +14,13 @@ const routes: Routes = [
     path: ":trade_num/:bl_number",
     component: GeneralComponent,
   },
+  {
+    path: ":trade_num/info",
+    loadChildren: () =>
+      import("@routes/purchase-infor/purchase-infor.module").then(
+        (mod) => mod.PurchaseInforModule
+      ),
+  },
 ];
 @NgModule({
   declarations: [PurchaseComponent],

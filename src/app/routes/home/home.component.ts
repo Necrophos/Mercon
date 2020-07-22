@@ -12,7 +12,8 @@ import { Subscription } from 'rxjs';
   encapsulation: ViewEncapsulation.None,
   providers: [AuthService],
 })
-export class HomeComponent implements OnInit, OnDestroy {
+
+export class HomeComponent implements OnInit, OnDestroy  {
   constructor(
     private homeService: HomeService,
     private shareService: ShareService

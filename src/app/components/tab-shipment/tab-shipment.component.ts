@@ -18,7 +18,7 @@ export class TabShipmentComponent implements OnInit {
   data;
   duration;
   progress;
-  dashOffset;
+  dashOffset = 340;
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router) {}
 
@@ -45,13 +45,15 @@ export class TabShipmentComponent implements OnInit {
   }
 
   percentage() {
-    this.dayLeft < 0
-      ? (this.dashOffset = 0)
-      : (this.dashOffset = (this.dayLeft / this.duration) * 340);
+    if (this.dayLeft < 0 || !this.dayLeft) {
+      this.dayLeft = 0;
+    } else {
+      this.dashOffset = (this.dayLeft / this.duration) * 340;
+    }
 
     this.dayLeft < 0
       ? (this.progress = 100)
-      : (this.progress = (this.dayLeft / this.duration) * 100);
+      : (this.progress = ((this.duration - this.dayLeft) / this.duration) * 100);
 
     this.dayLeft == this.duration ? (this.progress = 0) : "";
   }

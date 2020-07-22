@@ -48,11 +48,15 @@
           <svg width="140" height="140" viewBox="0 0 120 120">
             <circle cx="60" cy="60" r="54" fill="none" stroke="#e6e6e6" stroke-width="7" />
             <circle cx="60" cy="60" r="54" fill="none" stroke="#A3CF60" stroke-width="7" stroke-linecap="round"
-              stroke-dasharray="340"  [attr.stroke-dashoffset]="dashOffset" />
+            stroke-dasharray="340"  [attr.stroke-dashoffset]="dashOffset" /> 
+            <!-- stroke-dasharray="340"  stroke-dashoffset="340" /> -->
           </svg>
           <span *ngIf="dayLeft > 0" class="text">
             {{dayLeft}}
             <span *ngIf="dayLeft > 0">days left</span>
+          </span>
+          <span *ngIf="!dayLeft" class="text">
+            <span >0 days left</span>
           </span>
           <span class="text" *ngIf="dayLeft < 0">Arrived</span>
         </div>
@@ -65,6 +69,11 @@
               aria-valuemax="100"></div>
           </div>
           <div class="days">
+            <div *ngIf="!dayLeft" class="text-center w-100">
+              <span style="color: #A3CF60">
+                Undefined
+              </span>
+            </div>
             <div class="text-left">
               {{data?.departure}}
               <span>
