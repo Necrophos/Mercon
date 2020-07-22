@@ -1,3 +1,5 @@
+import { PurchaseInforModule } from './../purchase-infor/purchase-infor.module';
+import { PurchaseInforComponent } from './../purchase-infor/purchase-infor.component';
 import { GeneralComponent } from "./../general/general.component";
 import { GeneralModule } from "./../general/general.module";
 import { RouterModule, Routes } from "@angular/router";
@@ -15,11 +17,8 @@ const routes: Routes = [
     component: GeneralComponent,
   },
   {
-    path: ":trade_num/info",
-    loadChildren: () =>
-      import("@routes/purchase-infor/purchase-infor.module").then(
-        (mod) => mod.PurchaseInforModule
-      ),
+    path: ":trade_num/pss/info",
+    component: PurchaseInforComponent
   },
 ];
 @NgModule({
@@ -28,6 +27,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     NgxPaginationModule,
+    PurchaseInforModule,
     GeneralModule,
   ],
 })

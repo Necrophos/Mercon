@@ -3,6 +3,7 @@ import { Component, OnInit, Input, ViewEncapsulation } from "@angular/core";
 import { HostListener, PLATFORM_ID, Inject } from "@angular/core";
 import {Location} from '@angular/common';
 import { isPlatformBrowser } from "@angular/common";
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: "app-navbar",
@@ -17,7 +18,9 @@ export class NavbarComponent implements OnInit {
   constructor(
     @Inject(PLATFORM_ID) public platformId: string,
     private shareService: ShareService,
-    private _location: Location
+    private _location: Location,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {
   }
 
@@ -61,10 +64,15 @@ export class NavbarComponent implements OnInit {
     this.shareService.tradeNumber.subscribe((res) => {
       this.tradeNumber = res;
     })
+    
   }
 
-  backToPrevPage() {
-    this._location.back();
+  backToPrevPage = async () => {
+  await this.router.navigate(['..'])  
+    if (this.router.url == "/admin/home") {
+      this.shareService.getBreadcrumb('home');
+      this.shareService.getTradeNumber('')
+    }
   }
   
   

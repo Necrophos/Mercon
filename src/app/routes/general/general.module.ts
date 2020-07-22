@@ -5,7 +5,16 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { GeneralComponent } from "./general.component";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RouterModule, Routes } from '@angular/router';
+import { PurchaseInforModule } from '@routes/purchase-infor/purchase-infor.module';
+import { PurchaseInforComponent } from '@routes/purchase-infor/purchase-infor.component';
 
+const routes: Routes = [
+  {
+    path: ":trade_num/:bl_number/pss/info",
+    component: PurchaseInforComponent
+  },
+];
 
 @NgModule({
   declarations: [GeneralComponent],
@@ -14,7 +23,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     NgbModule,
     TabGeneralModule,
     TabContainerModule,
+    RouterModule,
     TabShipmentModule,
+    PurchaseInforModule,
+    RouterModule.forChild(routes),
   ],
   exports: [GeneralComponent],
 })
