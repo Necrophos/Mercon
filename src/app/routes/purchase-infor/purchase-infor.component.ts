@@ -10,6 +10,7 @@ import { ActivatedRoute } from "@angular/router";
 export class PurchaseInforComponent implements OnInit {
   public routeParams;
   purchaseDetail: any;
+  page: number = 1;
   constructor(
     private route: ActivatedRoute,
     private homeService: HomeService

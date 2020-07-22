@@ -2,6 +2,7 @@ import { PurchaseInforComponent } from './purchase-infor.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
+import { NgxPaginationModule } from 'ngx-pagination';
 const routes: Routes = [
   {
     path: ":id",
@@ -12,6 +13,7 @@ const routes: Routes = [
   declarations: [PurchaseInforComponent],
   imports: [
     CommonModule,
+    NgxPaginationModule,
     RouterModule.forChild(routes)
   ]
 })
