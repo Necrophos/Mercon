@@ -17,6 +17,16 @@ export class HomeService extends BaseService{
     return this.get(routes);
   }
 
+  getPSSInfo(tradeNum, userId) {
+    let routes = `${environment.api}/getSampleInformation?`;
+    const params = {
+      trade_num: tradeNum,
+      platform: environment.PLATFORM_ID,
+      user_id: userId,
+    }
+    return this.get(routes, params)
+  }
+
   getAllDocument(paramsObj) {
     let routes = `${environment.api}/getFilesForShipment?`;
     let user_id = localStorage.getItem('USER_ID');
