@@ -1017,8 +1017,6 @@ a {
 
 //content
 .content {
-    flex: 1;
-    display: flex;
     flex-direction: column;
 
     //header
@@ -1070,7 +1068,7 @@ a {
     display: flex;
     flex-direction: column;
     padding: 15px;
-    overflow: auto;
+    overflow-y: scroll;
     background: #fff;
 
     &::before {
@@ -1274,7 +1272,6 @@ a {
     }
 
     .sidebar {
-        width: 40%;
         max-width: 100%;
         margin-right: 15px;
     }
