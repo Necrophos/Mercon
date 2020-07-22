@@ -41,7 +41,7 @@ export class ResetPasswordComponent implements OnInit {
             // this.router.navigate(["/"]);
             this.toastr.success("Request Successful, you'll receive email in a minute!", "Success");
           }
-          console.log(res.status);
+          // console.log(res.status);
 
           if (!res.status) {
             this.error = true;

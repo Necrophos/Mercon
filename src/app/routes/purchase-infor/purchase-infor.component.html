@@ -19,21 +19,35 @@
             <thead>
               <tr>
                 <th>Ref</th>
-                <th>Sent Date</th>
+                <th>Template Code</th>
                 <th>Results Date</th>
                 <th>Result </th>
                 <th>Bags</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td><a class="linkdocument">No data found</a></td>
+              <tr *ngFor="let info of purchaseInfos | paginate: { itemsPerPage: 6, currentPage: page}">
+                <td>
+                  {{info?.pssRef}}
+                </td>
+                <td>
+                  {{info?.docTemplateCode}}
+                </td>
+                <td>
+                  {{info?.sampleResultsDateString}}
+                </td>
+                <td>
+                  {{info?.sampleResult}}
+                </td>
+                <td>
+                  {{info?.bags}}
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
         <div class="paginationCustom mt-4">
-          <span>Showing 1 of ... entries</span>
+          <span>Showing 1 of {{purchaseInfos?.length}} entries</span>
           <pagination-controls class="marcon-pagination" nextLabel="" previousLabel="" autoHide="true" maxSize="5"
             responsive="true" (pageChange)="page = $event"></pagination-controls>
         </div>

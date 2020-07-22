@@ -14,6 +14,8 @@ import { environment } from '@env/environment';
 export class DocumentComponent implements OnInit {
   tradeNumber: any;
   blNumber: any;
+  host = environment.host;
+  listFiles;
 
   constructor(
     private route: ActivatedRoute,
@@ -38,7 +40,7 @@ export class DocumentComponent implements OnInit {
 
   getDocuments(params) {
     this.homeService.getAllDocument(params).subscribe((res) => {
-      // console.log(res);
+      this.listFiles = res;
     });
   }
 
@@ -51,7 +53,7 @@ export class DocumentComponent implements OnInit {
       device_id: environment.APP_ID,
       generated_by: this.shareService.getUserName
     }
-    console.log(req);
+    // console.log(req);
     
     this.documentService.sendByMail(req)
   }

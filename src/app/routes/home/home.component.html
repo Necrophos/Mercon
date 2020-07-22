@@ -44,7 +44,7 @@
             <tbody>
 
               <tr [routerLink]="['/admin/purchase/',trade?.trade_num]" (click)="changeBreadcrumb('purchase', trade.trade_num)" routerLinkActive="router-link-active"
-                *ngFor="let trade of listPurchaseItems | orderBy: trade?.purchaseDate | paginate: { itemsPerPage: 6, currentPage: page} ">
+                *ngFor="let trade of listPurchaseItems  | paginate: { itemsPerPage: 6, currentPage: page} ">
                 <td class="color1">
                   {{trade?.trade_num}}
                 </td>

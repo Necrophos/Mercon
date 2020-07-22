@@ -12,19 +12,19 @@
               </tr>
             </thead>
             <tbody>
-              <tr style="padding-bottom: 55px;">
-                <td><a class="linkdocument">No data found</a></td>
-                <!-- <td>
-                  <div ngbDropdown placement="left" display="dynamic" class="d-inline-block dropdown-option">
-                    <button class="btn dot-report" id="dropdownBasic1" ngbDropdownToggle>
-                      <i class="far fa-ellipsis-v"></i>
-                    </button>
-                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                      <button class="btn" ngbDropdownItem><i class="far fa-arrow-to-bottom mr-2"></i>Download</button>
-                      <button (click)="sendShipmentFileByEmail('ffffff.xls')" class="btn" ngbDropdownItem><i class="far fa-envelope mr-2"></i> Sent Email</button>
-                    </div>
-                  </div>
-                </td> -->
+              <tr *ngIf="!listFiles || listFiles?.length == 0">
+                <td>
+                  <a class="linkdocument">
+                    No data found!
+                  </a>
+                </td>
+              </tr>
+              <tr *ngFor="let file of listFiles" style="padding-bottom: 55px;">
+                <td >
+                  <a class="linkdocument" [href]="host + file.web_route" target="_blank">
+                    {{file?.file_name}}
+                  </a>
+                </td>
               </tr>
             </tbody>
           </table>
