@@ -67,3 +67,10 @@ button {
     overflow-wrap: break-word;
 }
 
+.chatbox {
+    .sidebar {
+        width: auto;
+        max-width: none;
+        margin-right: 0;
+    }
+}

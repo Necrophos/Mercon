@@ -6,6 +6,8 @@ import { HomeComponent } from "./home.component";
 import { Routes, RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgxPaginationModule } from "ngx-pagination";
+import { OrderModule } from 'ngx-order-pipe';
+
 const routes: Routes = [
   {
     path: "",
@@ -17,6 +19,7 @@ const routes: Routes = [
   declarations: [HomeComponent],
   imports: [
     CommonModule,
+    OrderModule,
     NgSelectModule,
     NgxPaginationModule,
     FormsModule,
