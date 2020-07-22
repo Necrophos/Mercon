@@ -63,7 +63,7 @@
                 <td>
                   <div class="status " [class.status-apr]="trade?.status == 'Approved'"
                     [class.status-pending]="trade?.status == 'Pending to be shipped'" [class.status-going]="trade?.status == 'Afloat'">
-                    {{trade?.status}} <span *ngIf="trade?.status == 'Going'" class="note">{{trade?.note}}</span>
+                    {{trade?.status}} <span *ngIf="trade?.shipment_count" class="note">{{trade?.shipment_count}}</span>
                   </div>
                 </td>
               </tr>

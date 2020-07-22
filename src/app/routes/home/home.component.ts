@@ -61,6 +61,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.getLocationDropdown(this.companyNum);
     this.subVars = this.shareService.client.subscribe((res) => {
       if (res) {
+        this.page = 1;
         this.listPurchaseItems = [];
         this.getAllPurchase(res.companyNum);
         this.getLocationDropdown(res.companyNum);
