@@ -108,7 +108,7 @@ export class ChatService extends BaseService {
       type: "loadBefore",
       message_id: oldest_msg_id,
     };
-    console.log(loadBefore);
+    // console.log(loadBefore);
     // console.log(this.connection);
 
     this.connection

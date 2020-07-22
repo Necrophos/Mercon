@@ -20,6 +20,7 @@ export class SidebarComponent implements OnInit {
   changeClient(client) {
     this.shareService.setClient(client);
     this.shareService.companyNum = client.companyNum;
+    this.isShow = false;
   }
 
   changeBreadcrumb(routes) {

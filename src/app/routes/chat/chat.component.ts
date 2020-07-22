@@ -266,7 +266,7 @@ export class ChatComponent implements OnInit {
     const userId = this.shareService.getUserId();
 
     if (this.messageRaw != null && this.messageRaw != "") {
-      console.log("msg send run");
+      // console.log("msg send run");
       const messageEncrypted = this.chatService.encrypt(
         this.groupChat.password,
         this.messageRaw
@@ -279,7 +279,7 @@ export class ChatComponent implements OnInit {
     }
 
     if (this.fileRaw != null) {
-      console.log("file send run");
+      // console.log("file send run");
 
       const messageEncrypted = this.chatService.encrypt(
         this.groupChat.password,

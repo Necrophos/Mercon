@@ -12,6 +12,6 @@ export class TabGeneralComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    console.log(this.notes)
+    // console.log(this.notes)
   }
 }

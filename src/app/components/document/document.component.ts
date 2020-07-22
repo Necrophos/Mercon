@@ -51,7 +51,7 @@ export class DocumentComponent implements OnInit {
       device_id: environment.APP_ID,
       generated_by: this.shareService.getUserName
     }
-    console.log(req);
+    // console.log(req);
     
     this.documentService.sendByMail(req)
   }

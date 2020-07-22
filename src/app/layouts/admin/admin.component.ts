@@ -27,7 +27,7 @@ export class AdminComponent implements OnInit {
         this.tradeNumber = res;
       }
     });
-    // this.checkSession();
+    this.checkSession();
   }
 
   checkSession() {

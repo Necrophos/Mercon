@@ -93,9 +93,7 @@ export class HomeComponent implements OnInit, OnDestroy  {
 
   getAllPurchase(companyNum) {
     this.homeService.getAllPurchase(companyNum).subscribe((res) => {
-      this.listPurchaseItems = res.sort((a, b) => (a.purchaseDate > b.purchaseDate) ? -1 : 1);
-      console.log(this.listPurchaseItems);
-      
+      this.listPurchaseItems = res.sort((a, b) => (a.purchaseDate > b.purchaseDate) ? -1 : 1);    
     });
   }
 
