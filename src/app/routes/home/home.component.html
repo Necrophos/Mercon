@@ -75,8 +75,8 @@
         </div>
         <div class="paginationCustom mt-4">
           <pagination-template #p="paginationApi" (pageChange)="config.currentPage = $event">
-            Show <span class="paginate-font-size" *ngIf="!p.isLastPage()">6</span>
-            <span class="paginate-font-size" *ngIf="p.isLastPage()"> {{listPurchaseItems?.length % 6}} </span>
+            Show <span class="paginate-font-size" *ngIf="!p.isLastPage() || ((listPurchaseItems?.length % 6) == 0)">6</span>
+            <span class="paginate-font-size" *ngIf="p.isLastPage() && ((listPurchaseItems?.length % 6) != 0)"> {{listPurchaseItems?.length % 6}} </span>
             of {{listPurchaseItems?.length}} entries
           </pagination-template>
           <pagination-controls class="marcon-pagination" nextLabel="" previousLabel="" autoHide="true" maxSize="5"
