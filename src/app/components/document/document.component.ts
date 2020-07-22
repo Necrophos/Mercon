@@ -14,6 +14,8 @@ import { environment } from '@env/environment';
 export class DocumentComponent implements OnInit {
   tradeNumber: any;
   blNumber: any;
+  host = environment.host;
+  listFiles;
 
   constructor(
     private route: ActivatedRoute,
@@ -38,7 +40,7 @@ export class DocumentComponent implements OnInit {
 
   getDocuments(params) {
     this.homeService.getAllDocument(params).subscribe((res) => {
-      // console.log(res);
+      this.listFiles = res;
     });
   }
 
