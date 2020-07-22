@@ -81,6 +81,11 @@ export class RatesChartComponent implements OnInit, OnDestroy {
         },
         zoom: {
           enabled: false
+        },
+        events: {
+          legendClick: function(e) {
+            e.stopPropagation()
+          }
         }
       },
       dataLabels: {

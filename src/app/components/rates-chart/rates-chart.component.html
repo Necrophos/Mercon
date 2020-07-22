@@ -14,7 +14,7 @@
           name="type" placeholder="Select Type">
         </ng-select>
       </div>
-      <div class="col-12">
+      <div class="col-12 rate-chart">
         <div id="chart-rate">
           <apx-chart *ngFor = "let x of [chartOptions]"
             [series]="chartOptions.series"
