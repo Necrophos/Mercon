@@ -13,11 +13,11 @@ const routes: Routes = [
     component: PurchaseComponent,
   },
   {
-    path: ":trade_num/:bl_number",
+    path: ":trade_num/bl/:bl_number",
     component: GeneralComponent,
   },
   {
-    path: ":trade_num/pss/info",
+    path: ":trade_num/pss-information",
     component: PurchaseInforComponent
   },
 ];
