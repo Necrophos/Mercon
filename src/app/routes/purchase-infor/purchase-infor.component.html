@@ -47,7 +47,7 @@
           </table>
         </div>
         <div class="paginationCustom mt-4">
-          <pagination-template #p="paginationApi" (pageChange)="config.currentPage = $event">
+          <pagination-template *ngIf="purchaseInfos?.length != 0" #p="paginationApi" (pageChange)="config.currentPage = $event">
             Show <span class="paginate-font-size" *ngIf="!p.isLastPage() || ((purchaseInfos?.length % 6) == 0)">6</span>
             <span class="paginate-font-size" *ngIf="p.isLastPage() && ((purchaseInfos?.length % 6) != 0)"> {{purchaseInfos?.length % 6}} </span>
             of {{purchaseInfos?.length}} entries
