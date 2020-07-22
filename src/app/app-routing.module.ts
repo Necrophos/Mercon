@@ -5,11 +5,11 @@ import { AuthGuard } from '@services/auth.guard';
 
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: '/admin/home',
-    pathMatch: 'full'
-  },
+  // {
+  //   path: '',
+  //   redirectTo: '/admin/home',
+  //   pathMatch: 'full'
+  // },
   {
     path: 'login',
     loadChildren: () => import('@routes/login/login.module').then(mod => mod.LoginModule)
@@ -19,7 +19,7 @@ const routes: Routes = [
     loadChildren: () => import('@routes/reset-password/reset-password.module').then(mod => mod.ResetPasswordModule)
   },
   {
-    path: 'admin',
+    path: '',
     component: AdminComponent,
     canActivate:[AuthGuard],
     loadChildren: () => import('@layouts/admin/admin.module').then(mod => mod.AdminModule)

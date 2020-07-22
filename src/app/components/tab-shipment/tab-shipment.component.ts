@@ -61,7 +61,7 @@ export class TabShipmentComponent implements OnInit {
   onClickBOL() {
     if (this.bl_number)
       this.router.navigate([
-        "/admin/document",
+        "/document",
         this.tradeNumber,
         this.bl_number,
       ]);

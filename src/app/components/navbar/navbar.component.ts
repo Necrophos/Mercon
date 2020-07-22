@@ -69,7 +69,7 @@ export class NavbarComponent implements OnInit {
 
   backToPrevPage = async () => {
   await this.router.navigate(['..'])  
-    if (this.router.url == "/admin/home") {
+    if (this.router.url == "/home") {
       this.shareService.getBreadcrumb('home');
       this.shareService.getTradeNumber('')
     }
