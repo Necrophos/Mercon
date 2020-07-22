@@ -10,7 +10,8 @@
           </div>
           <div class="form-group col-lg-3 col-md-6 col-sm-12">
             <label>Origin</label>
-            <ng-select placeholder="Location" [items]="locations" bindLabel="id.nameLocation" formControlName="origin" name="select">
+            <ng-select placeholder="Location" [items]="locations" bindLabel="id.nameLocation" formControlName="origin"
+              name="select">
             </ng-select>
           </div>
           <div class="form-group col-lg-3 col-md-6 col-sm-12">
@@ -24,7 +25,7 @@
                 <button (click)="searchByKeyword()" type="submit" class="btn btnPrimary text-white">Search</button>
               </div>
               <div class="col-lg-6 col-md-6 col-6">
-                <button type="button" (click)="clearForm()"  class="btn btnOutline">Clear</button>
+                <button type="button" (click)="clearForm()" class="btn btnOutline">Clear</button>
               </div>
             </div>
           </div>
@@ -43,7 +44,8 @@
             </thead>
             <tbody>
 
-              <tr [routerLink]="['/purchase/',trade?.trade_num]" (click)="changeBreadcrumb('purchase', trade.trade_num)" routerLinkActive="router-link-active"
+              <tr [routerLink]="['/purchase/',trade?.trade_num]" (click)="changeBreadcrumb('purchase', trade.trade_num)"
+                routerLinkActive="router-link-active"
                 *ngFor="let trade of listPurchaseItems  | paginate: { itemsPerPage: 6, currentPage: page} ">
                 <td class="color1">
                   {{trade?.trade_num}}
@@ -62,7 +64,8 @@
                 </td>
                 <td>
                   <div class="status " [class.status-apr]="trade?.status == 'Approved'"
-                    [class.status-pending]="trade?.status == 'Pending to be shipped'" [class.status-going]="trade?.status == 'Afloat'">
+                    [class.status-pending]="trade?.status == 'Pending to be shipped'"
+                    [class.status-going]="trade?.status == 'Afloat'">
                     {{trade?.status}} <span *ngIf="trade?.shipment_count" class="note">{{trade?.shipment_count}}</span>
                   </div>
                 </td>
@@ -71,8 +74,11 @@
           </table>
         </div>
         <div class="paginationCustom mt-4">
-          <span *ngIf="listPurchaseItems?.length != 0">Showing 6 of {{listPurchaseItems?.length}} entries</span>
-          <span *ngIf="listPurchaseItems?.length < 6" >Showing {{listPurchaseItems?.length}}  of {{purchaseInfos?.length}} entries</span>
+          <pagination-template #p="paginationApi" (pageChange)="config.currentPage = $event">
+            Show <span class="paginate-font-size" *ngIf="!p.isLastPage()">6</span>
+            <span class="paginate-font-size" *ngIf="p.isLastPage()"> {{listPurchaseItems?.length % 6}} </span>
+            of {{listPurchaseItems?.length}} entries
+          </pagination-template>
           <pagination-controls class="marcon-pagination" nextLabel="" previousLabel="" autoHide="true" maxSize="5"
             responsive="true" (pageChange)="page = $event"></pagination-controls>
         </div>
