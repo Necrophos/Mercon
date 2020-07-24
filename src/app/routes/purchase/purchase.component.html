@@ -17,7 +17,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr [routerLink]="['/purchase',tradeNumber, 'bl' , (item?.blNumber == null ? '' : item?.blNumber)]"
+              <tr [routerLink]="['/purchase',tradeNumber, 'general']"
                 routerLinkActive="router-link-active" *ngFor="let item of shipmentInfoList">
                 <td>
                   {{item?.blNumber}}

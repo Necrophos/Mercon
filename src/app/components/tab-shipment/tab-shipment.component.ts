@@ -19,6 +19,7 @@ export class TabShipmentComponent implements OnInit {
   duration;
   progress;
   dashOffset = 340;
+  isWaiting;
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router) {}
 
@@ -38,7 +39,11 @@ export class TabShipmentComponent implements OnInit {
       const day_now = moment();
       this.dayLeft = day_arr.diff(day_now, "days");
       this.duration = day_arr.diff(day_depart, "days");
-      day_now < day_depart ? (this.dayLeft = this.duration) : "";
+
+      if (day_now < day_depart) {
+        this.dayLeft = this.duration;
+        this.isWaiting = true;
+      }
     }
 
     this.percentage();

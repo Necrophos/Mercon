@@ -11,7 +11,7 @@ import { PurchaseInforComponent } from '@routes/purchase-infor/purchase-infor.co
 
 const routes: Routes = [
   {
-    path: ":trade_num/bl/:bl_number/pss-information",
+    path: ":trade_num/general/pss-information",
     component: PurchaseInforComponent
   },
 ];

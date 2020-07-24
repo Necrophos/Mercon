@@ -13,7 +13,7 @@ const routes: Routes = [
     component: PurchaseComponent,
   },
   {
-    path: ":trade_num/bl/:bl_number",
+    path: ":trade_num/general",
     component: GeneralComponent,
   },
   {

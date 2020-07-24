@@ -83,12 +83,15 @@ export class TargetBagsChartComponent implements OnInit {
       colors: ["#008FFB", "rgba(244, 144, 14, 0.85)"],
       plotOptions: {
         bar: {
-          columnWidth: "45%",
-          distributed: true,
+          columnWidth: "70%",
+          distributed: true
         },
       },
       dataLabels: {
-        enabled: false,
+        enabled: true,
+         style: {
+           fontSize: "11px"
+         }
       },
       legend: {
         show: false,
