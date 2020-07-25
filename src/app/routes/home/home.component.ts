@@ -17,7 +17,10 @@ export class HomeComponent implements OnInit, OnDestroy  {
   constructor(
     private homeService: HomeService,
     private shareService: ShareService
-  ) {}
+  ) {
+    this.shareService.getBreadcrumb('home');
+    this.shareService.getTradeNumber('')
+  }
 
   locations: any;
   selectedCityId: number = null;
