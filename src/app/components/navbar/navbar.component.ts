@@ -68,11 +68,11 @@ export class NavbarComponent implements OnInit {
   }
 
   backToPrevPage = async () => {
-  await this.router.navigate(['..'])  
-    if (this.router.url == "/home") {
-      this.shareService.getBreadcrumb('home');
-      this.shareService.getTradeNumber('')
-    }
+  await this._location.back();
+  if (this.router.url == "/home") {
+    this.shareService.getBreadcrumb('home');
+    this.shareService.getTradeNumber('')
+  }
   }
   
   
