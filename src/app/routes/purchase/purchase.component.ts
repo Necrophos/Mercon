@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, NavigationStart } from "@angular/router";
 import { HomeService } from '@services/home.service';
 import { ShareService } from '@services/share.service';
 
@@ -26,6 +26,8 @@ export class PurchaseComponent implements OnInit {
   ngOnInit() {
     this.routeParams = this.route.params.subscribe((routeParams) => {
       this.tradeNumber = routeParams.trade_num;
+      this.shareService.getBreadcrumb('purchase');
+      this.shareService.getTradeNumber(this.tradeNumber)
       this.getPurchaseDetail(this.tradeNumber);
     });
   }
@@ -35,14 +37,14 @@ export class PurchaseComponent implements OnInit {
       this.shipmentInfoList = res['shipmentInfo'];
       this.purchaseDetail = res;
       this.totalBags = this.shipmentInfoList.reduce((prev, cur) => prev + cur.totalBags, 0);
-      if(this.shipmentInfoList.length == 1) {
-        this.shareService.shipmentInfo = this.shipmentInfoList[0];
-        this.router.navigate(["/purchase", tradeNum, 'general'])
+      if(this.shipmentInfoList.length < 2) {
+        this.goToGeneral(0)
+        this.shareService.shipmentInfo = this.shipmentInfoList[0] ? this.shipmentInfoList[0] : null;
       }
     });
   }
 
-  goToGeneral (index) {
+  goToGeneral(index) {
     this.purchaseDetail.shipmentInfo = this.shipmentInfoList[index];
     this.shareService.purchaseDetail = this.purchaseDetail;
     this.router.navigate(['/purchase',this.tradeNumber, 'general'])
