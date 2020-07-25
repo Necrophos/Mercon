@@ -34,7 +34,7 @@ export class GeneralComponent implements OnInit {
   }
 
   getNote() {
-    let shipment = this.shareService.shipmentInfo;
-    this.notes = shipment ? shipment.tradeNotes : '';
+    let shipment = this.shareService.purchaseDetail ? this.shareService.purchaseDetail.shipmentInfo : null;
+    this.notes = shipment ? shipment.tradeNotes : [];
   }
 }

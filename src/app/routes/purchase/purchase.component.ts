@@ -14,6 +14,8 @@ export class PurchaseComponent implements OnInit {
   totalBags;
   shipmentInfoList: any;
   shipmentInfo;
+  purchaseDetail;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -31,23 +33,18 @@ export class PurchaseComponent implements OnInit {
   getPurchaseDetail(tradeNum) {
     this.homeService.getPurchaseDetail(tradeNum).subscribe((res) => {
       this.shipmentInfoList = res['shipmentInfo'];
-      const length = this.shipmentInfoList.length;
-      this.shareService.purchaseDetail = res;
+      this.purchaseDetail = res;
       this.totalBags = this.shipmentInfoList.reduce((prev, cur) => prev + cur.totalBags, 0);
-      // localStorage.setItem('PURCHASE_DETAIL', JSON.stringify(res));
-      if(length == 1) {
+      if(this.shipmentInfoList.length == 1) {
         this.shareService.shipmentInfo = this.shipmentInfoList[0];
-        this.router.navigate(["/purchase", tradeNum, 'general'])
-      }
-      if(length == 0) {
-        this.shareService.shipmentInfo = null;
         this.router.navigate(["/purchase", tradeNum, 'general'])
       }
     });
   }
 
   goToGeneral (index) {
-    this.shareService.shipmentInfo = this.shipmentInfoList[index];
+    this.purchaseDetail.shipmentInfo = this.shipmentInfoList[index];
+    this.shareService.purchaseDetail = this.purchaseDetail;
     this.router.navigate(['/purchase',this.tradeNumber, 'general'])
   }
 
