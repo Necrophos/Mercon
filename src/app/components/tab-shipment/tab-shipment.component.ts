@@ -1,3 +1,4 @@
+import { ShareService } from '@services/share.service';
 import { Component, OnInit, Input } from "@angular/core";
 import * as moment from "moment";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -8,7 +9,6 @@ import { ActivatedRoute, Router } from "@angular/router";
   styleUrls: ["./tab-shipment.component.scss"],
 })
 export class TabShipmentComponent implements OnInit {
-  @Input() shipment: any;
   @Input() tradeNumber: any;
   @Input() bl_number: any;
   shipmentData: any;
@@ -21,16 +21,15 @@ export class TabShipmentComponent implements OnInit {
   dashOffset = 340;
   isWaiting;
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router) {}
+  constructor(private router: Router, private shareService: ShareService) {}
 
   formatDate(milliseconds) {
     return moment(milliseconds).format("YYYY[-]MM[-]DD");
   }
 
   ngOnInit() {
-    this.data = this.shipment.find(
-      (shipment) => shipment.blNumber == this.bl_number
-    );
+   this.data = this.shareService.shipmentInfo;
+    
     if (this.data) {
       this.departDate = this.formatDate(this.data.depart_dt);
       this.arrivalDate = this.formatDate(this.data.arrive_dt);

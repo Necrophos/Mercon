@@ -13,6 +13,7 @@ export class PurchaseComponent implements OnInit {
   public tradeNumber;
   totalBags;
   shipmentInfoList: any;
+  shipmentInfo;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -30,13 +31,24 @@ export class PurchaseComponent implements OnInit {
   getPurchaseDetail(tradeNum) {
     this.homeService.getPurchaseDetail(tradeNum).subscribe((res) => {
       this.shipmentInfoList = res['shipmentInfo'];
+      const length = this.shipmentInfoList.length;
       this.shareService.purchaseDetail = res;
       this.totalBags = this.shipmentInfoList.reduce((prev, cur) => prev + cur.totalBags, 0);
       // localStorage.setItem('PURCHASE_DETAIL', JSON.stringify(res));
-      if(res.shipmentInfo.length <= 1) {
+      if(length == 1) {
+        this.shareService.shipmentInfo = this.shipmentInfoList[0];
+        this.router.navigate(["/purchase", tradeNum, 'general'])
+      }
+      if(length == 0) {
+        this.shareService.shipmentInfo = null;
         this.router.navigate(["/purchase", tradeNum, 'general'])
       }
     });
+  }
+
+  goToGeneral (index) {
+    this.shareService.shipmentInfo = this.shipmentInfoList[index];
+    this.router.navigate(['/purchase',this.tradeNumber, 'general'])
   }
 
 }

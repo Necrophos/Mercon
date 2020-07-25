@@ -17,8 +17,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr [routerLink]="['/purchase',tradeNumber, 'general']"
-                routerLinkActive="router-link-active" *ngFor="let item of shipmentInfoList">
+              <tr (click)="goToGeneral(i)"
+                routerLinkActive="router-link-active" *ngFor="let item of shipmentInfoList; let i = index">
                 <td>
                   {{item?.blNumber}}
                 </td>
