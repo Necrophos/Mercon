@@ -89,9 +89,12 @@ export class TargetBagsChartComponent implements OnInit {
       },
       dataLabels: {
         enabled: true,
-         style: {
-           fontSize: "11px"
-         }
+        style: {
+          fontSize: "11px"
+        },
+        formatter: function (val, opt){
+          return val.toLocaleString()
+        },
       },
       legend: {
         show: false,

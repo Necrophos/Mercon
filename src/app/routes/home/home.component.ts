@@ -82,7 +82,7 @@ export class HomeComponent implements OnInit, OnDestroy  {
       origin_num: this.origin ? this.origin.id.numLocation : null,
       // start_dt: this.start_dt,
       // end_dt: this.end_dt,
-      company_num: this.companyNum,
+      company_num: this.shareService.getCompany,
       ref: this.ref,
     };
 

@@ -205,9 +205,6 @@ PERFORMANCE OF THIS SOFTWARE.
 
 
 
-isarray
-MIT
-
 moment
 MIT
 Copyright (c) JS Foundation and other contributors
