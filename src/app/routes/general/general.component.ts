@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation, Input } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ShareService } from "@services/share.service";
 import { HomeService } from "@services/home.service";
+import { Location } from '@angular/common';
 
 @Component({
   selector: "app-general",
@@ -18,15 +19,17 @@ export class GeneralComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private shareService: ShareService
+    private shareService: ShareService,
+    private location: Location,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    this.data = this.shareService.purchaseDetail;
-
-    if(this.data) this.getNote();
     this.activatedRoute.params.subscribe(params => {
       this.tradeNumber = params.trade_num;
+      this.data = this.shareService.purchaseDetail;
+      if(this.data) this.getNote();
+      else this.router.navigate(['/purchase',this.tradeNumber])
     })
   }
 
