@@ -63,11 +63,11 @@ export class TabShipmentComponent implements OnInit {
   }
 
   onClickBOL() {
-    if (this.bl_number)
+    if (this.data.blNumber)
       this.router.navigate([
         "/document",
         this.tradeNumber,
-        this.bl_number,
+        this.data.blNumber,
       ]);
   }
 }
