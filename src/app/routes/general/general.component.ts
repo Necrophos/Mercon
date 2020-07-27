@@ -32,6 +32,8 @@ export class GeneralComponent implements OnInit {
       if(!this.data) {
         this.homeService.getPurchaseDetail(this.tradeNumber).subscribe((res) => {
           this.data = res;
+          const shipmentInfoList = res['shipmentInfo'];
+          this.shareService.shipmentInfo = shipmentInfoList[0];
         });
       }
       if(this.data) this.getNote();
