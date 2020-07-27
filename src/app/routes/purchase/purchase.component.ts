@@ -42,7 +42,8 @@ export class PurchaseComponent implements OnInit {
   }
 
   goToGeneral(index) {
-    this.shareService.shipmentInfo = this.shipmentInfoList[index];
+    this.purchaseDetail.shipmentInfo = this.shipmentInfoList[index];
+    this.shareService.purchaseDetail = this.purchaseDetail;
     this.router.navigate(['/purchase',this.tradeNumber, 'general'])
   }
 
