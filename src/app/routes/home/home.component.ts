@@ -2,8 +2,9 @@ import { ShareService } from "./../../services/share.service";
 import { AuthService } from "./../../services/auth.service";
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { HomeService } from '@services/home.service';
-import { Subscription } from 'rxjs';
+import { HomeService } from "@services/home.service";
+import { Subscription } from "rxjs";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-home",
@@ -12,14 +13,14 @@ import { Subscription } from 'rxjs';
   encapsulation: ViewEncapsulation.None,
   providers: [AuthService],
 })
-
-export class HomeComponent implements OnInit, OnDestroy  {
+export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private homeService: HomeService,
-    private shareService: ShareService
+    private shareService: ShareService,
+    private router: Router
   ) {
-    this.shareService.getBreadcrumb('home');
-    this.shareService.getTradeNumber('')
+    this.shareService.getBreadcrumb("home");
+    this.shareService.getTradeNumber("");
   }
 
   locations: any;
@@ -75,8 +76,15 @@ export class HomeComponent implements OnInit, OnDestroy  {
 
   ngOnDestroy() {
     if (this.subVars) {
-      this.subVars.unsubscribe()
+      this.subVars.unsubscribe();
     }
+  }
+
+  navigateToDetail(route, tradeNumber, shipmentCount) {
+    shipmentCount > 1
+      ? this.router.navigate(["/purchase", tradeNumber])
+      : this.router.navigate(["/purchase", tradeNumber, "general"]);
+    this.changeBreadcrumb(route, tradeNumber);
   }
 
   searchByKeyword() {
@@ -96,7 +104,9 @@ export class HomeComponent implements OnInit, OnDestroy  {
 
   getAllPurchase(companyNum) {
     this.homeService.getAllPurchase(companyNum).subscribe((res) => {
-      this.listPurchaseItems = res.sort((a, b) => (a.purchaseDate > b.purchaseDate) ? -1 : 1);    
+      this.listPurchaseItems = res.sort((a, b) =>
+        a.purchaseDate > b.purchaseDate ? -1 : 1
+      );
     });
   }
 
@@ -113,6 +123,6 @@ export class HomeComponent implements OnInit, OnDestroy  {
 
   changeBreadcrumb(routes, tradeNumber) {
     this.shareService.getBreadcrumb(routes);
-    this.shareService.getTradeNumber(tradeNumber)
+    this.shareService.getTradeNumber(tradeNumber);
   }
 }

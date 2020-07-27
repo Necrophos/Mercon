@@ -20,6 +20,7 @@ export class GeneralComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private shareService: ShareService,
+    private homeService: HomeService,
     private location: Location,
     private router: Router
   ) {}
@@ -28,8 +29,13 @@ export class GeneralComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.tradeNumber = params.trade_num;
       this.data = this.shareService.purchaseDetail;
+      if(!this.data) {
+        this.homeService.getPurchaseDetail(this.tradeNumber).subscribe((res) => {
+          this.data = res;
+        });
+      }
       if(this.data) this.getNote();
-      else this.router.navigate(['/purchase',this.tradeNumber])
+      // else this.router.navigate(['/purchase',this.tradeNumber])
     })
   }
 

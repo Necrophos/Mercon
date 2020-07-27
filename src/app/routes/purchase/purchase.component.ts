@@ -36,17 +36,13 @@ export class PurchaseComponent implements OnInit {
     this.homeService.getPurchaseDetail(tradeNum).subscribe((res) => {
       this.shipmentInfoList = res['shipmentInfo'];
       this.purchaseDetail = res;
+      this.shareService.purchaseDetail = this.purchaseDetail;
       this.totalBags = this.shipmentInfoList.reduce((prev, cur) => prev + cur.totalBags, 0);
-      if(this.shipmentInfoList.length < 2) {
-        this.goToGeneral(0)
-        this.shareService.shipmentInfo = this.shipmentInfoList[0] ? this.shipmentInfoList[0] : null;
-      }
     });
   }
 
   goToGeneral(index) {
-    this.purchaseDetail.shipmentInfo = this.shipmentInfoList[index];
-    this.shareService.purchaseDetail = this.purchaseDetail;
+    this.shareService.shipmentInfo = this.shipmentInfoList[index];
     this.router.navigate(['/purchase',this.tradeNumber, 'general'])
   }
 

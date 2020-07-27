@@ -28,7 +28,8 @@ export class TabShipmentComponent implements OnInit {
   }
 
   ngOnInit() {
-   this.data = this.shareService.shipmentInfo;
+    
+    this.data = this.shareService.shipmentInfo;
     
     if (this.data) {
       this.departDate = this.formatDate(this.data.depart_dt);

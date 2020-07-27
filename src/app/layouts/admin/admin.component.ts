@@ -16,18 +16,17 @@ export class AdminComponent implements OnInit {
   constructor(private router: Router, private shareService: ShareService) {}
 
   ngOnInit() {
+
+    // this.checkSession();
+  }
+
+  ngAfterViewInit() {
     this.shareService.breadcrumbChange.subscribe((res) => {
       if (res) {
         this.title = res;
+        
       }
     });
-
-    this.shareService.tradeNumber.subscribe((res) => {
-      if (res) {
-        this.tradeNumber = res;
-      }
-    });
-    // this.checkSession();
   }
 
   checkSession() {
