@@ -10,12 +10,11 @@ import { ActivatedRoute, Router } from "@angular/router";
 })
 export class TabShipmentComponent implements OnInit {
   @Input() tradeNumber: any;
-  @Input() bl_number: any;
+  @Input() data: any;
   shipmentData: any;
   departDate: any;
   arrivalDate: any;
   dayLeft: any;
-  data;
   duration;
   progress;
   dashOffset = 340;
@@ -28,9 +27,6 @@ export class TabShipmentComponent implements OnInit {
   }
 
   ngOnInit() {
-    
-    this.data = this.shareService.shipmentInfo;
-    
     if (this.data) {
       this.departDate = this.formatDate(this.data.depart_dt);
       this.arrivalDate = this.formatDate(this.data.arrive_dt);

@@ -32,11 +32,12 @@ export class GeneralComponent implements OnInit {
       if(!this.data) {
         this.homeService.getPurchaseDetail(this.tradeNumber).subscribe((res) => {
           this.data = res;
-          const shipmentInfoList = res['shipmentInfo'];
-          this.shareService.shipmentInfo = shipmentInfoList[0];
+          this.data.shipmentInfo = this.data.shipmentInfo.length == 1 ? this.data.shipmentInfo[0] : null;
         });
       }
       if(this.data) this.getNote();
+      this.shareService.getBreadcrumb('purchase');
+      this.shareService.getTradeNumber(this.tradeNumber)
       // else this.router.navigate(['/purchase',this.tradeNumber])
     })
   }

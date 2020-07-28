@@ -65,7 +65,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.getAllPurchase(this.companyNum);
     this.getLocationDropdown(this.companyNum);
     this.shareService.purchaseDetail = null;
-    this.shareService.shipmentInfo = null;
     this.subVars = this.shareService.client.subscribe((res) => {
       if (res) {
         this.page = 1;

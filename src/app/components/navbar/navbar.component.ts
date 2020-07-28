@@ -69,10 +69,6 @@ export class NavbarComponent implements OnInit {
 
   backToPrevPage(){
     this._location.back();
-    // if (this.router.url == "/home") {
-    //   this.shareService.getBreadcrumb('home');
-    //   this.shareService.getTradeNumber('')
-    // }
   }
   
   
