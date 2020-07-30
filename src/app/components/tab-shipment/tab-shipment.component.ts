@@ -62,7 +62,7 @@ export class TabShipmentComponent implements OnInit {
   onClickBOL() {
     if (this.data.blNumber)
       this.router.navigate([
-        "/document",
+        "/merconconnect/document",
         this.tradeNumber,
         this.data.blNumber,
       ]);

@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.authService.login(this.username, this.password).subscribe((res) => {
         if (res.status) {
-          this.router.navigate(["/home"]);
+          this.router.navigate(["/merconconnect/home"]);
           this.setSession();
           // this.toastr.success('Login Success', 'Toastr fun!');
         } else {

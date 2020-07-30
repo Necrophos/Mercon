@@ -44,7 +44,7 @@ export class PurchaseComponent implements OnInit {
   goToGeneral(index) {
     this.purchaseDetail.shipmentInfo = this.shipmentInfoList[index];
     this.shareService.purchaseDetail = this.purchaseDetail;
-    this.router.navigate(['/purchase',this.tradeNumber, 'general'])
+    this.router.navigate(['/merconconnect/purchase',this.tradeNumber, 'general'])
   }
 
 }

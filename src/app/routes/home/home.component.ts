@@ -83,8 +83,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   navigateToDetail(route, tradeNumber, shipmentCount) {
     shipmentCount > 1
-      ? this.router.navigate(["/purchase", tradeNumber])
-      : this.router.navigate(["/purchase", tradeNumber, "general"]);
+      ? this.router.navigate(["/merconconnect/purchase", tradeNumber])
+      : this.router.navigate(["/merconconnect/purchase", tradeNumber, "general"]);
     this.changeBreadcrumb(route, tradeNumber);
   }
 
