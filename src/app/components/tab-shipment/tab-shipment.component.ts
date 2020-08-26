@@ -27,6 +27,7 @@ export class TabShipmentComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.data)
     if (this.data) {
       this.departDate = this.formatDate(this.data.depart_dt);
       this.arrivalDate = this.formatDate(this.data.arrive_dt);
@@ -46,8 +47,11 @@ export class TabShipmentComponent implements OnInit {
   }
 
   percentage() {
-    if (this.dayLeft < 0 || !this.dayLeft) {
+    if(!this.dayLeft) {
       this.dayLeft = 0;
+    } else if (this.dayLeft < 0) {
+      this.dayLeft = 0;
+      this.dashOffset = 0;
     } else {
       this.dashOffset = (this.dayLeft / this.duration) * 340;
     }
