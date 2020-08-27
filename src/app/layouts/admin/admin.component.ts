@@ -16,8 +16,7 @@ export class AdminComponent implements OnInit {
   constructor(private router: Router, private shareService: ShareService) {}
 
   ngOnInit() {
-
-    // this.checkSession();
+    this.checkSession();
   }
 
   ngAfterViewInit() {
