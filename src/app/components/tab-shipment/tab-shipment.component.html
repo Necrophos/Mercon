@@ -45,13 +45,13 @@
       <div class="box" style="overflow: hidden;">
 
         <div class="text-center mt-3 progressDays">
-          <svg width="140" height="140" viewBox="0 0 120 120">
+          <svg height="140" viewBox="0 0 120 120" class="w-100">
             <circle cx="60" cy="60" r="54" fill="none" stroke="#e6e6e6" stroke-width="7" />
             <circle cx="60" cy="60" r="54" fill="none" stroke="#A3CF60" stroke-width="7" stroke-linecap="round"
               stroke-dasharray="340" [attr.stroke-dashoffset]="dashOffset" />
             <!-- stroke-dasharray="340"  stroke-dashoffset="340" /> -->
           </svg>
-          <span *ngIf="data?.status !== 'Arrived'" class="text">
+          <span *ngIf="data?.status !== 'Arrived'" class="text" style="width: 130px">
             {{dayLeft > 0 ? dayLeft : '0'}} days left
           </span>
           <span class="text">{{data?.status === 'Arrived' ? data?.status : ''}}</span>
