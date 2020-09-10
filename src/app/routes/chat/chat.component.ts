@@ -357,7 +357,7 @@ export class ChatComponent implements OnInit {
       obj.messageId = rawObj.message_id;
     }
 
-    obj.timestamp = moment(rawObj.message_date).format("YYYY[-]MM[-]DD");
+    obj.timestamp = moment(rawObj.message_date).format("DD[/]MM[/]YYYY hh:mm A");
     rawObj.sender_id == this.groupChat.userId
       ? (obj.own = true)
       : (obj.own = false);

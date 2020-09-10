@@ -50,13 +50,14 @@
                   <p>
                     {{message.content}}
                   </p>
-                  <span>{{message.timestamp}}</span>
+                  <p [class.text-white]="message.own" class="time">{{message.timestamp}}</p>
                 </div>
                 <div *ngIf="message.type == 'image'" class="msg">
                   <p [style.color]="colorMap.get(message.sender_id)" class="font-weight-bold">
                     {{message.sender_name}}
                   </p>
                   <img class="w-100" [src]="message?.content" alt="#image">
+                  <p [class.text-white]="message.own" class="time">{{message.timestamp}}</p>
                 </div>
                 <div *ngIf="message.type == 'file'" class="msg">
                   <p [style.color]="colorMap.get(message.sender_id)" class="font-weight-bold">
@@ -66,9 +67,7 @@
                   <a [class.text-white]="message.own" class="text-underline" [href]="message.content">
                     {{message.fileName}}
                   </a>
-                </div>
-                <div class="time">
-                  {{message.timestamp}}
+                  <p [class.text-white]="message.own" class="time">{{message.timestamp}}</p>
                 </div>
               </div>
 
