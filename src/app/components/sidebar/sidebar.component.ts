@@ -31,7 +31,7 @@ export class SidebarComponent implements OnInit {
 
   logOut() {
     localStorage.clear();
-    window.location.reload();
+    this.router.navigate(['/login'])
   }
 
   exitSidebar() {
