@@ -28,7 +28,7 @@ import {
 import { Ng2ImgMaxService } from "ng2-img-max";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { isArray } from "util";
-import { IColor } from 'app/models/color.model';
+import { IColor } from "app/models/color.model";
 
 @Component({
   selector: "app-chat",
@@ -55,6 +55,7 @@ export class ChatComponent implements OnInit {
   isImg;
   scrollBot: boolean;
   listMessages: Message[] = [];
+  listMsgDisplay: Message[] = [];
 
   listUser = [];
   typingNotify = [];
@@ -75,7 +76,8 @@ export class ChatComponent implements OnInit {
   fileType;
   whoTyping = null;
   prevScroll = 0;
-  colorMap = new Map<any,string>()
+  prevId = null;
+  colorMap = new Map<any, string>();
 
   messageForm = new FormGroup({
     messageRaw: new FormControl(null),
@@ -314,7 +316,7 @@ export class ChatComponent implements OnInit {
   }
 
   randomColor() {
-    const letters =  '0123456789ABCDEF';
+    const letters = "0123456789ABCDEF";
     let color = "#";
     for (var i = 0; i < 6; i++) {
       color += letters[Math.floor(Math.random() * 16)];
@@ -326,7 +328,7 @@ export class ChatComponent implements OnInit {
     const type = [".png", ".jpg", "jpeg", ".gif"];
     let obj = new Message();
     // console.log(rawObj);
-    if(!this.colorMap.has(rawObj.sender_id)){
+    if (!this.colorMap.has(rawObj.sender_id)) {
       this.colorMap.set(rawObj.sender_id, this.randomColor());
     }
 
@@ -357,11 +359,17 @@ export class ChatComponent implements OnInit {
       obj.messageId = rawObj.message_id;
     }
 
-    obj.timestamp = moment(rawObj.message_date).format("DD[/]MM[/]YYYY hh:mm A");
-    rawObj.sender_id == this.groupChat.userId
-      ? (obj.own = true)
-      : (obj.own = false);
-    //decrypt msg here
+    obj.timestamp = moment(rawObj.message_date).format(
+      "DD[/]MM[/]YYYY hh:mm A"
+    );
+
+    if (rawObj.sender_id == this.groupChat.userId) {
+      obj.own = true;
+      obj.is_display = true;
+    } else {
+      obj.own = false;
+      obj.is_display = null;
+    }
     return obj;
   }
 
@@ -372,14 +380,27 @@ export class ChatComponent implements OnInit {
 
       if (rawObj.message_id < this.mileStone) {
         this.listMessages.unshift(obj);
+
+        let length = (await this.listMessages.length) - 1;
+        // console.log(this.listMessages[length]);
+        if (length > 0) {
+          if (
+            this.listMessages[length].sender_id !==
+            this.listMessages[length - 1].sender_id
+          ) {
+            this.listMessages[length].own == false ? this.listMessages[length].is_display = false : null;
+
+          }
+        }
+
         this.mileStone = rawObj.message_id;
       }
       if (rawObj.message_id > this.mileStone) {
         this.listMessages.push(obj);
+        
         this.mileStone = rawObj.message_id;
       }
       // console.log(this.mileStone);
-      // console.log(this.listMessages);
     }
     if (rawObj.type == "typing") {
       let obj = await this.createObjMes(rawObj);

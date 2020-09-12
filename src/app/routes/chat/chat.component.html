@@ -41,30 +41,20 @@
               </div>
 
             </header>
-            <div #scrollFrame class="message-wrap h-75">
-              <div [class.me]="message.own" *ngFor="let message of listMessages" #item class="message-list">
-                <div *ngIf="message.type == 'text'" class="msg">
-                  <p [style.color]="colorMap.get(message.sender_id)" class="font-weight-bold">
+            <!-- {{listMessages}} -->
+            <div #scrollFrame *ngIf="listMessages" class="message-wrap h-75">
+              <div [class.me]="message.own" *ngFor="let message of listMessages; let i = index" #item class="message-list">
+                <div class="msg">
+                  <p *ngIf="message.is_display == false" [style.color]="colorMap.get(message.sender_id)" class="font-weight-bold">
                     {{message.sender_name}}
+                    <!-- {{listMessages}} -->
                   </p>
-                  <p>
+                  <p *ngIf="message.type == 'text'">
                     {{message.content}}
                   </p>
-                  <p [class.text-white]="message.own" class="time">{{message.timestamp}}</p>
-                </div>
-                <div *ngIf="message.type == 'image'" class="msg">
-                  <p [style.color]="colorMap.get(message.sender_id)" class="font-weight-bold">
-                    {{message.sender_name}}
-                  </p>
-                  <img class="w-100" [src]="message?.content" alt="#image">
-                  <p [class.text-white]="message.own" class="time">{{message.timestamp}}</p>
-                </div>
-                <div *ngIf="message.type == 'file'" class="msg">
-                  <p [style.color]="colorMap.get(message.sender_id)" class="font-weight-bold">
-                    {{message.sender_name}}
-                  </p>
-                  <i class="fas fa-file-alt mr-2"></i>
-                  <a [class.text-white]="message.own" class="text-underline" [href]="message.content">
+                  <img *ngIf="message.type == 'image'" class="w-100" [src]="message?.content" alt="#image">
+                  <i  *ngIf="message.type == 'file'" class="fas fa-file-alt mr-2"></i>
+                  <a  *ngIf="message.type == 'file'" [class.text-white]="message.own" class="text-underline" [href]="message.content">
                     {{message.fileName}}
                   </a>
                   <p [class.text-white]="message.own" class="time">{{message.timestamp}}</p>

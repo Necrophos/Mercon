@@ -1,7 +1,8 @@
 export class Message {
     type: string;
-    sender_name: string;
-    sender_id:any;
+    is_display: boolean;
+    sender_name?: string;
+    sender_id?:any;
     content: string;
     timestamp: string;
     messageId?: number;
