@@ -41,6 +41,8 @@ export class ChatComponent implements OnInit {
   @ViewChild("scrollFrame", { static: false }) scrollFrame: ElementRef;
   @ViewChildren("item") itemElements: QueryList<any>;
   private scrollContainer: Element;
+  resetLength = false;
+  listMsgLength: number;
   // * Auto scroll bottom when have a new msg
 
   constructor(
@@ -184,6 +186,7 @@ export class ChatComponent implements OnInit {
       const currentScroll = this.scrollContainer.scrollTop;
       if (currentScroll == 0 && this.listMessages.length != 0) {
         that.chatService.loadPrevMsg(this.listMessages[0].messageId);
+        this.resetLength = true;
         this.scrollBot = false;
       }
     });
@@ -381,15 +384,24 @@ export class ChatComponent implements OnInit {
       if (rawObj.message_id < this.mileStone) {
         this.listMessages.unshift(obj);
 
-        let length = (await this.listMessages.length) - 1;
-        // console.log(this.listMessages[length]);
-        if (length > 0) {
-          if (
-            this.listMessages[length].sender_id !==
-            this.listMessages[length - 1].sender_id
-          ) {
-            this.listMessages[length].own == false ? this.listMessages[length].is_display = false : null;
+        if (this.resetLength) {
+          this.listMsgLength = 1;
+        }
 
+        if (!this.resetLength) {
+          // console.log('run');
+          
+          this.listMsgLength = (await this.listMessages.length) - 1;
+        }
+        if (this.listMsgLength > 0) {
+          // console.log(this.listMsgLength);
+          if (
+            this.listMessages[this.listMsgLength].sender_id !==
+            this.listMessages[this.listMsgLength - 1].sender_id
+          ) {
+            this.listMessages[this.listMsgLength].own == false
+              ? (this.listMessages[this.listMsgLength].is_display = false)
+              : null;
           }
         }
 
@@ -397,7 +409,7 @@ export class ChatComponent implements OnInit {
       }
       if (rawObj.message_id > this.mileStone) {
         this.listMessages.push(obj);
-        
+
         this.mileStone = rawObj.message_id;
       }
       // console.log(this.mileStone);
