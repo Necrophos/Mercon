@@ -10,7 +10,7 @@
                 left: 12px;" class="fal fa-search mr-2 position-absolute"></i>
             </div>
             <div class="list-wrap">
-  
+
               <div (click)="changeGroup(item)" *ngFor="let item of listGroup" class="list">
                 <img src="assets/images/profile.png" alt="" />
                 <div class="info">
@@ -39,36 +39,45 @@
                 </span>
                 <!-- <span class="time">Account Manager</span> -->
               </div>
-  
+
             </header>
             <div #scrollFrame class="message-wrap h-75">
               <div [class.me]="message.own" *ngFor="let message of listMessages" #item class="message-list">
                 <div *ngIf="message.type == 'text'" class="msg">
+                  <p [style.color]="colorMap.get(message.sender_id)" class="font-weight-bold">
+                    {{message.sender_name}}
+                  </p>
                   <p>
                     {{message.content}}
                   </p>
+                  <p [class.text-white]="message.own" class="time">{{message.timestamp}}</p>
                 </div>
                 <div *ngIf="message.type == 'image'" class="msg">
-                  <img [src]="message?.content" alt="#image">
+                  <p [style.color]="colorMap.get(message.sender_id)" class="font-weight-bold">
+                    {{message.sender_name}}
+                  </p>
+                  <img class="w-100" [src]="message?.content" alt="#image">
+                  <p [class.text-white]="message.own" class="time">{{message.timestamp}}</p>
                 </div>
                 <div *ngIf="message.type == 'file'" class="msg">
+                  <p [style.color]="colorMap.get(message.sender_id)" class="font-weight-bold">
+                    {{message.sender_name}}
+                  </p>
                   <i class="fas fa-file-alt mr-2"></i>
                   <a [class.text-white]="message.own" class="text-underline" [href]="message.content">
                     {{message.fileName}}
                   </a>
-                </div>
-                <div class="time">
-                  {{message.timestamp}}
+                  <p [class.text-white]="message.own" class="time">{{message.timestamp}}</p>
                 </div>
               </div>
-  
+
               <div *ngIf="isTyping" class="typing mx-auto p-2">
                 <span>
                   {{whoTyping}}
                 </span>
               </div>
             </div>
-  
+
             <form [formGroup]="messageForm">
               <div *ngIf="isFile" class="preview-file py-1">
                 <div class="h-100 rounded ml-1">
@@ -78,7 +87,8 @@
                         <i class="fas fa-file-alt"></i>
                       </div>
                       <div class="h-100 col-9 py-2">
-                        <p style="-webkit-box-orient: vertical" class="font-weight-bold text-uppercase m-0 content-text-line-clamp">
+                        <p style="-webkit-box-orient: vertical"
+                          class="font-weight-bold text-uppercase m-0 content-text-line-clamp">
                           {{fileType}}
                         </p>
                         <span style="-webkit-box-orient: vertical" class="content-text-line-clamp">
@@ -89,7 +99,7 @@
                     </div>
                   </div>
                 </div>
-  
+
               </div>
               <div *ngIf="isImg" class="preview-img w-100 p-2">
                 <img [src]="fileTemp" alt="imgUpload">
@@ -108,7 +118,7 @@
               </div>
             </form>
           </div>
-  
+
         </div>
       </div>
 

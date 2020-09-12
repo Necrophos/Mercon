@@ -5,6 +5,7 @@ import { Message } from "./../../models/message.model";
 import * as moment from "moment";
 import { ShareService } from "@services/share.service";
 import { ChatService } from "./../../services/chat.service";
+import * as _ from "lodash";
 import {
   Component,
   OnInit,
@@ -27,6 +28,7 @@ import {
 import { Ng2ImgMaxService } from "ng2-img-max";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { isArray } from "util";
+import { IColor } from 'app/models/color.model';
 
 @Component({
   selector: "app-chat",
@@ -54,6 +56,7 @@ export class ChatComponent implements OnInit {
   scrollBot: boolean;
   listMessages: Message[] = [];
 
+  listUser = [];
   typingNotify = [];
   groupChat;
   fileTemp = ""; // preview img before send var
@@ -72,6 +75,7 @@ export class ChatComponent implements OnInit {
   fileType;
   whoTyping = null;
   prevScroll = 0;
+  colorMap = new Map<any,string>()
 
   messageForm = new FormGroup({
     messageRaw: new FormControl(null),
@@ -286,6 +290,9 @@ export class ChatComponent implements OnInit {
         this.fileRaw
       );
 
+      // console.log(messageEncrypted);
+      // console.log( this.fileRaw);
+
       this.chatService.sendFile(
         userId,
         this.groupChat.groupId,
@@ -306,11 +313,27 @@ export class ChatComponent implements OnInit {
     this.chatService.showUserTyping(userId, this.groupChat.groupId);
   }
 
+  randomColor() {
+    const letters =  '0123456789ABCDEF';
+    let color = "#";
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
   createObjMes(rawObj) {
     const type = [".png", ".jpg", "jpeg", ".gif"];
     let obj = new Message();
+    // console.log(rawObj);
+    if(!this.colorMap.has(rawObj.sender_id)){
+      this.colorMap.set(rawObj.sender_id, this.randomColor());
+    }
+
     if (rawObj.type == "text") {
+      obj.sender_name = rawObj.sender_name;
       obj.type = rawObj.type;
+      obj.sender_id = rawObj.sender_id;
       obj.content = this.chatService.decrypted(
         this.groupChat.password,
         rawObj.data
@@ -325,15 +348,16 @@ export class ChatComponent implements OnInit {
         rawObj.data.length
       );
       // console.log('check:',check);
-
       type.includes(check) ? (obj.type = "image") : (obj.type = "file");
       // console.log(obj.type);
+      obj.sender_name = rawObj.sender_name;
+      obj.sender_id = rawObj.sender_id;
       obj.fileName = rawObj.file_name;
       obj.content = rawObj.data;
       obj.messageId = rawObj.message_id;
     }
 
-    obj.timestamp = moment(rawObj.message_date).format("YYYY[-]MM[-]DD");
+    obj.timestamp = moment(rawObj.message_date).format("DD[/]MM[/]YYYY hh:mm A");
     rawObj.sender_id == this.groupChat.userId
       ? (obj.own = true)
       : (obj.own = false);
