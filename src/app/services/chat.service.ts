@@ -138,7 +138,7 @@ export class ChatService extends BaseService {
         CryptoJS.enc.Utf8
       );
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 

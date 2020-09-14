@@ -227,9 +227,10 @@ export class ChatComponent implements OnInit {
             reader.onload = (e: any) => {
               this.fileTemp = e.target.result;
               this.messageForm.patchValue({
-                fileRaw: this.fileTemp,
+                fileRaw: this.fileTemp.substring(this.fileTemp.indexOf(',') + 1, this.fileRaw.length),
+                // this.imageFile.substring(this.imageFile.indexOf(',') + 1, this.imageFile.length)
               });
-              // console.log("file > 2mb", this.fileRaw);
+              console.log("file > 2mb", this.fileRaw);
             };
           },
           (error) => {
@@ -245,9 +246,9 @@ export class ChatComponent implements OnInit {
         reader.onload = (e: any) => {
           this.fileTemp = e.target.result;
           this.messageForm.patchValue({
-            fileRaw: this.fileTemp,
+            fileRaw: this.fileTemp.substring(this.fileTemp.indexOf(',') + 1, this.fileTemp.length),
           });
-          // console.log(this.fileRaw);
+          console.log(this.fileRaw);
         };
       }
     }
@@ -263,7 +264,7 @@ export class ChatComponent implements OnInit {
         reader.onload = (e: any) => {
           this.fileTemp = e.target.result;
           this.messageForm.patchValue({
-            fileRaw: this.fileTemp,
+            fileRaw: this.fileTemp.substring(this.fileTemp.indexOf(',') + 1, this.fileTemp.length),
           });
           // console.log("valid file", this.fileRaw);
         };
@@ -301,7 +302,7 @@ export class ChatComponent implements OnInit {
       this.chatService.sendFile(
         userId,
         this.groupChat.groupId,
-        messageEncrypted,
+        this.fileRaw,
         this.fileName
       );
       this.fileTemp = "";
