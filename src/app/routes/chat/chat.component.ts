@@ -78,7 +78,7 @@ export class ChatComponent implements OnInit {
   fileType;
   whoTyping = null;
   prevScroll = 0;
-  prevId = null;
+  prevObj = null;
   colorMap = new Map<any, string>();
 
   messageForm = new FormGroup({
@@ -384,7 +384,8 @@ export class ChatComponent implements OnInit {
 
       if (rawObj.message_id < this.mileStone) {
         this.listMessages.unshift(obj);
-
+        // console.log(obj);
+        
         if (this.resetLength) {
           this.listMsgLength = 1;
         }
@@ -408,9 +409,19 @@ export class ChatComponent implements OnInit {
 
         this.mileStone = rawObj.message_id;
       }
+
+
       if (rawObj.message_id > this.mileStone) {
         this.listMessages.push(obj);
-
+        setTimeout(() => {
+          let locale = this.listMessages.length - 2;
+          let prevId = this.listMessages[locale].sender_id;
+          
+          if(obj.sender_id != prevId) {
+           obj.own != true ? obj.is_display = false : null;
+          }
+        }, 200);
+      
         this.mileStone = rawObj.message_id;
       }
       // console.log(this.mileStone);
